@@ -11,12 +11,12 @@
 
   <style>
     :root{
-      --amazon-navy:#131921;
-      --amazon-navy-soft:#232f3e;
-      --amazon-orange:#ff9900;
-      --amazon-yellow:#ffd814;
+      --spn-navy:#111820;
+      --spn-orange:#ff9900;
+      --spn-orange-strong:#ff7a00;
+      --spn-yellow:#ffd814;
       --border-light:#e5e7eb;
-      --bg-page:#f3f4f6;
+      --bg-page:#f5f5f7;
     }
 
     body{
@@ -27,35 +27,43 @@
 
     /* ========= NAV ========= */
     .headbar{
-      background:var(--amazon-navy);
+      background:var(--spn-navy);
       color:#fff;
       padding:8px 0;
     }
-    .brand-title{
+    .brand-logo{
+      display:flex;
+      align-items:center;
       font-weight:700;
-      font-size:1.05rem;
-      letter-spacing:.03em;
+      font-size:1.1rem;
+      letter-spacing:.02em;
+    }
+    .brand-logo span{
+      color:var(--spn-orange);
+      margin-left:2px;
     }
 
     .nav-left-group{
       display:flex;
       align-items:center;
-      gap:.75rem;
+      gap:1.25rem;
+      min-width:0;
     }
+
     .site-select-wrapper{
       display:flex;
       align-items:center;
-      gap:.25rem;
+      gap:.3rem;
       font-size:.8rem;
       color:#e5e7eb;
       white-space:nowrap;
     }
     .site-select-icon{
-      color:var(--amazon-yellow);
       font-size:1rem;
+      color:#fff;
     }
     .site-select-control{
-      background:var(--amazon-navy-soft);
+      background:#18212f;
       color:#f9fafb;
       border:1px solid #4b5563;
       border-radius:999px;
@@ -63,109 +71,161 @@
       font-size:.75rem;
     }
     .site-select-control:focus{
-      box-shadow:0 0 0 1px var(--amazon-yellow);
-      border-color:var(--amazon-yellow);
+      box-shadow:0 0 0 1px var(--spn-yellow);
+      border-color:var(--spn-yellow);
     }
 
+    /* 搜尋列 */
+    .search-form{
+      flex:1 1 auto;
+      max-width:640px;
+    }
     .search-box{
-      background:#fff;border-radius:999px;overflow:hidden;
-      display:flex;align-items:center;border:1px solid #11182740;
+      background:#fff;border-radius:4px;overflow:hidden;
+      display:flex;align-items:center;border:0;
+      box-shadow:0 1px 3px rgba(0,0,0,.25);
+    }
+    .search-category{
+      border:0;
+      background:#f3f4f6;
+      padding:.45rem .75rem;
+      font-size:.85rem;
+      display:flex;
+      align-items:center;
+      gap:.25rem;
+      white-space:nowrap;
+    }
+    .search-category i{
+      font-size:.7rem;
     }
     .search-box input{
-      border:0;padding:.45rem .8rem;flex:1;min-width:220px;
+      border:0;padding:.45rem .75rem;flex:1;min-width:160px;
       font-size:.85rem;
     }
     .search-box input:focus{outline:none;box-shadow:none;}
     .search-box .btn-search{
-      background:var(--amazon-orange);color:#fff;border:0;
-      width:42px;display:flex;align-items:center;justify-content:center;
+      background:var(--spn-orange);color:#fff;border:0;
+      width:44px;display:flex;align-items:center;justify-content:center;
+      font-size:1rem;
     }
 
-    /* ========= HERO ========= */
-    .hero-section{
-      background:linear-gradient(135deg,var(--amazon-navy-soft),#1f2933);
-      color:white;padding:2.8rem 0 2.8rem;
+    .nav-right-group{
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      font-size:.85rem;
+      white-space:nowrap;
     }
-    .hero-eyebrow{
+    .nav-right-link{
+      color:#f9fafb;
+      text-decoration:none;
+    }
+    .nav-right-link:hover{
+      color:var(--spn-yellow);
+      text-decoration:underline;
+    }
+    .nav-btn-primary{
+      background:var(--spn-orange);
+      border:0;
+      color:#111827;
+      padding:.35rem 1.1rem;
+      border-radius:999px;
       font-size:.8rem;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:#9ca3af;
-      margin-bottom:.4rem;
+      font-weight:600;
     }
-    .hero-section h1{
-      font-size:2.1rem;
-      font-weight:700;
-      letter-spacing:.03em;
-      margin-bottom:.4rem;
-    }
-    .hero-section p{
-      opacity:.92;font-size:.98rem;
-      max-width:30rem;
+    .nav-btn-primary:hover{
+      background:#ffa41c;
+      color:#111827;
     }
 
-    .hero-stats{
-      background:rgba(15,23,42,.65);
-      padding:.9rem 1rem;border-radius:10px;margin-top:1.1rem;
-      font-size:.8rem;
-      border:1px solid rgba(156,163,175,.3);
-      display:none; /* 如需再顯示可改成 flex */
+    @media (max-width: 768px){
+      .nav-right-group{display:none;}
+      .nav-left-group{gap:.75rem;}
+      .search-form{max-width:none;}
     }
 
-    /* ========= Carousel ========= */
+    /* ========= HERO ORANGE BANNER ========= */
+    .hero-banner{
+      background:var(--spn-orange-strong);
+      padding:24px 0 40px;
+    }
+    .hero-banner-inner{
+      max-width:1100px;
+      margin:0 auto;
+    }
+
     .hero-carousel{
-      border-radius:16px;
+      border-radius:18px;
       overflow:hidden;
-      box-shadow:0 14px 35px rgba(0,0,0,.55);
-      background:#111827;
-      border:1px solid rgba(148,163,184,.5);
+      box-shadow:0 18px 40px rgba(0,0,0,.45);
+      background:#fff;
     }
     .hero-carousel .carousel-item{
-      min-height:320px;
-      background-size:cover;
-      background-position:center;
+      min-height:260px;
+      background:#fff;
       position:relative;
-      color:#f9fafb;
-    }
-    .hero-carousel .carousel-item::after{
-      content:"";
-      position:absolute;inset:0;
-      background:radial-gradient(circle at top left,rgba(248,250,252,.25),transparent 55%),
-                 linear-gradient(135deg,rgba(0,0,0,.85),rgba(15,23,42,.55));
+      color:#111827;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
     .hero-carousel-content{
-      position:relative;
-      z-index:2;
-      padding:1.7rem 1.7rem 1.5rem;
-    }
-    .hero-badge{
-      display:inline-flex;
+      padding:2.2rem 2rem;
+      text-align:left;
+      width:100%;
+      display:flex;
       align-items:center;
-      gap:.35rem;
-      font-size:.75rem;
-      background:rgba(15,23,42,.8);
-      padding:.25rem .7rem;
-      border-radius:999px;
-      border:1px solid rgba(249,250,251,.18);
+      justify-content:space-between;
+      gap:2rem;
     }
-    .hero-badge i{color:var(--amazon-yellow);}
-    .hero-carousel h5{
-      font-size:1.1rem;
-      margin-top:.7rem;
-      margin-bottom:.4rem;
+    .hero-text{
+      max-width:520px;
     }
-    .hero-carousel p{
-      font-size:.86rem;
-      opacity:.9;
+    .hero-text h2{
+      font-size:1.6rem;
+      font-weight:800;
       margin-bottom:.5rem;
     }
-    .hero-carousel small{font-size:.78rem;color:#e5e7eb;}
+    .hero-text p{
+      margin-bottom:.4rem;
+      font-size:.95rem;
+      color:#374151;
+    }
+    .hero-tagline{
+      font-size:.8rem;
+      color:#6b7280;
+    }
+    .hero-illus{
+      flex:0 0 220px;
+      max-width:260px;
+      text-align:center;
+    }
+    .hero-illus-placeholder{
+      width:100%;
+      aspect-ratio:4/3;
+      border-radius:20px;
+      background:linear-gradient(135deg,#f97316,#facc15);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-size:1.1rem;
+      font-weight:600;
+    }
 
     .carousel-indicators [data-bs-target]{
       width:7px;height:7px;border-radius:999px;
     }
     .carousel-indicators .active{
-      background-color:var(--amazon-yellow);
+      background-color:#111827;
+    }
+
+    .hero-eyebrow-small{
+      font-size:.75rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:#9ca3af;
+      margin-bottom:.2rem;
     }
 
     /* ========= Categories ========= */
@@ -184,10 +244,10 @@
     .category-card:hover{
       transform:translateY(-2px);
       box-shadow:0 5px 16px rgba(15,23,42,.12);
-      border-color:var(--amazon-orange);
+      border-color:var(--spn-orange);
     }
     .category-icon{
-      background:var(--amazon-orange);color:#fff;border-radius:999px;
+      background:var(--spn-orange);color:#fff;border-radius:999px;
       width:40px;height:40px;display:flex;align-items:center;
       justify-content:center;font-size:1.3rem;margin-bottom:.3rem;
     }
@@ -204,7 +264,7 @@
     .provider-card:hover{
       transform:translateY(-2px);
       box-shadow:0 6px 18px rgba(15,23,42,.12);
-      border-color:var(--amazon-orange);
+      border-color:var(--spn-orange);
     }
 
     /* ========= Detail Page ========= */
@@ -227,95 +287,103 @@
 
 <!-- ========= NAV ========= -->
 <nav class="headbar">
-  <div class="container d-flex align-items-center justify-content-between">
+  <div class="container d-flex align-items-center justify-content-between gap-3">
     <div class="nav-left-group">
-      <div class="brand-title">Service Provider Portal</div>
+      <div class="brand-logo">amazon<span>spn</span></div>
       <div class="site-select-wrapper">
-        <i class="bi bi-geo-alt-fill site-select-icon"></i>
+        <i class="bi bi-globe2 site-select-icon"></i>
         <select id="siteSelect" class="form-select form-select-sm site-select-control">
-          <option value="北美站" selected>北美站</option>
-          <option value="歐洲站">歐洲站</option>
-          <option value="日本站">日本站</option>
-          <option value="澳洲/新加坡">澳洲/新加坡</option>
-          <option value="中東站">中東站</option>
+          <option value="北美站" selected>選擇站點：北美站</option>
+          <option value="歐洲站">選擇站點：歐洲站</option>
+          <option value="日本站">選擇站點：日本站</option>
+          <option value="澳洲/新加坡">選擇站點：澳洲 / 新加坡</option>
+          <option value="中東站">選擇站點：中東站</option>
         </select>
       </div>
     </div>
 
-    <form id="searchForm" class="d-flex" style="max-width:360px;width:100%;">
+    <form id="searchForm" class="d-flex search-form">
       <div class="search-box flex-grow-1">
-        <input id="searchInput" type="search" placeholder="搜尋公司名稱、服務、介紹..." />
+        <button type="button" class="search-category">
+          服務商 <i class="bi bi-caret-down-fill"></i>
+        </button>
+        <input id="searchInput" type="search" placeholder="輸入關鍵字搜索" />
         <button class="btn-search" type="submit"><i class="bi bi-search"></i></button>
       </div>
     </form>
+
+    <div class="nav-right-group">
+      <a href="#" class="nav-right-link">了解如何成為服務商</a>
+      <button type="button" class="nav-btn-primary">登入或註冊</button>
+    </div>
   </div>
 </nav>
 
-<!-- ========= HERO ========= -->
-<section class="hero-section">
-  <div class="container">
-    <div class="row g-4 align-items-stretch">
-      <div class="col-lg-6">
-        <div class="hero-eyebrow">SERVICE PROVIDER NETWORK</div>
-        <h1>服務商網路平台</h1>
-        <p>依據服務類型與目標站點，快速找到適合的專業服務商，支援你在不同市場拓展生意。</p>
-
-        <div class="hero-stats">
-          <div class="row">
-            <div class="col-6 text-center">
-              <div id="statProviders" class="h5 mb-0">0</div>
-              <small>服務商數量</small>
+<!-- ========= ORANGE HERO BANNER ========= -->
+<section class="hero-banner">
+  <div class="hero-banner-inner">
+    <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="hero-carousel-content">
+            <div class="hero-text">
+              <div class="hero-eyebrow-small">SERVICE PROVIDER NETWORK</div>
+              <h2>依服務範疇與站點，快速找到合作服務商</h2>
+              <p>本平台由內部維護，定期更新服務商資訊。你只要根據需求與目標站點搜尋，就能找到合適的營運、廣告、設計、物流等合作夥伴。</p>
+              <div class="hero-tagline">資料每日由內部維護，對外無法編輯。如需更新，請聯繫內部窗口。</div>
             </div>
-            <div class="col-6 text-center">
-              <div id="statTypes" class="h5 mb-0">0</div>
-              <small>服務類型</small>
+            <div class="hero-illus">
+              <div class="hero-illus-placeholder">
+                Banner<br/>示意區
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="hero-carousel-content">
+            <div class="hero-text">
+              <div class="hero-eyebrow-small">GROW YOUR GLOBAL BUSINESS</div>
+              <h2>從選品、上架、廣告到合規，一站式找到專業夥伴</h2>
+              <p>針對不同成長階段的賣家，瀏覽各式服務類別與標籤，找到最適合你的專業團隊，加速拓展海外市場。</p>
+              <div class="hero-tagline">建議先選擇站點與服務類別，再依子類與關鍵字縮小結果。</div>
+            </div>
+            <div class="hero-illus">
+              <div class="hero-illus-placeholder">
+                成長<br/>方案
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="hero-carousel-content">
+            <div class="hero-text">
+              <div class="hero-eyebrow-small">MULTI-MARKET STRATEGY</div>
+              <h2>一次規劃多國市場，整合物流、稅務與在地營運</h2>
+              <p>結合同一服務商在多站點的服務能力，便於統一協作、集中溝通，降低跨市場營運的複雜度。</p>
+              <div class="hero-tagline">可搭配「可服務站點」條件，鎖定支援多站點的合作夥伴。</div>
+            </div>
+            <div class="hero-illus">
+              <div class="hero-illus-placeholder">
+                多站點<br/>佈局
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-6">
-        <!-- Banner Carousel -->
-        <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="hero-carousel-content">
-                <div class="hero-badge"><i class="bi bi-rocket-takeoff"></i><span>新手賣家啟動</span></div>
-                <h5>從 0 到 1 建立跨境店鋪</h5>
-                <p>找代營運、顧問與培訓夥伴，協助你完成選品、開店、上架與首波投放。</p>
-                <small>建議服務類型：帳戶註冊、代營運、營運顧問、培訓課程</small>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="hero-carousel-content">
-                <div class="hero-badge"><i class="bi bi-graph-up-arrow"></i><span>成長與優化</span></div>
-                <h5>提升廣告投報與轉換率</h5>
-                <p>透過專業廣告代理、視覺設計、品牌顧問優化店鋪與商品頁，提升營收。</p>
-                <small>建議服務類型：站內廣告、視覺設計、品牌顧問</small>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div class="hero-carousel-content">
-                <div class="hero-badge"><i class="bi bi-globe2"></i><span>多站點佈局</span></div>
-                <h5>一次規劃多國市場策略</h5>
-                <p>結合稅務、物流與本地化營運服務，協助你拓展至北美、歐洲、日本等市場。</p>
-                <small>建議服務類型：跨境物流、VAT 稅務、當地語言客服</small>
-              </div>
-            </div>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
     </div>
   </div>
 </section>
@@ -444,6 +512,7 @@ function setSite(site){
 
   // 同步下拉選單的值
   if(siteSelect && siteSelect.value !== site){
+    // 站點選單的 option 文案前面有「選擇站點：」，只比對 value
     siteSelect.value = site;
   }
 
@@ -709,11 +778,11 @@ document.addEventListener("DOMContentLoaded",()=>{
   siteSelect = document.getElementById("siteSelect");
   if(siteSelect){
     siteSelect.addEventListener("change",()=>{
-      const site = siteSelect.value;
+      const site = siteSelect.value.replace("選擇站點：","");
       setSite(site);
     });
     // 預設使用 select 裡的值（北美站）
-    setSite(siteSelect.value || "北美站");
+    setSite("北美站");
   }else{
     setSite("北美站");
   }
