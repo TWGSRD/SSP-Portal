@@ -50,6 +50,8 @@
       background:rgba(255,255,255,.08);
       padding:1.1rem;border-radius:10px;margin-top:1.2rem;
       font-size:.85rem;
+      /* ✨ 不顯示統計卡片 */
+      display:none;
     }
 
     .site-filter-bar{
@@ -83,7 +85,7 @@
       background:#111827;
     }
     .hero-carousel .carousel-item{
-      min-height:220px;
+      min-height:340px; /* ✨ 放大 banner 高度 */
       background-size:cover;
       background-position:center;
       position:relative;
@@ -286,7 +288,7 @@
 </section>
 
 <!-- ========= LEVEL 3: Detail Page ========= -->
-<section id="level3" style="display:none;">
+<section id="level3" style="display:none%;">
   <div class="container py-4">
     <button class="btn btn-outline-primary mb-3" onclick="showLevel2()">
       <i class="bi bi-arrow-left"></i> 返回
@@ -341,14 +343,14 @@ function matchesSite(p){
   return p.regions.includes(currentSite);
 }
 
-/* 類型名稱 → icon class（可依你實際的類別文字再補） */
+/* 類型名稱 → icon class */
 function getCategoryIcon(name){
   if(!name) return "bi-grid-1x2";
   if(/帳戶|開店|入駐|註冊/.test(name)) return "bi-person-badge";
   if(/代營運|營運|顧問|策略/.test(name)) return "bi-graph-up-arrow";
   if(/廣告|投放|站內/.test(name)) return "bi-bullseye";
   if(/設計|美工|圖片|視覺/.test(name)) return "bi-brush";
-  if(/品牌|行銷|行销|行銷/.test(name)) return "bi-megaphone";
+  if(/品牌|行銷|行销/.test(name)) return "bi-megaphone";
   if(/物流|倉儲|倉庫|貨運/.test(name)) return "bi-truck";
   if(/稅務|VAT|會計/.test(name)) return "bi-receipt-cutoff";
   if(/客服|語言|翻譯/.test(name)) return "bi-chat-dots";
@@ -601,7 +603,7 @@ function loadProviders(){
       }).filter(Boolean);
 
       providers.forEach(p=>providerMap[p.name] = p);
-      statProviders.textContent = providers.length;
+      if(statProviders) statProviders.textContent = providers.length;
     },
     error:(err)=>console.error("providers.csv 讀取失敗",err)
   });
@@ -629,7 +631,7 @@ function loadHierarchy(){
         subTypes:Array.from(map.get(k))
       }));
       categories.forEach(c=>categoryMap[c.name] = c);
-      statTypes.textContent = categories.length;
+      if(statTypes) statTypes.textContent = categories.length;
       renderCategories();
     },
     error:(err)=>console.error("hierarchy.csv 讀取失敗",err)
