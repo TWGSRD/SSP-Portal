@@ -11,20 +11,31 @@
 
   <style>
     :root{
-      --deep-orange:#ff6403;
-      --ink-blue:#161d26;
+      --amazon-navy:#131921;
+      --amazon-navy-soft:#232f3e;
+      --amazon-orange:#ff9900;
+      --amazon-yellow:#ffd814;
       --border-light:#e5e7eb;
-      --site-pill-bg:rgba(255,255,255,.08);
-      --site-pill-border:rgba(255,255,255,.4);
-    }
-    body{
-      background:#f8f9fa;
-      font-family:'PingFang TC','Microsoft JhengHei',sans-serif;
+      --bg-page:#f3f4f6;
     }
 
-    /* ========= NAV (Black Bar) ========= */
-    .headbar{background:#000;color:#fff;padding:8px 0;}
-    .headbar .brand-title{font-weight:700;font-size:1.1rem;}
+    body{
+      background:var(--bg-page);
+      font-family:'PingFang TC','Microsoft JhengHei',system-ui,-apple-system,sans-serif;
+      color:#111827;
+    }
+
+    /* ========= NAV ========= */
+    .headbar{
+      background:var(--amazon-navy);
+      color:#fff;
+      padding:8px 0;
+    }
+    .brand-title{
+      font-weight:700;
+      font-size:1.05rem;
+      letter-spacing:.03em;
+    }
 
     .nav-left-group{
       display:flex;
@@ -37,13 +48,14 @@
       gap:.25rem;
       font-size:.8rem;
       color:#e5e7eb;
+      white-space:nowrap;
     }
     .site-select-icon{
-      color:#ffd814;
+      color:var(--amazon-yellow);
       font-size:1rem;
     }
     .site-select-control{
-      background:#111827;
+      background:var(--amazon-navy-soft);
       color:#f9fafb;
       border:1px solid #4b5563;
       border-radius:999px;
@@ -51,46 +63,65 @@
       font-size:.75rem;
     }
     .site-select-control:focus{
-      box-shadow:none;
-      border-color:#ffd814;
+      box-shadow:0 0 0 1px var(--amazon-yellow);
+      border-color:var(--amazon-yellow);
     }
 
     .search-box{
-      background:#fff;border-radius:8px;overflow:hidden;
-      display:flex;align-items:center;border:1px solid #2b3542;
+      background:#fff;border-radius:999px;overflow:hidden;
+      display:flex;align-items:center;border:1px solid #11182740;
     }
     .search-box input{
-      border:0;padding:.55rem .8rem;flex:1;min-width:220px;
+      border:0;padding:.45rem .8rem;flex:1;min-width:220px;
+      font-size:.85rem;
     }
+    .search-box input:focus{outline:none;box-shadow:none;}
     .search-box .btn-search{
-      background:var(--deep-orange);color:#fff;border:0;
-      width:44px;display:flex;align-items:center;justify-content:center;
+      background:var(--amazon-orange);color:#fff;border:0;
+      width:42px;display:flex;align-items:center;justify-content:center;
     }
 
     /* ========= HERO ========= */
     .hero-section{
-      background:linear-gradient(135deg,#232f3e,#37475a);
-      color:white;padding:3rem 0 3rem;
+      background:linear-gradient(135deg,var(--amazon-navy-soft),#1f2933);
+      color:white;padding:2.8rem 0 2.8rem;
     }
-    .hero-section h1{font-size:2.2rem;font-weight:700;}
-    .hero-section p{opacity:.9;font-size:1.05rem;}
+    .hero-eyebrow{
+      font-size:.8rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:#9ca3af;
+      margin-bottom:.4rem;
+    }
+    .hero-section h1{
+      font-size:2.1rem;
+      font-weight:700;
+      letter-spacing:.03em;
+      margin-bottom:.4rem;
+    }
+    .hero-section p{
+      opacity:.92;font-size:.98rem;
+      max-width:30rem;
+    }
 
     .hero-stats{
-      background:rgba(255,255,255,.08);
-      padding:1.1rem;border-radius:10px;margin-top:1.2rem;
-      font-size:.85rem;
-      display:none; /* 不顯示統計卡片 */
+      background:rgba(15,23,42,.65);
+      padding:.9rem 1rem;border-radius:10px;margin-top:1.1rem;
+      font-size:.8rem;
+      border:1px solid rgba(156,163,175,.3);
+      display:none; /* 如需再顯示可改成 flex */
     }
 
     /* ========= Carousel ========= */
     .hero-carousel{
       border-radius:16px;
       overflow:hidden;
-      box-shadow:0 8px 24px rgba(0,0,0,.35);
+      box-shadow:0 14px 35px rgba(0,0,0,.55);
       background:#111827;
+      border:1px solid rgba(148,163,184,.5);
     }
     .hero-carousel .carousel-item{
-      min-height:340px; /* 放大 banner 高度 */
+      min-height:320px;
       background-size:cover;
       background-position:center;
       position:relative;
@@ -99,80 +130,92 @@
     .hero-carousel .carousel-item::after{
       content:"";
       position:absolute;inset:0;
-      background:linear-gradient(135deg,rgba(0,0,0,.75),rgba(15,23,42,.3));
+      background:radial-gradient(circle at top left,rgba(248,250,252,.25),transparent 55%),
+                 linear-gradient(135deg,rgba(0,0,0,.85),rgba(15,23,42,.55));
     }
     .hero-carousel-content{
       position:relative;
       z-index:2;
-      padding:1.75rem 1.75rem 1.5rem;
+      padding:1.7rem 1.7rem 1.5rem;
     }
     .hero-badge{
       display:inline-flex;
       align-items:center;
       gap:.35rem;
       font-size:.75rem;
-      background:rgba(255,255,255,.12);
+      background:rgba(15,23,42,.8);
       padding:.25rem .7rem;
       border-radius:999px;
+      border:1px solid rgba(249,250,251,.18);
     }
+    .hero-badge i{color:var(--amazon-yellow);}
     .hero-carousel h5{
       font-size:1.1rem;
-      margin-top:.6rem;
+      margin-top:.7rem;
       margin-bottom:.4rem;
     }
     .hero-carousel p{
-      font-size:.85rem;
+      font-size:.86rem;
       opacity:.9;
-      margin-bottom:.6rem;
+      margin-bottom:.5rem;
+    }
+    .hero-carousel small{font-size:.78rem;color:#e5e7eb;}
+
+    .carousel-indicators [data-bs-target]{
+      width:7px;height:7px;border-radius:999px;
+    }
+    .carousel-indicators .active{
+      background-color:var(--amazon-yellow);
     }
 
     /* ========= Categories ========= */
     .category-grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
       gap:1rem;margin-top:2rem;
     }
     .category-card{
-      background:#fff;border-radius:8px;
-      padding:1rem;border:1px solid #e5e7eb;
-      box-shadow:0 2px 8px rgba(0,0,0,.05);
+      background:#fff;border-radius:10px;
+      padding:1rem .9rem;border:1px solid #e5e7eb;
+      box-shadow:0 2px 8px rgba(15,23,42,.04);
       cursor:pointer;transition:.15s;
       display:flex;flex-direction:column;gap:.25rem;
     }
     .category-card:hover{
-      transform:translateY(-3px);
-      box-shadow:0 4px 14px rgba(0,0,0,.12);
-      border-color:#ff9900;
+      transform:translateY(-2px);
+      box-shadow:0 5px 16px rgba(15,23,42,.12);
+      border-color:var(--amazon-orange);
     }
     .category-icon{
-      background:#ff9900;color:#fff;border-radius:999px;
+      background:var(--amazon-orange);color:#fff;border-radius:999px;
       width:40px;height:40px;display:flex;align-items:center;
       justify-content:center;font-size:1.3rem;margin-bottom:.3rem;
     }
     .category-name{font-weight:600;font-size:.95rem;}
-    .category-desc{color:#6b7280;font-size:.8rem;}
+    .category-desc{color:#6b7280;font-size:.8rem;line-height:1.4;}
 
     /* ========= Providers List ========= */
     .provider-card{
       background:#fff;border:1px solid #e5e7eb;border-radius:10px;
-      padding:1rem;cursor:pointer;transition:.2s;
-      box-shadow:0 2px 8px rgba(0,0,0,.05);
+      padding:1rem;cursor:pointer;transition:.18s;
+      box-shadow:0 2px 8px rgba(15,23,42,.04);
       height:100%;
     }
     .provider-card:hover{
-      transform:translateY(-3px);
-      box-shadow:0 6px 16px rgba(0,0,0,.1);
+      transform:translateY(-2px);
+      box-shadow:0 6px 18px rgba(15,23,42,.12);
+      border-color:var(--amazon-orange);
     }
 
     /* ========= Detail Page ========= */
     .detail-card{
       background:white;border-radius:12px;
       border:1px solid #e5e7eb;padding:2rem;
-      box-shadow:0 3px 12px rgba(0,0,0,.06);
+      box-shadow:0 4px 18px rgba(15,23,42,.08);
     }
 
     /* Level 2 子類別選項置中 */
-    #subTypeNav {
+    #subTypeNav{
       display:flex;
       justify-content:center !important;
       width:100%;
@@ -213,17 +256,18 @@
   <div class="container">
     <div class="row g-4 align-items-stretch">
       <div class="col-lg-6">
+        <div class="hero-eyebrow">SERVICE PROVIDER NETWORK</div>
         <h1>服務商網路平台</h1>
         <p>依據服務類型與目標站點，快速找到適合的專業服務商，支援你在不同市場拓展生意。</p>
 
         <div class="hero-stats">
           <div class="row">
             <div class="col-6 text-center">
-              <div id="statProviders" class="h3 mb-0">0</div>
+              <div id="statProviders" class="h5 mb-0">0</div>
               <small>服務商數量</small>
             </div>
             <div class="col-6 text-center">
-              <div id="statTypes" class="h3 mb-0">0</div>
+              <div id="statTypes" class="h5 mb-0">0</div>
               <small>服務類型</small>
             </div>
           </div>
@@ -264,10 +308,10 @@
               </div>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide-prev>
+          <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide-next>
+          <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
           </button>
         </div>
@@ -313,8 +357,8 @@
   </div>
 </section>
 
-<footer class="text-center py-3 text-muted">
-  © 2025 Service Provider Portal
+<footer class="text-center py-3 text-muted" style="font-size:.78rem;">
+  © 2025 Service Provider Portal. All Rights Reserved.
 </footer>
 
 <!-- JS libraries -->
@@ -399,7 +443,7 @@ function setSite(site){
   currentSite = site || null;
 
   // 同步下拉選單的值
-  if(siteSelect){
+  if(siteSelect && siteSelect.value !== site){
     siteSelect.value = site;
   }
 
