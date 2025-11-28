@@ -14,6 +14,8 @@
       --deep-orange:#ff6403;
       --ink-blue:#161d26;
       --border-light:#e5e7eb;
+      --site-pill-bg:rgba(255,255,255,.08);
+      --site-pill-border:rgba(255,255,255,.4);
     }
     body{
       background:#f8f9fa;
@@ -47,6 +49,29 @@
     .hero-stats{
       background:rgba(255,255,255,.08);
       padding:1.3rem;border-radius:10px;margin-top:1.2rem;
+    }
+
+    .site-filter-bar{
+      margin-top:1.2rem;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:.4rem;
+      font-size:.8rem;
+    }
+    .site-filter{
+      border-radius:999px;
+      border:1px solid var(--site-pill-border);
+      background:var(--site-pill-bg);
+      color:#f9fafb;
+      padding:.25rem .75rem;
+      cursor:pointer;
+    }
+    .site-filter.active{
+      background:#ffd814;
+      color:#111827;
+      border-color:#ffd814;
+      font-weight:600;
     }
 
     /* ========= Categories ========= */
@@ -102,7 +127,7 @@
     <form id="searchForm" class="d-flex" style="max-width:360px;width:100%;">
       <div class="search-box flex-grow-1">
         <input id="searchInput" type="search" placeholder="搜尋公司名稱、服務、介紹..." />
-        <button class="btn-search"><i class="bi bi-search"></i></button>
+        <button class="btn-search" type="submit"><i class="bi bi-search"></i></button>
       </div>
     </form>
   </div>
@@ -123,6 +148,17 @@
         <div id="statTypes" class="h2 mb-0">0</div>
         <small>服務類型</small>
       </div>
+    </div>
+
+    <!-- 站點選擇 -->
+    <div class="site-filter-bar">
+      <span class="me-1">目標站點：</span>
+      <button class="site-filter active" data-site="">全部</button>
+      <button class="site-filter" data-site="北美站">北美站</button>
+      <button class="site-filter" data-site="歐洲站">歐洲站</button>
+      <button class="site-filter" data-site="日本站">日本站</button>
+      <button class="site-filter" data-site="澳洲/新加坡">澳洲/新加坡</button>
+      <button class="site-filter" data-site="中東站">中東站</button>
     </div>
   </div>
 </section>
@@ -177,7 +213,8 @@ let categories = [];
 let categoryMap = {};
 let currentCategory = null;
 let currentSubType = null;
-let currentSite = null;   // 全域站點過濾 (未選＝顯示全部)
+let currentSite = null;         // 目前選擇的站點（null = 全部）
+let lastSearchQuery = '';       // 上次搜尋字串
 
 /* ========== DOM 參考 ========== */
 const level1 = document.getElementById("level1");
@@ -203,7 +240,7 @@ function truthyFlag(v){
 
 /* 判斷此 provider 是否符合目前站點 */
 function matchesSite(p){
-  if(!currentSite) return true;
+  if(!currentSite) return true;              // 未選站點 = 不過濾
   if(!p.regions || !p.regions.length) return false;
   return p.regions.includes(currentSite);
 }
@@ -229,8 +266,42 @@ function showLevel3(){
   level2.style.display = "none";
   level3.style.display = "block";
 }
-</script>
-<script>
+
+/* ============================================
+   變更站點（全域 filter）
+============================================ */
+function setSite(site){
+  currentSite = site || null;
+
+  // 更新 UI
+  document.querySelectorAll(".site-filter").forEach(btn=>{
+    const s = btn.getAttribute("data-site") || "";
+    btn.classList.toggle("active", s === (site || ""));
+  });
+
+  // 依目前頁面與狀態重新渲染
+  if(level3.style.display === "block"){
+    // 詳細頁就先不動（或依需求再調整）
+    return;
+  }
+
+  if(level2.style.display === "block"){
+    // 在列表頁：可能是分類或搜尋結果
+    if(level2Title.textContent.startsWith("搜尋結果：") && lastSearchQuery){
+      runSearch(true);   // true 表示從 setSite 呼叫（但目前沒特別用）
+    }else if(currentCategory){
+      if(currentSubType){
+        renderProviderList(filterBySubType(currentSubType));
+      }else{
+        renderProviderList(filterByCategoryOnly(currentCategory.name));
+      }
+    }
+  }else{
+    // 在首頁，只需要等使用者做下一步（點分類或搜尋）
+    return;
+  }
+}
+
 /* ============================================
    渲染「分類卡片」(Level 1)
 ============================================ */
@@ -258,6 +329,7 @@ function renderCategories(){
 function goToCategory(name){
   currentCategory = categoryMap[name];
   currentSubType = null;
+  lastSearchQuery = '';    // 清除搜尋狀態
 
   level2Title.textContent = `${name} 服務商`;
   showLevel2();
@@ -295,7 +367,7 @@ function filterBySubType(sub){
 /* 沒子類時 */
 function filterByCategoryOnly(cat){
   const c = categoryMap[cat];
-  if(!c.subTypes.length){
+  if(!c || !c.subTypes.length){
     return providers.filter(p => matchesSite(p));
   }
   return providers.filter(p =>
@@ -339,6 +411,7 @@ function renderProviderList(list){
 ============================================ */
 function openProviderDetail(name){
   const p = providerMap[name];
+  if(!p) return;
   showLevel3();
 
   const servicesHTML = p.services.map(s =>
@@ -377,9 +450,14 @@ function openProviderDetail(name){
 /* ============================================
    搜尋功能
 ============================================ */
-function runSearch(){
+function runSearch(fromSiteChange){
   const q = document.getElementById("searchInput").value.trim().toLowerCase();
-  if(!q){ showLevel1(); return; }
+  lastSearchQuery = q;
+
+  if(!q){
+    showLevel1();
+    return;
+  }
 
   showLevel2();
   level2Title.textContent = `搜尋結果：「${q}」`;
@@ -399,8 +477,7 @@ function runSearch(){
 }
 
 /* ============================================
-   解析 providers.csv
-   （這版會自動偵測欄位名稱）
+   解析 providers.csv（自動偵測欄位名稱）
 ============================================ */
 function loadProviders(){
   Papa.parse("providers.csv",{
@@ -408,10 +485,9 @@ function loadProviders(){
     header:true,
     skipEmptyLines:true,
     complete:(res)=>{
-      const rows = res.data;
+      const rows = res.data || [];
       if(!rows.length) return;
 
-      /* 自動偵測欄位 */
       const headers = Object.keys(rows[0]);
 
       const nameKey  = headers.find(h => /公司名稱|公司|Name/i.test(h)) || headers[0];
@@ -428,10 +504,11 @@ function loadProviders(){
       const svc3Key    = headers.find(h => /服務內容3/i.test(h));
 
       providers = rows.map(r=>{
-        const name = (r[nameKey] || "").trim();
+        const name = (r[nameKey] || "").toString().trim();
         if(!name) return null;
 
         const tags = (r[typeKey] || "")
+          .toString()
           .split(/[、,，;；\/]/)
           .map(s=>s.trim()).filter(Boolean);
 
@@ -444,22 +521,24 @@ function loadProviders(){
 
         return {
           name,
-          contact: r[contactKey] || "",
-          phone:   r[phoneKey] || "",
-          email:   r[emailKey] || "",
-          lineId:  r[lineKey] || "",
-          logo:    r[logoKey] || "",
-          description: r[descKey] || "",
-          website: r[webKey] || "",
+          contact: contactKey ? (r[contactKey] || "") : "",
+          phone:   phoneKey   ? (r[phoneKey]   || "") : "",
+          email:   emailKey   ? (r[emailKey]   || "") : "",
+          lineId:  lineKey    ? (r[lineKey]    || "") : "",
+          logo:    logoKey    ? (r[logoKey]    || "") : "",
+          description: descKey ? (r[descKey]   || "") : "",
+          website: webKey     ? (r[webKey]     || "") : "",
           tags,
-          services: [r[svc1Key],r[svc2Key],r[svc3Key]].filter(x=>x && x.trim()),
+          services: [svc1Key && r[svc1Key], svc2Key && r[svc2Key], svc3Key && r[svc3Key]]
+                      .filter(x=>x && String(x).trim()),
           regions
         };
       }).filter(Boolean);
 
       providers.forEach(p=>providerMap[p.name] = p);
       statProviders.textContent = providers.length;
-    }
+    },
+    error:(err)=>console.error("providers.csv 讀取失敗",err)
   });
 }
 
@@ -472,7 +551,7 @@ function loadHierarchy(){
     header:true,
     skipEmptyLines:true,
     complete:(res)=>{
-      const rows = res.data;
+      const rows = res.data || [];
       const map = new Map();
 
       rows.forEach(r=>{
@@ -492,7 +571,8 @@ function loadHierarchy(){
 
       statTypes.textContent = categories.length;
       renderCategories();
-    }
+    },
+    error:(err)=>console.error("hierarchy.csv 讀取失敗",err)
   });
 }
 
@@ -505,10 +585,21 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.getElementById("searchForm")
     .addEventListener("submit",e=>{
       e.preventDefault();
-      runSearch();
+      runSearch(false);
     });
 
-  // 載入 CSV
+  // 站點按鈕
+  document.querySelectorAll(".site-filter").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const site = btn.getAttribute("data-site") || "";
+      setSite(site);   // 更新 currentSite + 重新渲染
+    });
+  });
+
+  // 初始站點 = 全部（currentSite = null）
+  setSite("");
+
+  // 讀取 CSV
   loadProviders();
   loadHierarchy();
 });
