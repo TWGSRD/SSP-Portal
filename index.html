@@ -3,648 +3,516 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>亞馬遜SPN風格 - 服務商網絡</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <title>服務商網路平台 | Service Provider Portal</title>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
   <style>
     :root{
       --deep-orange:#ff6403;
       --ink-blue:#161d26;
-      --text-light:#f5f6f6;
       --border-light:#e5e7eb;
-      --amz-yellow:#ffd814;
-      --chip-blue:#0073bb;
     }
     body{
       background:#f8f9fa;
-      font-family:'Microsoft JhengHei','PingFang TC',sans-serif;
+      font-family:'PingFang TC','Microsoft JhengHei',sans-serif;
     }
-    .headbar{background:#000;color:#fff;}
-    .headbar .brand img{height:28px;margin-right:.5rem;}
-    .headbar .container{position:relative;}
-    .center-wrap{display:flex;align-items:center;gap:12px;margin-left:0;}
-    .site .btn-site{
-      color:#cbd5e1;font-weight:600;border:0;background:transparent;
-      display:flex;align-items:center;gap:.35rem;padding:.25rem .5rem;
-    }
-    .site .btn-site:hover{color:#fff;}
+
+    /* ========= NAV (Black Bar) ========= */
+    .headbar{background:#000;color:#fff;padding:8px 0;}
+    .headbar .brand-title{font-weight:700;font-size:1.1rem;}
+
     .search-box{
-      background:#fff;border-radius:8px;overflow:hidden;display:flex;
-      align-items:center;border:1px solid #2b3542;
-    }
-    .search-box select{
-      background:#f2f3f5;border:0;border-right:1px solid var(--border-light);
-      border-radius:0;padding:.55rem .9rem;color:#374151;font-weight:600;
-      font-size:.85rem;
+      background:#fff;border-radius:8px;overflow:hidden;
+      display:flex;align-items:center;border:1px solid #2b3542;
     }
     .search-box input{
-      border:0;box-shadow:none;padding:.6rem .8rem;min-width:260px;font-size:.9rem;
+      border:0;padding:.55rem .8rem;flex:1;min-width:220px;
     }
     .search-box .btn-search{
-      background:var(--deep-orange);border:0;border-radius:0;width:48px;height:42px;
-      display:flex;align-items:center;justify-content:center;color:#fff;
+      background:var(--deep-orange);color:#fff;border:0;
+      width:44px;display:flex;align-items:center;justify-content:center;
     }
-    .headbar .learn-link{
-      position:absolute;right:0;top:50%;transform:translateY(-50%);
-      color:#fff;text-decoration:none;font-weight:600;font-size:.85rem;
-    }
-    .headbar .learn-link:hover{color:var(--deep-orange);}
 
-    /* Hero Section */
+    /* ========= HERO ========= */
     .hero-section{
-      background:linear-gradient(135deg,#232f3e 0%,#37475a 100%);
-      color:#fff;padding:3.5rem 0 3rem;
+      background:linear-gradient(135deg,#232f3e,#37475a);
+      color:white;padding:3rem 0 2.7rem;
     }
-    .hero-content h1{font-size:2.4rem;font-weight:700;margin-bottom:1rem;}
-    .hero-content p{font-size:1.1rem;margin-bottom:1.4rem;opacity:.9;}
-    .hero-stats{
-      background:rgba(255,255,255,.08);border-radius:10px;
-      padding:1.5rem;margin-top:1.5rem;
-    }
-    .stat-item{text-align:center;}
-    .stat-number{font-size:2.1rem;font-weight:700;color:var(--amz-yellow);}
-    .stat-label{font-size:.85rem;opacity:.8;}
+    .hero-section h1{font-size:2.2rem;font-weight:700;}
+    .hero-section p{opacity:.9;font-size:1.05rem;}
 
-    /* Service Categories */
-    .service-categories{padding:3rem 0;}
+    .hero-stats{
+      background:rgba(255,255,255,.08);
+      padding:1.3rem;border-radius:10px;margin-top:1.2rem;
+    }
+
+    /* ========= Categories ========= */
     .category-grid{
-      display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;margin-top:2rem;
-    }
-    @media(max-width:992px){
-      .category-grid{grid-template-columns:repeat(3,1fr);}
-    }
-    @media(max-width:576px){
-      .category-grid{grid-template-columns:repeat(2,1fr);}
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      gap:1rem;margin-top:2rem;
     }
     .category-card{
-      background:#fff;border-radius:8px;padding:1.1rem;
-      box-shadow:0 2px 10px rgba(0,0,0,.06);
-      transition:.2s;cursor:pointer;border:1px solid #e5e7eb;text-align:left;
+      background:#fff;border-radius:8px;
+      padding:1rem;border:1px solid #e5e7eb;
+      box-shadow:0 2px 8px rgba(0,0,0,.05);
+      cursor:pointer;transition:.15s;
     }
     .category-card:hover{
       transform:translateY(-3px);
-      box-shadow:0 4px 15px rgba(0,0,0,.12);
+      box-shadow:0 4px 14px rgba(0,0,0,.12);
       border-color:#ff9900;
     }
     .category-icon{
-      width:40px;height:40px;border-radius:8px;display:flex;
-      align-items:center;justify-content:center;font-size:1.2rem;
-      color:#fff;background:#ff9900;margin-bottom:.5rem;
+      background:#ff9900;color:#fff;border-radius:8px;
+      width:40px;height:40px;display:flex;align-items:center;
+      justify-content:center;font-size:1.2rem;margin-bottom:.5rem;
     }
-    .category-title{
-      font-size:.95rem;font-weight:700;margin-bottom:.3rem;color:#232f3e;
-    }
-    .category-desc{color:#6b7280;font-size:.8rem;margin-bottom:.25rem;}
 
-    /* Site Tabs + providers */
-    .site-tabs{
-      background:#fff;border-radius:12px;padding:2rem;
-      box-shadow:0 2px 10px rgba(0,0,0,.05);margin:2.5rem 0 1.5rem;
-    }
-    .site-tab{
-      background:transparent;border:2px solid #e5e7eb;color:#6b7280;
-      padding:.55rem 1.3rem;border-radius:25px;margin:.25rem;
-      transition:.2s;cursor:pointer;font-size:.85rem;
-    }
-    .site-tab.active{
-      background:var(--deep-orange);border-color:var(--deep-orange);color:#fff;
-    }
-    .site-tab:hover{border-color:var(--deep-orange);color:var(--deep-orange);}
-    .site-tab.active:hover{color:#fff;}
-    .provider-grid{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:1.5rem;margin-top:1.3rem;
-    }
+    /* ========= Providers List ========= */
     .provider-card{
-      background:#fff;border-radius:10px;padding:1.2rem;
-      box-shadow:0 2px 10px rgba(0,0,0,.05);transition:.2s;
-      cursor:pointer;border:1px solid #e5e7eb;
+      background:#fff;border:1px solid #e5e7eb;border-radius:10px;
+      padding:1rem;cursor:pointer;transition:.2s;
+      box-shadow:0 2px 8px rgba(0,0,0,.05);
     }
     .provider-card:hover{
       transform:translateY(-3px);
-      box-shadow:0 6px 20px rgba(0,0,0,.1);
+      box-shadow:0 6px 16px rgba(0,0,0,.1);
     }
-    .provider-name{font-weight:700;font-size:.95rem;margin-bottom:.2rem;color:#232f3e;}
-    .provider-type{color:var(--deep-orange);font-size:.8rem;font-weight:600;margin-bottom:.3rem;}
-    .provider-desc{color:#6b7280;font-size:.8rem;line-height:1.4;}
 
-    /* Level 2 & 3 */
-    .provider-list-card{
-      background:#fff;border:1px solid #e5e7eb;border-radius:10px;
-      box-shadow:0 2px 6px rgba(0,0,0,.04);cursor:pointer;transition:.15s;
-    }
-    .provider-list-card:hover{
-      transform:translateY(-2px);
-      box-shadow:0 4px 12px rgba(0,0,0,.1);
-    }
-    .provider-logo-list{width:80px;height:40px;object-fit:contain;}
+    /* ========= Detail Page ========= */
     .detail-card{
-      background:#fff;border:1px solid #e5e7eb;border-radius:10px;
-      box-shadow:0 2px 6px rgba(0,0,0,.04);
+      background:white;border-radius:12px;
+      border:1px solid #e5e7eb;padding:2rem;
+      box-shadow:0 3px 12px rgba(0,0,0,.06);
     }
-    footer{background:var(--ink-blue);color:#f5f6f6;font-size:.8rem;}
   </style>
 </head>
+
 <body>
-  <!-- 頂部黑色導覽 -->
-  <nav class="headbar py-2">
-    <div class="container">
-      <div class="center-wrap">
-        <a class="brand d-flex align-items-center text-decoration-none text-white" href="javascript:void(0)" onclick="showLevel1()">
-          <!-- 這裡可以換成你的 Logo -->
-          <span class="fw-bold">Service Provider Portal</span>
-        </a>
-        <div class="site d-none d-md-flex align-items-center ms-3">
-          <div class="dropdown">
-            <button class="btn btn-site dropdown-toggle" type="button" data-bs-toggle="dropdown">
-              <i class="bi bi-globe2"></i> 目標站點
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#" data-site="北美站">北美站</a></li>
-              <li><a class="dropdown-item" href="#" data-site="歐洲站">歐洲站</a></li>
-              <li><a class="dropdown-item" href="#" data-site="日本站">日本站</a></li>
-              <li><a class="dropdown-item" href="#" data-site="澳洲/新加坡">澳洲/新加坡</a></li>
-              <li><a class="dropdown-item" href="#" data-site="中東站">中東站</a></li>
-            </ul>
-          </div>
-        </div>
-        <form id="searchForm" class="ms-md-2 flex-grow-1 d-flex justify-content-center">
-          <div class="search-box">
-            <select>
-              <option>服務商</option>
-              <option>服務類別</option>
-              <option>公司名稱</option>
-            </select>
-            <input type="search" id="searchInput" class="form-control" placeholder="輸入公司名稱 / 服務關鍵字搜尋" />
-            <button class="btn btn-search" type="submit"><i class="bi bi-search"></i></button>
-          </div>
-        </form>
+
+<!-- ========= NAV ========= -->
+<nav class="headbar">
+  <div class="container d-flex align-items-center justify-content-between">
+    <div class="brand-title">Service Provider Portal</div>
+
+    <form id="searchForm" class="d-flex" style="max-width:360px;width:100%;">
+      <div class="search-box flex-grow-1">
+        <input id="searchInput" type="search" placeholder="搜尋公司名稱、服務、介紹..." />
+        <button class="btn-search"><i class="bi bi-search"></i></button>
       </div>
-      <a class="learn-link d-none d-lg-inline-block" href="javascript:void(0)">了解如何成為服務商</a>
-    </div>
-  </nav>
+    </form>
+  </div>
+</nav>
 
-  <main>
-    <!-- Level 1: Hero + 類別 + 推薦 -->
-    <div id="level1">
-      <section class="hero-section">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-8">
-              <div class="hero-content">
-                <h1>服務商網絡入口</h1>
-                <p>依服務範疇與目標市場，快速找到適合的合作服務商</p>
-                <button class="btn btn-warning btn-lg px-4 py-2" onclick="scrollToCategories()">
-                  <i class="bi bi-play-circle me-2"></i>瀏覽服務類型
-                </button>
-              </div>
-            </div>
-            <div class="col-lg-4">
-              <div class="hero-stats">
-                <div class="row">
-                  <div class="col-6">
-                    <div class="stat-item">
-                      <div class="stat-number" id="statProviders">0</div>
-                      <div class="stat-label">服務商數量</div>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="stat-item">
-                      <div class="stat-number" id="statTypes">0</div>
-                      <div class="stat-label">服務類型</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+<!-- ========= HERO ========= -->
+<section class="hero-section text-center">
+  <div class="container">
+    <h1>服務商網路平台</h1>
+    <p>依據服務類型與站點，快速找到合適的服務供應商</p>
 
-      <section class="service-categories" id="categoriesSection">
-        <div class="container">
-          <div class="text-center">
-            <h2 class="mb-2">選擇服務類型</h2>
-            <p class="text-muted mb-0">先選擇服務大類，再依子類與站點找到合適的 SP</p>
-          </div>
-          <div class="category-grid mt-3" id="serviceCategories"></div>
-        </div>
-      </section>
-
-      <section class="featured-providers">
-        <div class="container">
-          <div class="site-tabs">
-            <div class="text-center mb-3">
-              <h3>依目標站點瀏覽推薦服務商</h3>
-              <p class="text-muted mb-0">以下為各站點隨機顯示的部分服務商，供你快速瀏覽</p>
-            </div>
-            <div class="text-center mb-2">
-              <button class="site-tab active" data-site-tab="北美站">北美站</button>
-              <button class="site-tab" data-site-tab="歐洲站">歐洲站</button>
-              <button class="site-tab" data-site-tab="日本站">日本站</button>
-              <button class="site-tab" data-site-tab="澳洲/新加坡">澳洲/新加坡</button>
-              <button class="site-tab" data-site-tab="中東站">中東站</button>
-            </div>
-          </div>
-          <div class="provider-grid" id="featuredProviders"></div>
-        </div>
-      </section>
-    </div>
-
-    <!-- Level 2: 類別 → 服務商列表 -->
-    <div id="level2" style="display:none;">
-      <div class="container py-4">
-        <button class="btn btn-outline-primary mb-3" onclick="showLevel1()">
-          <i class="bi bi-arrow-left"></i> 返回服務類型
-        </button>
-        <h2 id="level2Title" class="mb-3"></h2>
-
-        <!-- 子類導航 -->
-        <nav class="bg-light rounded p-3 mb-3" id="topnav">
-          <ul class="nav nav-pills justify-content-center gap-2" id="serviceNav"></ul>
-        </nav>
-
-        <div id="providersList" class="row g-3"></div>
+    <div class="hero-stats row">
+      <div class="col-6 text-center">
+        <div id="statProviders" class="h2 mb-0">0</div>
+        <small>服務商數量</small>
+      </div>
+      <div class="col-6 text-center">
+        <div id="statTypes" class="h2 mb-0">0</div>
+        <small>服務類型</small>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- Level 3: 單一服務商詳細 -->
-    <div id="level3" style="display:none;">
-      <div class="container py-4">
-        <button class="btn btn-outline-primary mb-3" onclick="showLevel2()">
-          <i class="bi bi-arrow-left"></i> 返回服務商列表
-        </button>
-        <div id="providerDetail"></div>
+<!-- ========= LEVEL 1: Categories ========= -->
+<section id="level1" class="py-4">
+  <div class="container">
+    <h3 class="text-center mb-3">選擇服務類型</h3>
+    <div id="serviceCategories" class="category-grid"></div>
+  </div>
+</section>
+
+<!-- ========= LEVEL 2: Provider List ========= -->
+<section id="level2" style="display:none;">
+  <div class="container py-4">
+    <button class="btn btn-outline-primary mb-3" onclick="showLevel1()">
+      <i class="bi bi-arrow-left"></i> 返回
+    </button>
+
+    <h3 id="level2Title" class="mb-3"></h3>
+
+    <nav id="subTypeNav" class="nav nav-pills mb-3 gap-2"></nav>
+
+    <div id="providersList" class="row g-3"></div>
+  </div>
+</section>
+
+<!-- ========= LEVEL 3: Detail Page ========= -->
+<section id="level3" style="display:none;">
+  <div class="container py-4">
+    <button class="btn btn-outline-primary mb-3" onclick="showLevel2()">
+      <i class="bi bi-arrow-left"></i> 返回
+    </button>
+
+    <div id="providerDetail"></div>
+  </div>
+</section>
+
+<footer class="text-center py-3 text-muted">
+  © 2025 Service Provider Portal
+</footer>
+
+<!-- JS libraries -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+<script>
+/* ========== 全域變數 ========== */
+let providers = [];
+let providerMap = {};
+let categories = [];
+let categoryMap = {};
+let currentCategory = null;
+let currentSubType = null;
+let currentSite = null;   // 全域站點過濾 (未選＝顯示全部)
+
+/* ========== DOM 參考 ========== */
+const level1 = document.getElementById("level1");
+const level2 = document.getElementById("level2");
+const level3 = document.getElementById("level3");
+const statProviders = document.getElementById("statProviders");
+const statTypes = document.getElementById("statTypes");
+const serviceCategories = document.getElementById("serviceCategories");
+const providersList = document.getElementById("providersList");
+const level2Title = document.getElementById("level2Title");
+const subTypeNav = document.getElementById("subTypeNav");
+const providerDetail = document.getElementById("providerDetail");
+
+/* ========== 工具 ==========
+   truthyFlag：判斷站點欄位是否為有效值 (Y / 是 / True / 1 都會算)
+================================= */
+function truthyFlag(v){
+  if(v === undefined || v === null) return false;
+  const s = String(v).trim().toLowerCase();
+  if(!s) return false;
+  return !["0","n","no","false","未提供","x"].includes(s);
+}
+
+/* 判斷此 provider 是否符合目前站點 */
+function matchesSite(p){
+  if(!currentSite) return true;
+  if(!p.regions || !p.regions.length) return false;
+  return p.regions.includes(currentSite);
+}
+
+/* 切換頁面：首頁 */
+function showLevel1(){
+  level1.style.display = "block";
+  level2.style.display = "none";
+  level3.style.display = "none";
+  currentCategory = null;
+}
+
+/* 切換頁面：服務商列表 */
+function showLevel2(){
+  level1.style.display = "none";
+  level2.style.display = "block";
+  level3.style.display = "none";
+}
+
+/* 切換頁面：詳細資料 */
+function showLevel3(){
+  level1.style.display = "none";
+  level2.style.display = "none";
+  level3.style.display = "block";
+}
+</script>
+<script>
+/* ============================================
+   渲染「分類卡片」(Level 1)
+============================================ */
+function renderCategories(){
+  serviceCategories.innerHTML = categories.map(cat => `
+    <div class="category-card" data-cat="${cat.name}">
+      <div class="category-icon"><i class="bi bi-layers"></i></div>
+      <div class="fw-bold">${cat.name}</div>
+      <div class="text-muted" style="font-size:.85rem;">
+        ${cat.subTypes.slice(0,3).join("、")}
       </div>
     </div>
-  </main>
+  `).join("");
 
-  <footer class="py-3 text-center">
-    <p class="mb-0">© 2025 Service Provider Network · Internal Use</p>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script>
-    // === 檔案路徑 ===
-    const PROVIDERS_CSV_URL = 'providers.csv';   // 放在同一個資料夾
-    const HIERARCHY_CSV_URL = 'hierarchy.csv';   // 放在同一個資料夾
-
-    // === 全域狀態 ===
-    let providers = [];          // 全部服務商
-    let providerMap = {};        // name -> provider
-    let categories = [];         // [{name, desc, subTypes:[]}]
-    let categoryMap = {};        // name -> {name, desc, subTypes}
-    let currentCategory = null;
-    let currentSubType = null;
-    let currentSite = '北美站';
-    let searchMode = false;
-    let searchQuery = '';
-
-    // === 工具函式 ===
-    function truthyFlag(v){
-      if(v === undefined || v === null) return false;
-      const s = String(v).trim().toLowerCase();
-      if(!s) return false;
-      return !['0','n','no','false','未提供','x'].includes(s);
-    }
-
-    function splitTags(str){
-      if(!str) return [];
-      return String(str)
-        .split(/[、,，;；\/]/)
-        .map(s => s.trim())
-        .filter(Boolean);
-    }
-
-    // === DOM 參考 ===
-    const categoriesContainer = document.getElementById('serviceCategories');
-    const featuredContainer   = document.getElementById('featuredProviders');
-    const level2TitleEl       = document.getElementById('level2Title');
-    const serviceNavEl        = document.getElementById('serviceNav');
-    const providersListEl     = document.getElementById('providersList');
-    const providerDetailEl    = document.getElementById('providerDetail');
-    const statProvidersEl     = document.getElementById('statProviders');
-    const statTypesEl         = document.getElementById('statTypes');
-
-    // === 畫面切換 ===
-    function showLevel1(){
-      document.getElementById('level1').style.display='block';
-      document.getElementById('level2').style.display='none';
-      document.getElementById('level3').style.display='none';
-      searchMode = false;
-    }
-    function showLevel2(){
-      document.getElementById('level1').style.display='none';
-      document.getElementById('level2').style.display='block';
-      document.getElementById('level3').style.display='none';
-    }
-    function showLevel3(){
-      document.getElementById('level1').style.display='none';
-      document.getElementById('level2').style.display='none';
-      document.getElementById('level3').style.display='block';
-    }
-    function scrollToCategories(){
-      document.getElementById('categoriesSection').scrollIntoView({behavior:'smooth'});
-    }
-
-    // === 建立類別卡片 ===
-    function renderCategories(){
-      if(!categories.length) return;
-      statTypesEl.textContent = categories.length;
-      const icons = [
-        'bi-camera','bi-person-gear','bi-megaphone','bi-shield-check','bi-truck','bi-credit-card',
-        'bi-robot','bi-award','bi-book','bi-upc-scan','bi-shield-plus'
-      ];
-      categoriesContainer.innerHTML = categories.map((cat, idx) => `
-        <div class="category-card" data-cat="${cat.name}">
-          <div class="category-icon">
-            <i class="bi ${icons[idx % icons.length]}"></i>
-          </div>
-          <div class="category-title">${cat.name}</div>
-          <div class="category-desc">${cat.desc || (cat.subTypes.slice(0,3).join('、') || '跨境服務')}</div>
-        </div>
-      `).join('');
-      categoriesContainer.querySelectorAll('.category-card').forEach(card=>{
-        card.addEventListener('click',()=>{
-          const name = card.getAttribute('data-cat');
-          goToCategory(name);
-        });
-      });
-    }
-
-    // === Level 1: 依站點推薦幾個服務商 ===
-    function renderFeatured(site){
-      currentSite = site;
-      const siteTabs = document.querySelectorAll('[data-site-tab]');
-      siteTabs.forEach(btn=>{
-        btn.classList.toggle('active', btn.getAttribute('data-site-tab') === site);
-      });
-
-      // 抓有支援該站點的服務商
-      const list = providers.filter(p => p.regions.includes(site)).slice(0,6);
-      if(!list.length){
-        featuredContainer.innerHTML = '<div class="text-muted small">此站點尚未有標註的服務商。</div>';
-        return;
-      }
-      featuredContainer.innerHTML = list.map(p => `
-        <div class="provider-card" data-name="${p.name}">
-          <div class="provider-name">${p.name}</div>
-          <div class="provider-type">${p.tags.join('、') || '服務商'}</div>
-          <div class="provider-desc">
-            ${p.description ? (p.description.length>90 ? p.description.slice(0,90)+'…' : p.description) : '專業服務提供商'}
-          </div>
-        </div>
-      `).join('');
-      featuredContainer.querySelectorAll('.provider-card').forEach(card=>{
-        card.addEventListener('click',()=>{
-          const name = card.getAttribute('data-name');
-          openProviderDetail(name);
-        });
-      });
-    }
-
-    // === Level 2: 依大類 / 子類 顯示列表 ===
-    function goToCategory(name){
-      searchMode = false;
-      currentCategory = categoryMap[name];
-      if(!currentCategory) return;
-      level2TitleEl.textContent = name + ' 服務商';
-      showLevel2();
-
-      // 子類 tab
-      serviceNavEl.innerHTML = '';
-      if(currentCategory.subTypes && currentCategory.subTypes.length){
-        currentCategory.subTypes.forEach((sub, idx)=>{
-          const li = document.createElement('li');
-          li.className = 'nav-item';
-          const btn = document.createElement('button');
-          btn.className = 'nav-link' + (idx===0 ? ' active' : '');
-          btn.textContent = sub;
-          btn.addEventListener('click',()=>{
-            serviceNavEl.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));
-            btn.classList.add('active');
-            currentSubType = sub;
-            renderProviderList(filterProvidersBySubType(sub));
-          });
-          li.appendChild(btn);
-          serviceNavEl.appendChild(li);
-        });
-        currentSubType = currentCategory.subTypes[0];
-        renderProviderList(filterProvidersBySubType(currentSubType));
-      }else{
-        currentSubType = null;
-        renderProviderList(filterProvidersByCategory(currentCategory.name));
-      }
-    }
-
-    function filterProvidersBySubType(sub){
-      return providers.filter(p => p.tags.includes(sub));
-    }
-
-    function filterProvidersByCategory(catName){
-      const cat = categoryMap[catName];
-      if(!cat) return [];
-      if(!cat.subTypes.length) return providers;
-      return providers.filter(p => p.tags.some(t => cat.subTypes.includes(t)));
-    }
-
-    function renderProviderList(list){
-      if(!list.length){
-        providersListEl.innerHTML = '<div class="col-12 text-muted small">目前尚未有符合條件的服務商。</div>';
-        return;
-      }
-      providersListEl.innerHTML = list.map(p => `
-        <div class="col-12 col-md-6">
-          <div class="provider-list-card p-3 h-100" data-name="${p.name}">
-            <div class="d-flex align-items-center mb-2">
-              <div class="flex-grow-1">
-                <h6 class="mb-1">${p.name}</h6>
-                <small class="text-muted">${p.tags.join('、') || '服務商'}</small>
-              </div>
-            </div>
-            <p class="text-muted small mb-2">
-              ${p.description ? (p.description.length>100 ? p.description.slice(0,100)+'…' : p.description) : '專業服務提供商'}
-            </p>
-            <div class="d-flex justify-content-between align-items-center">
-              <small class="text-primary">${p.regions.join('、') || '未標註區域'}</small>
-              <small class="text-muted">聯絡人：${p.contact || '未提供'}</small>
-            </div>
-          </div>
-        </div>
-      `).join('');
-      providersListEl.querySelectorAll('.provider-list-card').forEach(card=>{
-        card.addEventListener('click',()=>{
-          const name = card.getAttribute('data-name');
-          openProviderDetail(name);
-        });
-      });
-    }
-
-    // === Level 3: 詳細頁 ===
-    function openProviderDetail(name){
-      const p = providerMap[name];
-      if(!p) return;
-      showLevel3();
-      const services = p.services.map(s =>
-        `<div class="col-md-4 mb-2"><i class="bi bi-check-circle text-success me-2"></i>${s}</div>`
-      ).join('');
-      providerDetailEl.innerHTML = `
-        <div class="detail-card p-4">
-          <div class="row">
-            <div class="col-md-4 text-center mb-4">
-              <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height:180px;">
-                <span class="fw-bold">${p.name.slice(0,2)}</span>
-              </div>
-            </div>
-            <div class="col-md-8">
-              <h2 class="mb-3">${p.name}</h2>
-              <div class="row mb-3">
-                <div class="col-md-6">
-                  <p><strong>聯絡人：</strong>${p.contact || '未提供'}</p>
-                  <p><strong>電話：</strong>${p.phone || '未提供'}</p>
-                  <p><strong>Email：</strong>${p.email || '未提供'}</p>
-                  <p><strong>Line：</strong>${p.lineId || '未提供'}</p>
-                </div>
-                <div class="col-md-6">
-                  <p><strong>可服務區域：</strong>${p.regions.join('、') || '未標註'}</p>
-                  ${p.website ? `<p><strong>官網：</strong><a href="${p.website}" target="_blank">${p.website}</a></p>` : ''}
-                </div>
-              </div>
-              <div class="mb-3">
-                <h5>公司介紹</h5>
-                <p class="mb-0">${p.description || '專業服務提供商。'}</p>
-              </div>
-              ${services ? `
-                <div class="mb-3">
-                  <h5>服務內容</h5>
-                  <div class="row">${services}</div>
-                </div>` : ''}
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    // === 搜尋 ===
-    function searchProviders(){
-      if(!providers.length) return;
-      const q = document.getElementById('searchInput').value.trim().toLowerCase();
-      if(!q){
-        showLevel1();
-        return;
-      }
-      searchMode = true;
-      showLevel2();
-      level2TitleEl.textContent = '搜尋結果：' + q;
-      serviceNavEl.innerHTML = '';
-      const list = providers.filter(p=>{
-        const hay = [
-          p.name, p.description,
-          p.tags.join(' '),
-          p.services.join(' ')
-        ].join(' ').toLowerCase();
-        return hay.includes(q);
-      });
-      renderProviderList(list);
-    }
-
-    // === 載入 CSV ===
-    function loadProviders(){
-      Papa.parse(PROVIDERS_CSV_URL,{
-        download:true,
-        header:true,
-        skipEmptyLines:true,
-        complete:(res)=>{
-          const rows = res.data || [];
-          providers = rows
-            .filter(r => (r['公司名稱'] || r['公司'] || '').toString().trim())
-            .map(r =>{
-              const name  = r['公司名稱'] || r['公司'] || r['Name'] || '';
-              const contact = r['聯絡人'] || r['聯絡窗口'] || r['Contact'] || '';
-              const phone   = r['電話']   || r['Phone']     || '';
-              const email   = r['Email']  || r['電郵']      || '';
-              const lineId  = r['Line ID']|| r['Line']      || '';
-              const logo    = r['公司logo'] || r['Logo']   || '';
-              const desc    = r['公司介紹'] || r['介紹']   || r['Description'] || '';
-              const website = r['公司官網'] || r['官網']   || r['Website'] || '';
-              const tags    = splitTags(r['服務類型'] || r['Tags']);
-              const services = [
-                r['服務內容1'], r['服務內容2'], r['服務內容3']
-              ].filter(s => s && String(s).trim());
-              const regions = [];
-              if(truthyFlag(r['北美站'])) regions.push('北美站');
-              if(truthyFlag(r['歐洲站'])) regions.push('歐洲站');
-              if(truthyFlag(r['日本站'])) regions.push('日本站');
-              if(truthyFlag(r['澳洲/新加坡'])) regions.push('澳洲/新加坡');
-              if(truthyFlag(r['中東站'])) regions.push('中東站');
-              return { name, contact, phone, email, lineId, logo, description:desc,
-                       website, tags, services, regions };
-            });
-          providers.forEach(p => { providerMap[p.name] = p; });
-          statProvidersEl.textContent = providers.length;
-          renderFeatured(currentSite);
-        },
-        error:(err)=>{ console.error('providers.csv 讀取失敗', err); }
-      });
-    }
-
-    function loadHierarchy(){
-      Papa.parse(HIERARCHY_CSV_URL,{
-        download:true,
-        header:true,
-        skipEmptyLines:true,
-        complete:(res)=>{
-          const rows = res.data || [];
-          const catMap = new Map();
-          rows.forEach(row=>{
-            const values = Object.values(row).map(v => String(v||'').trim());
-            const parent = values[0];
-            if(!parent) return;
-            if(!catMap.has(parent)) catMap.set(parent,new Set());
-            values.slice(1).forEach(v=>{
-              if(v) catMap.get(parent).add(v);
-            });
-          });
-          categories = Array.from(catMap.entries()).map(([name,set])=>{
-            const subTypes = Array.from(set);
-            return {name, desc:'', subTypes};
-          });
-          categories.forEach(c => { categoryMap[c.name] = c; });
-          renderCategories();
-        },
-        error:(err)=>{ console.error('hierarchy.csv 讀取失敗', err); }
-      });
-    }
-
-    // === 初始化 ===
-    document.addEventListener('DOMContentLoaded',()=>{
-      // site tab click
-      document.querySelectorAll('[data-site-tab]').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          const site = btn.getAttribute('data-site-tab');
-          renderFeatured(site);
-        });
-      });
-
-      // dropdown 選站點
-      document.querySelectorAll('.dropdown-menu [data-site]').forEach(a=>{
-        a.addEventListener('click',(e)=>{
-          e.preventDefault();
-          const site = a.getAttribute('data-site');
-          renderFeatured(site);
-        });
-      });
-
-      // 搜尋
-      document.getElementById('searchForm').addEventListener('submit',(e)=>{
-        e.preventDefault();
-        searchProviders();
-      });
-
-      loadProviders();
-      loadHierarchy();
+  document.querySelectorAll(".category-card").forEach(card => {
+    card.addEventListener("click", () => {
+      goToCategory(card.dataset.cat);
     });
-  </script>
+  });
+}
+
+/* ============================================
+   進入某一大類 (Level 2)
+============================================ */
+function goToCategory(name){
+  currentCategory = categoryMap[name];
+  currentSubType = null;
+
+  level2Title.textContent = `${name} 服務商`;
+  showLevel2();
+
+  // 生成子類 (subTypes) tabs
+  subTypeNav.innerHTML = "";
+  if(currentCategory.subTypes.length){
+    currentCategory.subTypes.forEach((sub, idx)=>{
+      const tab = document.createElement("button");
+      tab.className = "nav-link" + (idx===0 ? " active" : "");
+      tab.textContent = sub;
+      tab.addEventListener("click", ()=>{
+        document.querySelectorAll("#subTypeNav .nav-link").forEach(x=>x.classList.remove("active"));
+        tab.classList.add("active");
+        currentSubType = sub;
+        renderProviderList(filterBySubType(sub));
+      });
+      subTypeNav.appendChild(tab);
+    });
+    currentSubType = currentCategory.subTypes[0];
+    renderProviderList(filterBySubType(currentSubType));
+  } else {
+    renderProviderList(filterByCategoryOnly(name));
+  }
+}
+
+/* 子類過濾 */
+function filterBySubType(sub){
+  return providers.filter(p =>
+    matchesSite(p) &&
+    p.tags.includes(sub)
+  );
+}
+
+/* 沒子類時 */
+function filterByCategoryOnly(cat){
+  const c = categoryMap[cat];
+  if(!c.subTypes.length){
+    return providers.filter(p => matchesSite(p));
+  }
+  return providers.filter(p =>
+    matchesSite(p) &&
+    p.tags.some(t => c.subTypes.includes(t))
+  );
+}
+
+/* ============================================
+   渲染「服務商列表」
+============================================ */
+function renderProviderList(list){
+  if(!list.length){
+    providersList.innerHTML = `<div class="col-12 text-muted">目前無符合條件的服務商。</div>`;
+    return;
+  }
+  providersList.innerHTML = list.map(p => `
+    <div class="col-12 col-md-6">
+      <div class="provider-card" data-name="${p.name}">
+        <h5>${p.name}</h5>
+        <div class="text-danger mb-1">${p.tags.join("、")}</div>
+        <p class="text-muted small">
+          ${p.description ? (p.description.length>100 ? p.description.slice(0,100)+"…" : p.description) : ""}
+        </p>
+        <div>
+          <small class="text-primary">${p.regions.join("、")}</small>
+        </div>
+      </div>
+    </div>
+  `).join("");
+
+  document.querySelectorAll(".provider-card").forEach(card=>{
+    card.addEventListener("click",()=>{
+      openProviderDetail(card.dataset.name);
+    });
+  });
+}
+
+/* ============================================
+   列出詳細資訊 (Level 3)
+============================================ */
+function openProviderDetail(name){
+  const p = providerMap[name];
+  showLevel3();
+
+  const servicesHTML = p.services.map(s =>
+    `<li><i class="bi bi-check-circle text-success me-2"></i>${s}</li>`
+  ).join("");
+
+  providerDetail.innerHTML = `
+    <div class="detail-card">
+      <h2>${p.name}</h2>
+      <p class="text-muted">${p.description || ""}</p>
+
+      <hr>
+
+      <h5>聯絡資訊</h5>
+      <p><strong>聯絡人：</strong>${p.contact || "未提供"}</p>
+      <p><strong>電話：</strong>${p.phone || "未提供"}</p>
+      <p><strong>Email：</strong>${p.email || "未提供"}</p>
+      <p><strong>Line：</strong>${p.lineId || "未提供"}</p>
+
+      <h5 class="mt-4">可服務站點</h5>
+      <p>${p.regions.join("、") || "未標註"}</p>
+
+      ${servicesHTML ? `
+        <h5 class="mt-4">服務內容</h5>
+        <ul>${servicesHTML}</ul>
+      ` : ""}
+
+      ${p.website ? `
+        <h5 class="mt-4">官網</h5>
+        <p><a href="${p.website}" target="_blank">${p.website}</a></p>
+      ` : ""}
+    </div>
+  `;
+}
+
+/* ============================================
+   搜尋功能
+============================================ */
+function runSearch(){
+  const q = document.getElementById("searchInput").value.trim().toLowerCase();
+  if(!q){ showLevel1(); return; }
+
+  showLevel2();
+  level2Title.textContent = `搜尋結果：「${q}」`;
+  subTypeNav.innerHTML = "";
+
+  const list = providers.filter(p=>{
+    if(!matchesSite(p)) return false;
+    const hay = [
+      p.name, p.description,
+      p.tags.join(" "),
+      p.services.join(" ")
+    ].join(" ").toLowerCase();
+    return hay.includes(q);
+  });
+
+  renderProviderList(list);
+}
+
+/* ============================================
+   解析 providers.csv
+   （這版會自動偵測欄位名稱）
+============================================ */
+function loadProviders(){
+  Papa.parse("providers.csv",{
+    download:true,
+    header:true,
+    skipEmptyLines:true,
+    complete:(res)=>{
+      const rows = res.data;
+      if(!rows.length) return;
+
+      /* 自動偵測欄位 */
+      const headers = Object.keys(rows[0]);
+
+      const nameKey  = headers.find(h => /公司名稱|公司|Name/i.test(h)) || headers[0];
+      const contactKey = headers.find(h => /聯絡|Contact/i.test(h));
+      const phoneKey   = headers.find(h => /電話|Phone/i.test(h));
+      const emailKey   = headers.find(h => /email/i.test(h));
+      const lineKey    = headers.find(h => /line/i.test(h));
+      const logoKey    = headers.find(h => /logo/i.test(h));
+      const descKey    = headers.find(h => /介紹|Description/i.test(h));
+      const webKey     = headers.find(h => /官網|Website/i.test(h));
+      const typeKey    = headers.find(h => /服務類型|類別|Type|Tag/i.test(h));
+      const svc1Key    = headers.find(h => /服務內容1/i.test(h));
+      const svc2Key    = headers.find(h => /服務內容2/i.test(h));
+      const svc3Key    = headers.find(h => /服務內容3/i.test(h));
+
+      providers = rows.map(r=>{
+        const name = (r[nameKey] || "").trim();
+        if(!name) return null;
+
+        const tags = (r[typeKey] || "")
+          .split(/[、,，;；\/]/)
+          .map(s=>s.trim()).filter(Boolean);
+
+        const regions = [];
+        if(truthyFlag(r["北美站"])) regions.push("北美站");
+        if(truthyFlag(r["歐洲站"])) regions.push("歐洲站");
+        if(truthyFlag(r["日本站"])) regions.push("日本站");
+        if(truthyFlag(r["澳洲/新加坡"])) regions.push("澳洲/新加坡");
+        if(truthyFlag(r["中東站"])) regions.push("中東站");
+
+        return {
+          name,
+          contact: r[contactKey] || "",
+          phone:   r[phoneKey] || "",
+          email:   r[emailKey] || "",
+          lineId:  r[lineKey] || "",
+          logo:    r[logoKey] || "",
+          description: r[descKey] || "",
+          website: r[webKey] || "",
+          tags,
+          services: [r[svc1Key],r[svc2Key],r[svc3Key]].filter(x=>x && x.trim()),
+          regions
+        };
+      }).filter(Boolean);
+
+      providers.forEach(p=>providerMap[p.name] = p);
+      statProviders.textContent = providers.length;
+    }
+  });
+}
+
+/* ============================================
+   解析 hierarchy.csv（服務類型階層）
+============================================ */
+function loadHierarchy(){
+  Papa.parse("hierarchy.csv",{
+    download:true,
+    header:true,
+    skipEmptyLines:true,
+    complete:(res)=>{
+      const rows = res.data;
+      const map = new Map();
+
+      rows.forEach(r=>{
+        const vals = Object.values(r).map(v=>String(v||"").trim());
+        const parent = vals[0];
+        if(!parent) return;
+        if(!map.has(parent)) map.set(parent,new Set());
+        vals.slice(1).forEach(v=>{ if(v) map.get(parent).add(v); });
+      });
+
+      categories = Array.from(map.keys()).map(k=>({
+        name:k,
+        subTypes:Array.from(map.get(k))
+      }));
+
+      categories.forEach(c=>categoryMap[c.name] = c);
+
+      statTypes.textContent = categories.length;
+      renderCategories();
+    }
+  });
+}
+
+/* ============================================
+   網站初始化
+============================================ */
+document.addEventListener("DOMContentLoaded",()=>{
+
+  // 搜尋
+  document.getElementById("searchForm")
+    .addEventListener("submit",e=>{
+      e.preventDefault();
+      runSearch();
+    });
+
+  // 載入 CSV
+  loadProviders();
+  loadHierarchy();
+});
+</script>
+
 </body>
 </html>
