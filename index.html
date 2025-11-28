@@ -41,21 +41,22 @@
     /* ========= HERO ========= */
     .hero-section{
       background:linear-gradient(135deg,#232f3e,#37475a);
-      color:white;padding:3rem 0 2.7rem;
+      color:white;padding:3rem 0 3rem;
     }
     .hero-section h1{font-size:2.2rem;font-weight:700;}
     .hero-section p{opacity:.9;font-size:1.05rem;}
 
     .hero-stats{
       background:rgba(255,255,255,.08);
-      padding:1.3rem;border-radius:10px;margin-top:1.2rem;
+      padding:1.1rem;border-radius:10px;margin-top:1.2rem;
+      font-size:.85rem;
     }
 
     .site-filter-bar{
       margin-top:1.2rem;
       display:flex;
       flex-wrap:wrap;
-      justify-content:center;
+      justify-content:flex-start;
       gap:.4rem;
       font-size:.8rem;
     }
@@ -74,10 +75,54 @@
       font-weight:600;
     }
 
+    /* ========= Carousel ========= */
+    .hero-carousel{
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 8px 24px rgba(0,0,0,.35);
+      background:#111827;
+    }
+    .hero-carousel .carousel-item{
+      min-height:220px;
+      background-size:cover;
+      background-position:center;
+      position:relative;
+      color:#f9fafb;
+    }
+    .hero-carousel .carousel-item::after{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(0,0,0,.75),rgba(15,23,42,.3));
+    }
+    .hero-carousel-content{
+      position:relative;
+      z-index:2;
+      padding:1.75rem 1.75rem 1.5rem;
+    }
+    .hero-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:.35rem;
+      font-size:.75rem;
+      background:rgba(255,255,255,.12);
+      padding:.25rem .7rem;
+      border-radius:999px;
+    }
+    .hero-carousel h5{
+      font-size:1.1rem;
+      margin-top:.6rem;
+      margin-bottom:.4rem;
+    }
+    .hero-carousel p{
+      font-size:.85rem;
+      opacity:.9;
+      margin-bottom:.6rem;
+    }
+
     /* ========= Categories ========= */
     .category-grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
       gap:1rem;margin-top:2rem;
     }
     .category-card{
@@ -85,6 +130,7 @@
       padding:1rem;border:1px solid #e5e7eb;
       box-shadow:0 2px 8px rgba(0,0,0,.05);
       cursor:pointer;transition:.15s;
+      display:flex;flex-direction:column;gap:.25rem;
     }
     .category-card:hover{
       transform:translateY(-3px);
@@ -92,16 +138,19 @@
       border-color:#ff9900;
     }
     .category-icon{
-      background:#ff9900;color:#fff;border-radius:8px;
+      background:#ff9900;color:#fff;border-radius:999px;
       width:40px;height:40px;display:flex;align-items:center;
-      justify-content:center;font-size:1.2rem;margin-bottom:.5rem;
+      justify-content:center;font-size:1.3rem;margin-bottom:.3rem;
     }
+    .category-name{font-weight:600;font-size:.95rem;}
+    .category-desc{color:#6b7280;font-size:.8rem;}
 
     /* ========= Providers List ========= */
     .provider-card{
       background:#fff;border:1px solid #e5e7eb;border-radius:10px;
       padding:1rem;cursor:pointer;transition:.2s;
       box-shadow:0 2px 8px rgba(0,0,0,.05);
+      height:100%;
     }
     .provider-card:hover{
       transform:translateY(-3px);
@@ -134,31 +183,80 @@
 </nav>
 
 <!-- ========= HERO ========= -->
-<section class="hero-section text-center">
+<section class="hero-section">
   <div class="container">
-    <h1>服務商網路平台</h1>
-    <p>依據服務類型與站點，快速找到合適的服務供應商</p>
+    <div class="row g-4 align-items-stretch">
+      <div class="col-lg-6">
+        <h1>服務商網路平台</h1>
+        <p>依據服務類型與目標站點，快速找到適合的專業服務商，支援你在不同市場拓展生意。</p>
 
-    <div class="hero-stats row">
-      <div class="col-6 text-center">
-        <div id="statProviders" class="h2 mb-0">0</div>
-        <small>服務商數量</small>
-      </div>
-      <div class="col-6 text-center">
-        <div id="statTypes" class="h2 mb-0">0</div>
-        <small>服務類型</small>
-      </div>
-    </div>
+        <div class="hero-stats">
+          <div class="row">
+            <div class="col-6 text-center">
+              <div id="statProviders" class="h3 mb-0">0</div>
+              <small>服務商數量</small>
+            </div>
+            <div class="col-6 text-center">
+              <div id="statTypes" class="h3 mb-0">0</div>
+              <small>服務類型</small>
+            </div>
+          </div>
+        </div>
 
-    <!-- 站點選擇 -->
-    <div class="site-filter-bar">
-      <span class="me-1">目標站點：</span>
-      <button class="site-filter active" data-site="">全部</button>
-      <button class="site-filter" data-site="北美站">北美站</button>
-      <button class="site-filter" data-site="歐洲站">歐洲站</button>
-      <button class="site-filter" data-site="日本站">日本站</button>
-      <button class="site-filter" data-site="澳洲/新加坡">澳洲/新加坡</button>
-      <button class="site-filter" data-site="中東站">中東站</button>
+        <!-- 站點選擇 -->
+        <div class="site-filter-bar mt-3">
+          <span class="me-1">目標站點：</span>
+          <button class="site-filter active" data-site="">全部</button>
+          <button class="site-filter" data-site="北美站">北美站</button>
+          <button class="site-filter" data-site="歐洲站">歐洲站</button>
+          <button class="site-filter" data-site="日本站">日本站</button>
+          <button class="site-filter" data-site="澳洲/新加坡">澳洲/新加坡</button>
+          <button class="site-filter" data-site="中東站">中東站</button>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <!-- Banner Carousel -->
+        <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="hero-carousel-content">
+                <div class="hero-badge"><i class="bi bi-rocket-takeoff"></i><span>新手賣家啟動</span></div>
+                <h5>從 0 到 1 建立跨境店鋪</h5>
+                <p>找代營運、顧問與培訓夥伴，協助你完成選品、開店、上架與首波投放。</p>
+                <small>建議服務類型：帳戶註冊、代營運、營運顧問、培訓課程</small>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="hero-carousel-content">
+                <div class="hero-badge"><i class="bi bi-graph-up-arrow"></i><span>成長與優化</span></div>
+                <h5>提升廣告投報與轉換率</h5>
+                <p>透過專業廣告代理、視覺設計、品牌顧問優化店鋪與商品頁，提升營收。</p>
+                <small>建議服務類型：站內廣告、視覺設計、品牌顧問</small>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="hero-carousel-content">
+                <div class="hero-badge"><i class="bi bi-globe2"></i><span>多站點佈局</span></div>
+                <h5>一次規劃多國市場策略</h5>
+                <p>結合稅務、物流與本地化營運服務，協助你拓展至北美、歐洲、日本等市場。</p>
+                <small>建議服務類型：跨境物流、VAT 稅務、當地語言客服</small>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -166,7 +264,8 @@
 <!-- ========= LEVEL 1: Categories ========= -->
 <section id="level1" class="py-4">
   <div class="container">
-    <h3 class="text-center mb-3">選擇服務類型</h3>
+    <h3 class="text-center mb-3">依服務類型尋找合作夥伴</h3>
+    <p class="text-center text-muted" style="font-size:.9rem;">先選擇服務大類，再依子類與站點條件縮小服務商列表。</p>
     <div id="serviceCategories" class="category-grid"></div>
   </div>
 </section>
@@ -206,17 +305,17 @@
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <script>
-/* ========== 全域變數 ========== */
+/* ========= 全域變數 ========= */
 let providers = [];
 let providerMap = {};
 let categories = [];
 let categoryMap = {};
 let currentCategory = null;
 let currentSubType = null;
-let currentSite = null;         // 目前選擇的站點（null = 全部）
-let lastSearchQuery = '';       // 上次搜尋字串
+let currentSite = null;     // 目前站點（null = 全部）
+let lastSearchQuery = "";
 
-/* ========== DOM 參考 ========== */
+/* ========= DOM ========= */
 const level1 = document.getElementById("level1");
 const level2 = document.getElementById("level2");
 const level3 = document.getElementById("level3");
@@ -228,9 +327,7 @@ const level2Title = document.getElementById("level2Title");
 const subTypeNav = document.getElementById("subTypeNav");
 const providerDetail = document.getElementById("providerDetail");
 
-/* ========== 工具 ==========
-   truthyFlag：判斷站點欄位是否為有效值 (Y / 是 / True / 1 都會算)
-================================= */
+/* ========= 小工具 ========= */
 function truthyFlag(v){
   if(v === undefined || v === null) return false;
   const s = String(v).trim().toLowerCase();
@@ -238,14 +335,28 @@ function truthyFlag(v){
   return !["0","n","no","false","未提供","x"].includes(s);
 }
 
-/* 判斷此 provider 是否符合目前站點 */
 function matchesSite(p){
-  if(!currentSite) return true;              // 未選站點 = 不過濾
+  if(!currentSite) return true;
   if(!p.regions || !p.regions.length) return false;
   return p.regions.includes(currentSite);
 }
 
-/* 切換頁面：首頁 */
+/* 類型名稱 → icon class（可依你實際的類別文字再補） */
+function getCategoryIcon(name){
+  if(!name) return "bi-grid-1x2";
+  if(/帳戶|開店|入駐|註冊/.test(name)) return "bi-person-badge";
+  if(/代營運|營運|顧問|策略/.test(name)) return "bi-graph-up-arrow";
+  if(/廣告|投放|站內/.test(name)) return "bi-bullseye";
+  if(/設計|美工|圖片|視覺/.test(name)) return "bi-brush";
+  if(/品牌|行銷|行销|行銷/.test(name)) return "bi-megaphone";
+  if(/物流|倉儲|倉庫|貨運/.test(name)) return "bi-truck";
+  if(/稅務|VAT|會計/.test(name)) return "bi-receipt-cutoff";
+  if(/客服|語言|翻譯/.test(name)) return "bi-chat-dots";
+  if(/培訓|課程|教育/.test(name)) return "bi-mortarboard";
+  return "bi-grid-1x2";
+}
+
+/* ========= 畫面切換 ========= */
 function showLevel1(){
   level1.style.display = "block";
   level2.style.display = "none";
@@ -253,42 +364,31 @@ function showLevel1(){
   currentCategory = null;
 }
 
-/* 切換頁面：服務商列表 */
 function showLevel2(){
   level1.style.display = "none";
   level2.style.display = "block";
   level3.style.display = "none";
 }
 
-/* 切換頁面：詳細資料 */
 function showLevel3(){
   level1.style.display = "none";
   level2.style.display = "none";
   level3.style.display = "block";
 }
 
-/* ============================================
-   變更站點（全域 filter）
-============================================ */
+/* ========= 站點切換 ========= */
 function setSite(site){
   currentSite = site || null;
-
-  // 更新 UI
   document.querySelectorAll(".site-filter").forEach(btn=>{
     const s = btn.getAttribute("data-site") || "";
     btn.classList.toggle("active", s === (site || ""));
   });
 
-  // 依目前頁面與狀態重新渲染
-  if(level3.style.display === "block"){
-    // 詳細頁就先不動（或依需求再調整）
-    return;
-  }
+  if(level3.style.display === "block") return;
 
   if(level2.style.display === "block"){
-    // 在列表頁：可能是分類或搜尋結果
     if(level2Title.textContent.startsWith("搜尋結果：") && lastSearchQuery){
-      runSearch(true);   // true 表示從 setSite 呼叫（但目前沒特別用）
+      runSearch(true);
     }else if(currentCategory){
       if(currentSubType){
         renderProviderList(filterBySubType(currentSubType));
@@ -296,45 +396,33 @@ function setSite(site){
         renderProviderList(filterByCategoryOnly(currentCategory.name));
       }
     }
-  }else{
-    // 在首頁，只需要等使用者做下一步（點分類或搜尋）
-    return;
   }
 }
 
-/* ============================================
-   渲染「分類卡片」(Level 1)
-============================================ */
+/* ========= Level1：分類卡片 ========= */
 function renderCategories(){
   serviceCategories.innerHTML = categories.map(cat => `
     <div class="category-card" data-cat="${cat.name}">
-      <div class="category-icon"><i class="bi bi-layers"></i></div>
-      <div class="fw-bold">${cat.name}</div>
-      <div class="text-muted" style="font-size:.85rem;">
-        ${cat.subTypes.slice(0,3).join("、")}
-      </div>
+      <div class="category-icon"><i class="bi ${getCategoryIcon(cat.name)}"></i></div>
+      <div class="category-name">${cat.name}</div>
+      <div class="category-desc">${cat.subTypes.slice(0,3).join("、")}</div>
     </div>
   `).join("");
 
-  document.querySelectorAll(".category-card").forEach(card => {
-    card.addEventListener("click", () => {
-      goToCategory(card.dataset.cat);
-    });
+  document.querySelectorAll(".category-card").forEach(card=>{
+    card.addEventListener("click",()=>goToCategory(card.dataset.cat));
   });
 }
 
-/* ============================================
-   進入某一大類 (Level 2)
-============================================ */
+/* ========= Level2：進入某一大類 ========= */
 function goToCategory(name){
   currentCategory = categoryMap[name];
   currentSubType = null;
-  lastSearchQuery = '';    // 清除搜尋狀態
+  lastSearchQuery = "";
 
   level2Title.textContent = `${name} 服務商`;
   showLevel2();
 
-  // 生成子類 (subTypes) tabs
   subTypeNav.innerHTML = "";
   if(currentCategory.subTypes.length){
     currentCategory.subTypes.forEach((sub, idx)=>{
@@ -351,20 +439,15 @@ function goToCategory(name){
     });
     currentSubType = currentCategory.subTypes[0];
     renderProviderList(filterBySubType(currentSubType));
-  } else {
+  }else{
     renderProviderList(filterByCategoryOnly(name));
   }
 }
 
-/* 子類過濾 */
 function filterBySubType(sub){
-  return providers.filter(p =>
-    matchesSite(p) &&
-    p.tags.includes(sub)
-  );
+  return providers.filter(p => matchesSite(p) && p.tags.includes(sub));
 }
 
-/* 沒子類時 */
 function filterByCategoryOnly(cat){
   const c = categoryMap[cat];
   if(!c || !c.subTypes.length){
@@ -376,9 +459,7 @@ function filterByCategoryOnly(cat){
   );
 }
 
-/* ============================================
-   渲染「服務商列表」
-============================================ */
+/* ========= Level2：服務商列表 ========= */
 function renderProviderList(list){
   if(!list.length){
     providersList.innerHTML = `<div class="col-12 text-muted">目前無符合條件的服務商。</div>`;
@@ -392,23 +473,17 @@ function renderProviderList(list){
         <p class="text-muted small">
           ${p.description ? (p.description.length>100 ? p.description.slice(0,100)+"…" : p.description) : ""}
         </p>
-        <div>
-          <small class="text-primary">${p.regions.join("、")}</small>
-        </div>
+        <div><small class="text-primary">${p.regions.join("、")}</small></div>
       </div>
     </div>
   `).join("");
 
   document.querySelectorAll(".provider-card").forEach(card=>{
-    card.addEventListener("click",()=>{
-      openProviderDetail(card.dataset.name);
-    });
+    card.addEventListener("click",()=>openProviderDetail(card.dataset.name));
   });
 }
 
-/* ============================================
-   列出詳細資訊 (Level 3)
-============================================ */
+/* ========= Level3：詳細頁 ========= */
 function openProviderDetail(name){
   const p = providerMap[name];
   if(!p) return;
@@ -422,9 +497,7 @@ function openProviderDetail(name){
     <div class="detail-card">
       <h2>${p.name}</h2>
       <p class="text-muted">${p.description || ""}</p>
-
       <hr>
-
       <h5>聯絡資訊</h5>
       <p><strong>聯絡人：</strong>${p.contact || "未提供"}</p>
       <p><strong>電話：</strong>${p.phone || "未提供"}</p>
@@ -447,18 +520,14 @@ function openProviderDetail(name){
   `;
 }
 
-/* ============================================
-   搜尋功能
-============================================ */
+/* ========= 搜尋 ========= */
 function runSearch(fromSiteChange){
   const q = document.getElementById("searchInput").value.trim().toLowerCase();
   lastSearchQuery = q;
-
   if(!q){
     showLevel1();
     return;
   }
-
   showLevel2();
   level2Title.textContent = `搜尋結果：「${q}」`;
   subTypeNav.innerHTML = "";
@@ -472,13 +541,10 @@ function runSearch(fromSiteChange){
     ].join(" ").toLowerCase();
     return hay.includes(q);
   });
-
   renderProviderList(list);
 }
 
-/* ============================================
-   解析 providers.csv（自動偵測欄位名稱）
-============================================ */
+/* ========= 載入 providers.csv ========= */
 function loadProviders(){
   Papa.parse("providers.csv",{
     download:true,
@@ -489,7 +555,6 @@ function loadProviders(){
       if(!rows.length) return;
 
       const headers = Object.keys(rows[0]);
-
       const nameKey  = headers.find(h => /公司名稱|公司|Name/i.test(h)) || headers[0];
       const contactKey = headers.find(h => /聯絡|Contact/i.test(h));
       const phoneKey   = headers.find(h => /電話|Phone/i.test(h));
@@ -542,9 +607,7 @@ function loadProviders(){
   });
 }
 
-/* ============================================
-   解析 hierarchy.csv（服務類型階層）
-============================================ */
+/* ========= 載入 hierarchy.csv ========= */
 function loadHierarchy(){
   Papa.parse("hierarchy.csv",{
     download:true,
@@ -553,7 +616,6 @@ function loadHierarchy(){
     complete:(res)=>{
       const rows = res.data || [];
       const map = new Map();
-
       rows.forEach(r=>{
         const vals = Object.values(r).map(v=>String(v||"").trim());
         const parent = vals[0];
@@ -566,9 +628,7 @@ function loadHierarchy(){
         name:k,
         subTypes:Array.from(map.get(k))
       }));
-
       categories.forEach(c=>categoryMap[c.name] = c);
-
       statTypes.textContent = categories.length;
       renderCategories();
     },
@@ -576,30 +636,21 @@ function loadHierarchy(){
   });
 }
 
-/* ============================================
-   網站初始化
-============================================ */
+/* ========= 初始化 ========= */
 document.addEventListener("DOMContentLoaded",()=>{
+  document.getElementById("searchForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    runSearch(false);
+  });
 
-  // 搜尋
-  document.getElementById("searchForm")
-    .addEventListener("submit",e=>{
-      e.preventDefault();
-      runSearch(false);
-    });
-
-  // 站點按鈕
   document.querySelectorAll(".site-filter").forEach(btn=>{
     btn.addEventListener("click",()=>{
       const site = btn.getAttribute("data-site") || "";
-      setSite(site);   // 更新 currentSite + 重新渲染
+      setSite(site);
     });
   });
 
-  // 初始站點 = 全部（currentSite = null）
-  setSite("");
-
-  // 讀取 CSV
+  setSite("");          // 預設「全部站點」
   loadProviders();
   loadHierarchy();
 });
