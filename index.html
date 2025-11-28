@@ -26,6 +26,35 @@
     .headbar{background:#000;color:#fff;padding:8px 0;}
     .headbar .brand-title{font-weight:700;font-size:1.1rem;}
 
+    .nav-left-group{
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+    }
+    .site-select-wrapper{
+      display:flex;
+      align-items:center;
+      gap:.25rem;
+      font-size:.8rem;
+      color:#e5e7eb;
+    }
+    .site-select-icon{
+      color:#ffd814;
+      font-size:1rem;
+    }
+    .site-select-control{
+      background:#111827;
+      color:#f9fafb;
+      border:1px solid #4b5563;
+      border-radius:999px;
+      padding:.1rem .75rem;
+      font-size:.75rem;
+    }
+    .site-select-control:focus{
+      box-shadow:none;
+      border-color:#ffd814;
+    }
+
     .search-box{
       background:#fff;border-radius:8px;overflow:hidden;
       display:flex;align-items:center;border:1px solid #2b3542;
@@ -50,31 +79,7 @@
       background:rgba(255,255,255,.08);
       padding:1.1rem;border-radius:10px;margin-top:1.2rem;
       font-size:.85rem;
-      /* ✨ 不顯示統計卡片 */
-      display:none;
-    }
-
-    .site-filter-bar{
-      margin-top:1.2rem;
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:flex-start;
-      gap:.4rem;
-      font-size:.8rem;
-    }
-    .site-filter{
-      border-radius:999px;
-      border:1px solid var(--site-pill-border);
-      background:var(--site-pill-bg);
-      color:#f9fafb;
-      padding:.25rem .75rem;
-      cursor:pointer;
-    }
-    .site-filter.active{
-      background:#ffd814;
-      color:#111827;
-      border-color:#ffd814;
-      font-weight:600;
+      display:none; /* 不顯示統計卡片 */
     }
 
     /* ========= Carousel ========= */
@@ -85,7 +90,7 @@
       background:#111827;
     }
     .hero-carousel .carousel-item{
-      min-height:340px; /* ✨ 放大 banner 高度 */
+      min-height:340px; /* 放大 banner 高度 */
       background-size:cover;
       background-position:center;
       position:relative;
@@ -165,13 +170,13 @@
       border:1px solid #e5e7eb;padding:2rem;
       box-shadow:0 3px 12px rgba(0,0,0,.06);
     }
-/* ====== Level 2 子類別選項置中 ====== */
-#subTypeNav {
-  display: flex;
-  justify-content: center !important;
-  width: 100%;
-}
 
+    /* Level 2 子類別選項置中 */
+    #subTypeNav {
+      display:flex;
+      justify-content:center !important;
+      width:100%;
+    }
   </style>
 </head>
 
@@ -180,7 +185,19 @@
 <!-- ========= NAV ========= -->
 <nav class="headbar">
   <div class="container d-flex align-items-center justify-content-between">
-    <div class="brand-title">Service Provider Portal</div>
+    <div class="nav-left-group">
+      <div class="brand-title">Service Provider Portal</div>
+      <div class="site-select-wrapper">
+        <i class="bi bi-geo-alt-fill site-select-icon"></i>
+        <select id="siteSelect" class="form-select form-select-sm site-select-control">
+          <option value="北美站" selected>北美站</option>
+          <option value="歐洲站">歐洲站</option>
+          <option value="日本站">日本站</option>
+          <option value="澳洲/新加坡">澳洲/新加坡</option>
+          <option value="中東站">中東站</option>
+        </select>
+      </div>
+    </div>
 
     <form id="searchForm" class="d-flex" style="max-width:360px;width:100%;">
       <div class="search-box flex-grow-1">
@@ -210,17 +227,6 @@
               <small>服務類型</small>
             </div>
           </div>
-        </div>
-
-        <!-- 站點選擇 -->
-        <div class="site-filter-bar mt-3">
-          <span class="me-1">目標站點：</span>
-<button class="site-filter active" data-site="北美站">北美站</button>
-<button class="site-filter" data-site="歐洲站">歐洲站</button>
-<button class="site-filter" data-site="日本站">日本站</button>
-<button class="site-filter" data-site="澳洲/新加坡">澳洲/新加坡</button>
-<button class="site-filter" data-site="中東站">中東站</button>
-
         </div>
       </div>
 
@@ -258,10 +264,10 @@
               </div>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+          <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide-prev>
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+          <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide-next>
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
           </button>
         </div>
@@ -281,7 +287,6 @@
   </div>
 </section>
 
-
 <!-- ========= LEVEL 2: Provider List ========= -->
 <section id="level2" style="display:none;">
   <div class="container py-4">
@@ -298,7 +303,7 @@
 </section>
 
 <!-- ========= LEVEL 3: Detail Page ========= -->
-<section id="level3" style="display:none%;">
+<section id="level3" style="display:none;">
   <div class="container py-4">
     <button class="btn btn-outline-primary mb-3" onclick="showLevel2()">
       <i class="bi bi-arrow-left"></i> 返回
@@ -324,8 +329,9 @@ let categories = [];
 let categoryMap = {};
 let currentCategory = null;
 let currentSubType = null;
-let currentSite = null;     // 目前站點（null = 全部）
+let currentSite = null;     // 目前站點
 let lastSearchQuery = "";
+let siteSelect = null;
 
 /* ========= DOM ========= */
 const level1 = document.getElementById("level1");
@@ -348,7 +354,7 @@ function truthyFlag(v){
 }
 
 function matchesSite(p){
-  if(!currentSite) return true;
+  if(!currentSite) return true;           // 理論上一定有值，但保險留著
   if(!p.regions || !p.regions.length) return false;
   return p.regions.includes(currentSite);
 }
@@ -391,10 +397,11 @@ function showLevel3(){
 /* ========= 站點切換 ========= */
 function setSite(site){
   currentSite = site || null;
-  document.querySelectorAll(".site-filter").forEach(btn=>{
-    const s = btn.getAttribute("data-site") || "";
-    btn.classList.toggle("active", s === (site || ""));
-  });
+
+  // 同步下拉選單的值
+  if(siteSelect){
+    siteSelect.value = site;
+  }
 
   if(level3.style.display === "block") return;
 
@@ -445,7 +452,7 @@ function goToCategory(name){
         document.querySelectorAll("#subTypeNav .nav-link").forEach(x=>x.classList.remove("active"));
         tab.classList.add("active");
         currentSubType = sub;
-        renderProviderList(filterBySubType(sub));
+        renderProviderList(filterBySubType(currentSubType));
       });
       subTypeNav.appendChild(tab);
     });
@@ -655,14 +662,18 @@ document.addEventListener("DOMContentLoaded",()=>{
     runSearch(false);
   });
 
-  document.querySelectorAll(".site-filter").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      const site = btn.getAttribute("data-site") || "";
+  siteSelect = document.getElementById("siteSelect");
+  if(siteSelect){
+    siteSelect.addEventListener("change",()=>{
+      const site = siteSelect.value;
       setSite(site);
     });
-  });
+    // 預設使用 select 裡的值（北美站）
+    setSite(siteSelect.value || "北美站");
+  }else{
+    setSite("北美站");
+  }
 
-  setSite("");          // 預設「全部站點」
   loadProviders();
   loadHierarchy();
 });
@@ -670,6 +681,3 @@ document.addEventListener("DOMContentLoaded",()=>{
 
 </body>
 </html>
-
-
-
