@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>服務商網路平台 | Service Provider Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root{
+      --amz-navy:#232f3e;--amz-navy-deep:#161e2c;--amz-orange:#ff6100;--amz-orange-hover:#ff7a2e;
+      --amz-orange-light:#fff3eb;--amz-yellow:#ffd814;--amz-teal:#0578ff;--amz-teal-hover:#e8f2ff;
+      --amz-green:#49850f;--amz-green-light:#f2f6e1;--border:#e2e4e7;--bg:#ffffff;--bg-warm:#faf8f5;
+      --bg-card:#ffffff;--bg-section:#f7f7f8;--text-primary:#1a1a2e;--text-secondary:#4a5568;
+      --text-light:#8a919a;--card-shadow:0 2px 8px 0 rgba(22,30,44,.06);
+      --radius-sm:8px;--radius-md:12px;--radius-lg:20px;
+    }
+    *{box-sizing:border-box;}
+    body{background:var(--bg);font-family:'Amazon Ember','Helvetica Neue','PingFang TC','Microsoft JhengHei',Arial,sans-serif;color:var(--text-primary);margin:0;-webkit-font-smoothing:antialiased;}
+
+    /* NAV */
+    .headbar{background:var(--amz-navy-deep);color:#fff;padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(22,30,44,.18);}
+    .headbar-inner{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.5rem 0;min-height:52px;}
+    .brand-logo{display:flex;align-items:center;cursor:pointer;padding:.3rem .6rem;border:none;border-radius:var(--radius-sm);flex-shrink:0;}
+    .brand-logo:hover{opacity:.8;}
+    .brand-logo img{height:26px;}
+    .site-select-wrapper{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:rgba(255,255,255,.7);white-space:nowrap;padding:.3rem .6rem;border:1px solid transparent;border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;}
+    .site-select-wrapper:hover{border-color:rgba(255,255,255,.4);color:#fff;}
+    .site-select-control{background:transparent;color:#fff;border:none;font-size:.8rem;font-weight:700;cursor:pointer;padding:0;}
+    .site-select-control option{background:var(--amz-navy-deep);color:#fff;}
+    .site-select-control:focus{outline:none;}
+    .search-form{flex:1 1 auto;max-width:560px;}
+    .search-box{background:#fff;border-radius:var(--radius-md);overflow:hidden;display:flex;align-items:stretch;border:2px solid var(--amz-orange);height:42px;transition:box-shadow .2s;}
+    .search-box:focus-within{box-shadow:0 0 0 3px rgba(255,97,0,.2);}
+    .search-box input{border:0;padding:0 .85rem;flex:1;min-width:80px;font-size:.88rem;color:var(--text-primary);}
+    .search-box input:focus{outline:none;}
+    .search-box .btn-search{background:var(--amz-orange);color:#fff;border:0;width:48px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;transition:background .15s;}
+    .search-box .btn-search:hover{background:var(--amz-orange-hover);}
+    .nav-right-link{color:rgba(255,255,255,.85);text-decoration:none;font-size:.78rem;padding:.3rem .7rem;border:1px solid transparent;border-radius:var(--radius-sm);display:flex;align-items:center;gap:.4rem;white-space:nowrap;transition:all .15s;}
+    .nav-right-link:hover{border-color:rgba(255,255,255,.4);color:#fff;}
+    @media(max-width:768px){.nav-right-group{display:none!important;}.search-form{max-width:none;}}
+
+    /* HERO */
+    .hero-banner{background:var(--amz-orange);padding:0;position:relative;overflow:hidden;}
+    .hero-banner-inner{max-width:1200px;margin:0 auto;padding:1.5rem 1rem;}
+    .hero-carousel{border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 12px 40px rgba(255,97,0,.15);background:#fff;}
+    .carousel-indicators{margin-bottom:.75rem;}
+    .carousel-indicators [data-bs-target]{width:8px;height:8px;border-radius:999px;opacity:.3;transition:all .3s;}
+    .carousel-indicators .active{background-color:var(--amz-orange);opacity:1;width:24px;}
+    .carousel-control-prev,.carousel-control-next{width:40px;height:40px;top:50%;transform:translateY(-50%);bottom:auto;background:rgba(0,0,0,.45);border-radius:999px;opacity:1;margin:0 .5rem;transition:background .2s;}
+    .carousel-control-prev:hover,.carousel-control-next:hover{background:rgba(0,0,0,.7);}
+    .carousel-control-prev-icon,.carousel-control-next-icon{width:18px;height:18px;filter:brightness(0) invert(1);}
+    @media(max-width:576px){.hero-carousel-content{padding:1.5rem;}}
+
+    /* CATEGORY GRID */
+    .section-sub{color:var(--text-secondary);font-size:.88rem;margin-top:.25rem;}
+    .cat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2rem 1.5rem;margin-top:2rem;padding:0 1rem;}
+    @media(max-width:768px){.cat-grid{grid-template-columns:repeat(3,1fr);gap:1.5rem .75rem;}}
+    @media(max-width:480px){.cat-grid{grid-template-columns:repeat(2,1fr);}}
+    .cat-card{background:none;border:none;padding:1rem .5rem;cursor:pointer;transition:all .25s ease;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.6rem;border-radius:var(--radius-lg);}
+    .cat-card:hover{transform:translateY(-6px);background:var(--bg-card);box-shadow:0 12px 32px rgba(22,30,44,.1);}
+    .cat-card:hover .cat-icon{background:var(--amz-orange);color:#fff;box-shadow:0 8px 24px rgba(255,97,0,.3);transform:scale(1.12);}
+    .cat-card:hover .cat-name{color:var(--amz-orange);}
+    .cat-icon{width:64px;height:64px;border-radius:999px;background:var(--amz-orange-light);color:var(--amz-orange);display:flex;align-items:center;justify-content:center;font-size:1.7rem;transition:all .3s ease;box-shadow:0 3px 12px rgba(255,97,0,.1);}
+    .cat-name{font-weight:700;font-size:1.05rem;margin-top:.2rem;color:var(--text-primary);transition:color .2s;}
+    .cat-desc{color:var(--text-light);font-size:.7rem;line-height:1.4;}
+
+    /* DOMAIN TAB BAR */
+    .domain-bar{background:var(--amz-navy);position:sticky;top:52px;z-index:90;box-shadow:0 2px 8px rgba(22,30,44,.12);}
+    .domain-bar-inner{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;}
+    .domain-bar-inner::-webkit-scrollbar{display:none;}
+    .domain-tab{flex:0 0 auto;padding:.65rem 1.3rem;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.65);cursor:pointer;white-space:nowrap;transition:all .2s;background:none;border:0;border-bottom:2.5px solid transparent;line-height:1.3;}
+    .domain-tab:hover{color:#fff;background:rgba(255,255,255,.05);border-bottom-color:rgba(255,255,255,.25);}
+    .domain-tab.active{color:#fff;background:rgba(255,97,0,.12);border-bottom-color:var(--amz-orange);font-weight:700;}
+
+    /* SUB-TYPE PILLS */
+    #subTypeNav{gap:.4rem;}
+    #subTypeNav .nav-link{font-size:.85rem;border-radius:var(--radius-sm);padding:.5rem .8rem;color:var(--text-secondary);background:var(--bg-card);border:1px solid var(--border);transition:all .2s;font-weight:500;text-align:left;white-space:normal;line-height:1.3;}
+    #subTypeNav .nav-link:hover{border-color:var(--amz-orange);color:var(--amz-orange);background:var(--amz-orange-light);}
+    #subTypeNav .nav-link.active{background:var(--amz-orange);color:#fff;border-color:var(--amz-orange);font-weight:600;box-shadow:0 3px 12px rgba(255,97,0,.25);}
+
+    /* PROVIDER CARDS */
+    .sp-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem;cursor:pointer;transition:all .25s;box-shadow:var(--card-shadow);height:100%;position:relative;overflow:hidden;}
+    .sp-card:hover{box-shadow:0 8px 28px rgba(22,30,44,.12);border-color:var(--amz-orange);transform:translateY(-2px);}
+    .sp-card::after{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--amz-orange);border-radius:var(--radius-md) var(--radius-md) 0 0;opacity:0;transition:opacity .25s;}
+    .sp-card:hover::after{opacity:1;}
+    .sp-card.sp-highlighted{border-left:3px solid #d4a017;background:#fffdf6;}
+    .sp-card.sp-highlighted::after{opacity:0;}
+    .sp-badge{position:absolute;top:.6rem;right:.6rem;background:#d4a017;color:#fff;font-size:.62rem;font-weight:700;padding:.15rem .5rem;border-radius:999px;display:flex;align-items:center;gap:.25rem;}
+    .sp-logo{width:46px;height:46px;border-radius:var(--radius-sm);background:var(--amz-green-light);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--amz-green);font-weight:700;flex-shrink:0;}
+    .sp-name{font-weight:700;font-size:.88rem;color:var(--text-primary);}
+    .sp-intro{font-size:.75rem;color:var(--text-secondary);margin-top:.3rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4;}
+    .sp-tags{font-size:.72rem;color:var(--text-light);margin-top:.25rem;}
+    .sp-sites{font-size:.72rem;color:var(--amz-teal);margin-top:.45rem;font-weight:600;}
+
+    /* DETAIL */
+    .detail-card{background:var(--bg-card);border-radius:var(--radius-md);border:1px solid var(--border);padding:2rem;box-shadow:var(--card-shadow);}
+    .detail-card h3{color:var(--text-primary);}
+    .detail-card h5{color:var(--text-primary);font-size:.95rem;font-weight:700;margin-top:1.5rem;padding-bottom:.5rem;border-bottom:2px solid var(--bg-section);}
+    .detail-card p{font-size:.88rem;color:var(--text-secondary);}
+    .detail-card hr{border-color:var(--bg-section);}
+    .detail-card a{color:var(--amz-teal);text-decoration:none;font-weight:500;}
+    .detail-card a:hover{color:var(--amz-orange);text-decoration:underline;}
+    .svc-section{background:var(--bg-section);border-radius:var(--radius-md);padding:0;margin-top:.75rem;overflow:hidden;border:1px solid var(--border);}
+    .svc-section h6{font-size:.85rem;font-weight:700;color:var(--amz-orange);margin-bottom:.4rem;}
+    .svc-section .svc-sub{font-size:.78rem;color:var(--text-light);margin-bottom:.3rem;}
+    .svc-section .svc-desc{font-size:.84rem;color:var(--text-secondary);line-height:1.6;}
+    .svc-header{background:var(--amz-navy);padding:.75rem 1.2rem;display:flex;align-items:center;gap:.6rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border);min-height:48px;}
+    .svc-header::before{content:"";position:absolute;inset:0;background:url('Tier 1 service image.png') center 40%/cover no-repeat;opacity:.12;}
+    .svc-header-icon{width:32px;height:32px;border-radius:999px;background:rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;position:relative;z-index:1;}
+    .svc-header-title{font-size:1.05rem;font-weight:700;color:#fff;position:relative;z-index:1;}
+    .svc-body{padding:1rem 1.2rem;}
+    .svc-tier1{font-size:.92rem;font-weight:700;color:var(--text-primary);margin-bottom:.3rem;}
+    .svc-tier2{font-size:.88rem;font-weight:600;color:var(--amz-orange);margin-bottom:.5rem;}
+    .svc-icon{width:36px;height:36px;border-radius:999px;background:var(--amz-orange-light);color:var(--amz-orange);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+    .svc-flags{margin-top:.8rem;font-size:1.1rem;letter-spacing:.2rem;}
+    .btn-outline-secondary{border-color:var(--border);color:var(--text-secondary);font-size:.82rem;border-radius:var(--radius-sm);transition:all .2s;}
+    .btn-outline-secondary:hover{background:var(--amz-orange-light);border-color:var(--amz-orange);color:var(--amz-orange);}
+
+    /* FOOTER */
+    .site-footer{background:var(--amz-navy-deep);color:rgba(255,255,255,.5);padding:2.5rem 0 2rem;font-size:.78rem;text-align:center;}
+    .site-footer::before{content:"";display:block;height:5px;background:var(--amz-green);margin-bottom:0;position:relative;top:-2.5rem;}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="headbar">
+  <div class="container headbar-inner">
+    <div class="brand-logo" onclick="goHome()"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" style="filter:brightness(0) invert(1);"></div>
+    <div class="site-select-wrapper">
+      <i class="bi bi-geo-alt-fill" style="font-size:.9rem;color:#fff"></i>
+      <div>
+        <div style="font-size:.68rem;color:#ccc;line-height:1">選擇站點</div>
+        <select id="siteSelect" class="site-select-control">
+          <option value="all">全部站點</option>
+          <option value="北美站" selected>北美站</option>
+          <option value="歐洲站">歐洲站</option>
+          <option value="日本站">日本站</option>
+          <option value="澳洲站">澳洲站</option>
+          <option value="中東站">中東站</option>
+        </select>
+      </div>
+    </div>
+    <form id="searchForm" class="d-flex search-form">
+      <div class="search-box flex-grow-1">
+        <input id="searchInput" type="search" placeholder="搜尋服務商名稱、服務類型…" />
+        <button class="btn-search" type="submit"><i class="bi bi-search"></i></button>
+      </div>
+    </form>
+    <div class="nav-right-group d-flex align-items-center gap-2">
+      <a href="https://m.media-amazon.com/images/G/28/TWGS/RD/SP_Recruitment.jpg" target="_blank" class="nav-right-link"><i class="bi bi-info-circle"></i> 了解如何成為服務商</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO BANNER -->
+<section class="hero-banner">
+  <div class="hero-banner-inner">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
+      </div>
+      <div class="carousel-inner" style="border-radius:var(--radius-lg);overflow:hidden;">
+        <div class="carousel-item active"><img src="Banner/Banner1.png" class="d-block w-100" alt="Banner 1" style="max-height:250px;object-fit:cover;"></div>
+        <div class="carousel-item"><img src="Banner/Banner 2.png" class="d-block w-100" alt="Banner 2" style="max-height:250px;object-fit:cover;"></div>
+        <div class="carousel-item"><img src="Banner/Banner 3.png" class="d-block w-100" alt="Banner 3" style="max-height:250px;object-fit:cover;"></div>
+        <div class="carousel-item"><img src="Banner/Banner 4.png" class="d-block w-100" alt="Banner 4" style="max-height:250px;object-fit:cover;"></div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+    </div>
+  </div>
+</section>
+
+<!-- LEVEL 1: Service Domains -->
+<section id="level1" class="py-3" style="background:var(--bg-warm)">
+  <div class="container">
+    <div class="text-center mb-2"><div class="section-sub">選擇服務大類，瀏覽子類別與服務商</div></div>
+    <div id="catGrid" class="cat-grid"></div>
+  </div>
+</section>
+
+<!-- LEVEL 2: Domain bar + Sub-types + Provider list -->
+<section id="level2" style="display:none">
+  <div class="domain-bar"><div class="container"><div id="domainBar" class="domain-bar-inner"></div></div></div>
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-12 col-md-3 mb-3" style="min-width:180px;">
+        <nav id="subTypeNav" class="nav flex-column gap-1 position-sticky" style="top:110px;"></nav>
+      </div>
+      <div class="col">
+        <div id="spList" class="row g-3"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEVEL 3: Provider detail -->
+<section id="level3" style="display:none">
+  <div class="domain-bar"><div class="container"><div id="domainBar3" class="domain-bar-inner"></div></div></div>
+  <div class="container py-4">
+    <button class="btn btn-outline-secondary mb-3" style="font-size:1rem;padding:.5rem 1.2rem;font-weight:600;" onclick="backToL2()"><i class="bi bi-arrow-left-circle-fill me-2" style="font-size:1.2rem;"></i>返回列表</button>
+    <div id="spDetail"></div>
+  </div>
+</section>
+
+<footer class="site-footer">© 2025 Service Provider Portal &nbsp;|&nbsp; 內部使用</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+/* ===== State ===== */
+let providers=[], providerMap={}, categories=[], categoryMap={};
+let curCat=null, curSub=null, curSite=null;
+const $=id=>document.getElementById(id);
+const level1=$("level1"), level2=$("level2"), level3=$("level3");
+
+/* ===== Helpers ===== */
+function matchSite(p){
+  if(!curSite||curSite==="all") return true;
+  return p.regions && p.regions.includes(curSite);
+}
+function initials(n){ return n.replace(/[\(（].*?[\)）]/g,"").trim().slice(0,2); }
+function fmt(text){
+  if(!text) return "";
+  // Convert newlines to <br>
+  let s = text.replace(/\n/g,"<br>");
+  // Auto-link URLs
+  s = s.replace(/(https?:\/\/[^\s<,，、）)]+)/g,'<a href="$1" target="_blank" style="color:inherit;text-decoration:underline;">$1</a>');
+  return s;
+}
+function logoHTML(p, size){
+  size = size || 46;
+  if(p.logoId){
+    return `<img src="https://drive.google.com/thumbnail?id=${p.logoId}&sz=w${size*2}" alt="${p.name}" style="width:${size}px;height:${size}px;border-radius:var(--radius-sm);object-fit:contain;background:#fff;">`;
+  }
+  return `<div class="sp-logo" style="width:${size}px;height:${size}px">${initials(p.name)}</div>`;
+}
+function renderRoutes(p){
+  if(!p.routes) return "";
+  const countries=Object.keys(p.routes);
+  if(!countries.length) return "";
+  const modes=["快遞","海運","空運"];
+  const flagImg={"美國":"flags/US.png","歐洲":"flags/EU.png","日本":"flags/JP.png","澳洲":"flags/AU.png","沙烏地阿拉伯":"flags/沙烏地阿拉伯.png","阿聯":"flags/阿聯囚.avif"};
+  let html=`<div class="routes-table mt-3 mb-2"><h5 style="font-size:.95rem;font-weight:700;color:var(--text-primary);margin-bottom:.5rem;padding-bottom:.5rem;border-bottom:2px solid var(--bg-section);"><i class="bi bi-signpost-2 me-2"></i>頭程物流服務</h5>`;
+  html+=`<table style="border-collapse:collapse;font-size:.8rem;"><thead><tr><th style="padding:.4rem .6rem;border-bottom:2px solid var(--border);text-align:left;color:var(--text-light);"></th>`;
+  countries.forEach(c=>{
+    const flag=flagImg[c]?`<img src="${flagImg[c]}" style="height:14px;vertical-align:middle;margin-right:3px;">`:"";
+    html+=`<th style="padding:.4rem .6rem;border-bottom:2px solid var(--border);text-align:center;color:var(--text-secondary);font-weight:600;">${flag}${c}</th>`;
+  });
+  html+=`</tr></thead><tbody>`;
+  modes.forEach(mode=>{
+    html+=`<tr>`;
+    html+=`<td style="padding:.35rem .6rem;border-bottom:1px solid var(--bg-section);font-weight:600;color:var(--text-primary);">${mode}</td>`;
+    countries.forEach(c=>{
+      const has=p.routes[c]&&p.routes[c].includes(mode);
+      html+=`<td style="padding:.35rem .6rem;border-bottom:1px solid var(--bg-section);text-align:center;">${has?'<i class="bi bi-check-circle-fill" style="color:var(--amz-green);"></i>':'<span style="color:var(--border);">—</span>'}</td>`;
+    });
+    html+=`</tr>`;
+  });
+  html+=`</tbody></table></div>`;
+  return html;
+}
+function icon(n){
+  if(!n) return "bi-grid-1x2";
+  if(/產品展示|品牌策略|拍攝|圖片|設計/.test(n)) return "bi-camera";
+  if(/帳戶營運|代營運|營運協助|顧問/.test(n)) return "bi-graph-up-arrow";
+  if(/廣告|營銷|KOL|推廣/.test(n)) return "bi-megaphone";
+  if(/合規|稅務|VAT/.test(n)) return "bi-receipt-cutoff";
+  if(/物流|FBA|SEND|自發貨/.test(n)) return "bi-truck";
+  if(/海外倉|倉儲|退貨|一件代發/.test(n)) return "bi-box-seam";
+  if(/金融|金流|財務|收款/.test(n)) return "bi-bank";
+  if(/AI|工具|選品|第三方營運/.test(n)) return "bi-cpu";
+  if(/商標|智慧財產/.test(n)) return "bi-shield-check";
+  if(/條碼|保險/i.test(n)) return "bi-upc-scan";
+  return "bi-grid-1x2";
+}
+
+/* ===== Navigation ===== */
+function goHome(){
+  level1.style.display="block"; level2.style.display="none"; level3.style.display="none";
+  document.querySelector(".hero-banner").style.display="";
+  curCat=null; curSub=null; $("searchInput").value="";
+}
+function showL2(){ level1.style.display="none"; level2.style.display="block"; level3.style.display="none"; document.querySelector(".hero-banner").style.display="none"; }
+function showL3(){ level1.style.display="none"; level2.style.display="none"; level3.style.display="block"; document.querySelector(".hero-banner").style.display="none"; window.scrollTo(0,0); }
+function backToL2(){ showL2(); renderDomainBar(); }
+
+/* ===== Level 1: Render domain cards ===== */
+function renderL1(){
+  $("catGrid").innerHTML = categories.map(c=>`
+    <div class="cat-card" data-cat="${c.name}">
+      <div class="cat-icon"><i class="bi ${icon(c.name)}"></i></div>
+      <div class="cat-name">${c.name}</div>
+      <div class="cat-desc">${c.subTypes.length ? c.subTypes.join("、") : "點擊查看服務商"}</div>
+    </div>`).join("");
+  $("catGrid").querySelectorAll(".cat-card").forEach(el=>{
+    el.addEventListener("click",()=>openCategory(el.dataset.cat));
+  });
+}
+
+/* ===== Level 2: Domain bar + providers ===== */
+function renderDomainBar(){
+  ["domainBar","domainBar3"].forEach(id=>{
+    const bar=$(id); if(!bar) return;
+    bar.innerHTML=categories.map(c=>
+      `<button class="domain-tab${curCat&&curCat.name===c.name?" active":""}" data-cat="${c.name}">${c.name}</button>`
+    ).join("");
+    bar.querySelectorAll(".domain-tab").forEach(tab=>{
+      tab.addEventListener("click",()=>openCategory(tab.dataset.cat));
+    });
+    const active=bar.querySelector(".domain-tab.active");
+    if(active) active.scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});
+  });
+}
+
+function openCategory(name){
+  curCat=categoryMap[name]; curSub=null;
+  showL2(); renderDomainBar(); renderSubNav();
+  renderSPList(providersForCat(curCat));
+}
+
+function renderSubNav(){
+  const nav=$("subTypeNav"); nav.innerHTML="";
+  if(!curCat.subTypes.length) return;
+  const mkBtn=(label,active)=>{const b=document.createElement("button");b.className="nav-link"+(active?" active":"");b.textContent=label;return b;};
+  const allBtn=mkBtn("全部",true);
+  allBtn.addEventListener("click",()=>{
+    nav.querySelectorAll(".nav-link").forEach(x=>x.classList.remove("active"));
+    allBtn.classList.add("active"); curSub=null;
+    renderSPList(providersForCat(curCat));
+  });
+  nav.appendChild(allBtn);
+  curCat.subTypes.forEach(sub=>{
+    const btn=mkBtn(sub,false);
+    btn.addEventListener("click",()=>{
+      nav.querySelectorAll(".nav-link").forEach(x=>x.classList.remove("active"));
+      btn.classList.add("active"); curSub=sub;
+      renderSPList(providers.filter(p=>matchSite(p)&&providerMatchesSub(p,sub)));
+    });
+    nav.appendChild(btn);
+  });
+}
+
+/* ===== Provider matching logic ===== */
+function providerMatchesCat(p, cat){
+  // Check if provider's tags match this category
+  if(p.tags.includes(cat.name)) return true;
+  // Check if provider's svc keys match
+  if(p.svc && p.svc[cat.name]) return true;
+  // Check if any sub-type matches
+  for(const sub of cat.subTypes){
+    if(providerMatchesSub(p, sub)) return true;
+  }
+  return false;
+}
+
+function providerMatchesSub(p, sub){
+  // Check in svc sub fields - use substring matching for flexibility
+  if(p.svc){
+    for(const key in p.svc){
+      if(p.svc[key].sub){
+        // Check if sub is contained in the svc sub string, or any part of sub matches
+        if(p.svc[key].sub.includes(sub)) return true;
+        // Also check if the sub-type words are found (e.g. "營運顧問以及第三方培訓課程" matches "營運顧問以及, 第三方培訓課程")
+        const subParts = sub.replace(/以及/g,"以及,").split(/[,、，]\s*/);
+        const svcParts = p.svc[key].sub.split(/[,、，]\s*/);
+        for(const sp of subParts){
+          if(sp && svcParts.some(sv=>sv.includes(sp)||sp.includes(sv))) return true;
+        }
+      }
+    }
+  }
+  // Check tags
+  if(p.tags.includes(sub)) return true;
+  return false;
+}
+
+function providersForCat(cat){
+  return providers.filter(p=>matchSite(p)&&providerMatchesCat(p,cat));
+}
+
+function renderSPList(list){
+  const el=$("spList");
+  if(!list.length){ el.innerHTML=`<div class="col-12 text-muted text-center py-4">目前無符合條件的服務商。</div>`; return; }
+  const HIGHLIGHT_THRESHOLD=85;
+  const cardHTML=(p)=>{
+    const isHL=p.score>=HIGHLIGHT_THRESHOLD;
+    const introSnippet=p.intro?`<div class="sp-intro">${p.intro}</div>`:"";
+    return `
+    <div class="col-12 col-md-6">
+      <div class="sp-card${isHL?" sp-highlighted":""}" data-name="${p.name}">
+        ${isHL?'<div class="sp-badge">\u2B50 優質服務商</div>':""}
+        <div class="d-flex align-items-start gap-3 mb-2">
+          ${logoHTML(p, 52)}
+          <div style="min-width:0">
+            <div class="sp-name" style="font-size:1rem">${p.name}</div>
+            <div class="sp-tags" style="font-size:.78rem">${p.tags.join("、")}</div>
+          </div>
+        </div>
+        ${introSnippet}
+        <div class="sp-sites">${p.regions.join(" · ")}</div>
+      </div>
+    </div>`;
+  };
+  el.innerHTML=list.map(p=>cardHTML(p)).join("");
+  el.querySelectorAll(".sp-card").forEach(c=>{
+    c.addEventListener("click",()=>openDetail(c.dataset.name));
+  });
+}
+
+/* ===== Level 3: Provider detail ===== */
+function openDetail(name){
+  const p=providerMap[name]; if(!p) return;
+  showL3(); renderDomainBar();
+  const isHL=p.score>=85;
+  const hlBadge=isHL?`<span class="sp-badge" style="position:static;display:inline-flex;margin-left:.5rem;vertical-align:middle;">\u2B50 優質服務商</span>`:"";
+
+  // Build service sections - prioritize current category
+  let svcHTML="";
+  if(p.svc && Object.keys(p.svc).length){
+    svcHTML=`<h5 class="mt-4"><i class="bi bi-briefcase me-2"></i>服務內容</h5><div class="row g-3">`;
+    // Sort keys: current category first
+    const svcKeys = Object.keys(p.svc);
+    if(curCat && svcKeys.includes(curCat.name)){
+      svcKeys.splice(svcKeys.indexOf(curCat.name), 1);
+      svcKeys.unshift(curCat.name);
+    }
+    for(const cat of svcKeys){
+      const d=p.svc[cat];
+      const flagMap={"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"};
+      const flags=p.regions.map(r=>flagMap[r]?`<img src="${flagMap[r]}" alt="${r}" style="height:16px;vertical-align:middle;">`:"").filter(Boolean).join(" ");
+      const catIcon=icon(cat);
+      svcHTML+=`<div class="col-12 col-md-6"><div class="svc-section h-100">
+        <div class="svc-header">
+          <div class="svc-header-icon"><i class="bi ${catIcon}"></i></div>
+          <div class="svc-header-title">${cat}</div>
+        </div>
+        <div class="svc-body">
+          ${d.sub?`<div class="svc-tier2"><span style="color:var(--text-secondary);font-weight:400;font-size:.84rem">提供的服務：</span>${d.sub}</div>`:""}
+          ${d.desc?`<div class="svc-desc">${fmt(d.desc)}</div>`:""}
+          <div class="svc-flags">${flags}</div>
+        </div>
+      </div></div>`;
+    }
+    svcHTML+=`</div>`;
+  }
+
+  $("spDetail").innerHTML=`
+    <div class="detail-card${isHL?" sp-highlighted":""}">
+      <div class="d-flex align-items-start gap-3 mb-3">
+        ${logoHTML(p, 72)}
+        <div>
+          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}</h3>
+          <div style="color:var(--amz-orange);font-size:.85rem">${p.regions.join(" · ")} ${p.regions.map(r=>({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]?`<img src="${({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]}" style="height:14px;vertical-align:middle;margin-left:2px;">`:"").filter(Boolean).join("")}</div>
+          <div style="font-size:.82rem;color:var(--text-light);margin-top:.3rem">提供的服務：${p.tags.join("、")}</div>
+        </div>
+      </div>
+      ${p.intro?`<p class="mb-2" style="font-size:.88rem;color:var(--text-secondary);line-height:1.6">${fmt(p.intro)}</p>`:""}
+      <hr>
+      <h5><i class="bi bi-person-lines-fill me-2"></i>聯絡資訊</h5>
+      <div class="d-flex align-items-start gap-4">
+        <div class="flex-grow-1">
+          ${p.contact&&p.contact!=="未提供"?`<p class="mb-1"><i class="bi bi-person me-2"></i>${p.contact}</p>`:""}
+          ${p.phone&&p.phone!=="未提供"?`<p class="mb-1"><i class="bi bi-telephone me-2"></i>${p.phone}</p>`:""}
+          ${p.email&&p.email!=="未提供"?`<p class="mb-1"><i class="bi bi-envelope me-2"></i><a href="mailto:${p.email}" style="color:inherit;text-decoration:underline;">${p.email}</a></p>`:""}
+          ${p.lineId?`<p class="mb-1"><i class="bi bi-chat-dots me-2"></i>${p.lineId}</p>`:""}
+          ${p.website?`<p class="mb-1"><i class="bi bi-globe me-2"></i><a href="${p.website.startsWith("http")?p.website:"https://"+p.website}" target="_blank" style="color:inherit;text-decoration:underline;">${p.website}</a></p>`:""}
+        </div>
+        ${p.qrId?`<div class="text-center"><img src="https://drive.google.com/thumbnail?id=${p.qrId}&sz=w240" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:""}
+      </div>
+      ${p.routes?renderRoutes(p):""}
+      ${svcHTML}
+    </div>`;
+}
+
+/* ===== Search ===== */
+function runSearch(){
+  const q=$("searchInput").value.trim().toLowerCase();
+  if(!q){ goHome(); return; }
+  curCat=null; curSub=null;
+  $("subTypeNav").innerHTML="";
+  showL2(); renderDomainBar();
+  const list=providers.filter(p=>{
+    if(!matchSite(p)) return false;
+    const haystack=[p.name,p.tags.join(" "),p.intro||"",Object.keys(p.svc||{}).join(" "),Object.values(p.svc||{}).map(s=>s.desc||"").join(" ")].join(" ").toLowerCase();
+    return haystack.includes(q);
+  });
+  renderSPList(list);
+}
+
+/* ===== Site change ===== */
+function setSite(s){
+  curSite=s||null;
+  if(level2.style.display==="block"){
+    if(curCat){
+      if(curSub) renderSPList(providers.filter(p=>matchSite(p)&&providerMatchesSub(p,curSub)));
+      else renderSPList(providersForCat(curCat));
+    } else { runSearch(); }
+  }
+}
+
+/* ===== Hierarchy Data loaded from prov_data.js ===== */
+</script>
+
+<script src="prov_data.js"></script>
+<script>
+/* ===== Boot ===== */
+function boot(){
+  HIER.forEach(r=>{
+    const d=r[0], s=r.slice(1).filter(Boolean);
+    categories.push({name:d,subTypes:s});
+  });
+  categories.forEach(c=>categoryMap[c.name]=c);
+
+  providers=PROV.map(r=>({
+    name:r.n, contact:r.c||"", phone:r.p||"", email:r.e||"",
+    lineId:r.l||"", intro:r.intro||"", tags:r.t||[], svc:r.svc||{},
+    regions:r.r||[], website:r.w||"", score:r.score||0,
+    logoId:r.logoId||"", qrId:r.qrId||"", routes:r.routes||null
+  }));
+  providers.sort((a,b)=>b.score-a.score);
+  providers.forEach(p=>providerMap[p.name]=p);
+
+  renderL1();
+  $("searchForm").addEventListener("submit",e=>{ e.preventDefault(); runSearch(); });
+  const sel=$("siteSelect");
+  sel.addEventListener("change",()=>{ curSite=sel.value; setSite(curSite); });
+  curSite=sel.value;
+}
+document.addEventListener("DOMContentLoaded",boot);
+</script>
+</body>
+</html>
