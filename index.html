@@ -398,7 +398,7 @@ function renderSPList(list){
           ${logoHTML(p, 52)}
           <div style="min-width:0">
             <div class="sp-name" style="font-size:1rem">${p.name}</div>
-            <div class="sp-tags" style="font-size:.78rem">${p.tags.join("、")}</div>
+            <div class="sp-tags" style="font-size:.78rem">${curCat&&p.svc&&p.svc[curCat.name]&&p.svc[curCat.name].sub?p.svc[curCat.name].sub:p.tags.join("、")}</div>
           </div>
         </div>
         ${introSnippet}
