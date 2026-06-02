@@ -244,7 +244,7 @@ function renderRoutes(p){
   const countries=Object.keys(p.routes);
   if(!countries.length) return "";
   const modes=["快遞","海運","空運"];
-  const flagImg={"美國":"flags/US.png","歐洲":"flags/EU.png","日本":"flags/JP.png","澳洲":"flags/AU.png","沙烏地阿拉伯":"flags/沙烏地阿拉伯.png","阿聯":"flags/阿聯囚.avif"};
+  const flagImg={"美國":"flags/US.png","歐洲":"flags/EU.png","日本":"flags/JP.png","澳洲":"flags/AU.png","沙烏地阿拉伯":"flags/沙烏地阿拉伯.png","阿聯酋":"flags/阿聯酋.avif"};
   let html=`<div class="routes-table mt-3 mb-2"><h5 style="font-size:.95rem;font-weight:700;color:var(--text-primary);margin-bottom:.5rem;padding-bottom:.5rem;border-bottom:2px solid var(--bg-section);"><i class="bi bi-signpost-2 me-2"></i>頭程物流服務</h5>`;
   html+=`<table style="border-collapse:collapse;font-size:.8rem;"><thead><tr><th style="padding:.4rem .6rem;border-bottom:2px solid var(--border);text-align:left;color:var(--text-light);"></th>`;
   countries.forEach(c=>{
@@ -432,7 +432,7 @@ function openDetail(name){
     for(const cat of svcKeys){
       const d=p.svc[cat];
       const flagMap={"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"};
-      const flags=p.regions.map(r=>flagMap[r]?`<img src="${flagMap[r]}" alt="${r}" style="height:16px;vertical-align:middle;">`:"").filter(Boolean).join(" ");
+      const flags=p.regions.map(r=>flagMap[r]?`<img src="${flagMap[r]}" alt="${r}" title="${r}" style="height:16px;vertical-align:middle;cursor:help;">`:"").filter(Boolean).join(" ");
       const catIcon=icon(cat);
       svcHTML+=`<div class="col-12 col-md-6"><div class="svc-section h-100">
         <div class="svc-header">
@@ -455,7 +455,7 @@ function openDetail(name){
         ${logoHTML(p, 72)}
         <div>
           <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}</h3>
-          <div style="color:var(--amz-orange);font-size:.85rem">${p.regions.join(" · ")} ${p.regions.map(r=>({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]?`<img src="${({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]}" style="height:14px;vertical-align:middle;margin-left:2px;">`:"").filter(Boolean).join("")}</div>
+          <div style="color:var(--amz-orange);font-size:.85rem">${p.regions.join(" · ")} ${p.regions.map(r=>({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]?`<img src="${({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]}" title="${r}" style="height:14px;vertical-align:middle;margin-left:2px;cursor:help;">`:"").filter(Boolean).join("")}</div>
           <div style="font-size:.82rem;color:var(--text-light);margin-top:.3rem">提供的服務：${p.tags.join("、")}</div>
         </div>
       </div>
@@ -474,6 +474,7 @@ function openDetail(name){
       </div>
       ${p.routes?renderRoutes(p):""}
       ${svcHTML}
+      <div class="mt-4"><button class="btn btn-outline-secondary" style="font-size:1rem;padding:.5rem 1.2rem;font-weight:600;" onclick="backToL2()"><i class="bi bi-arrow-left-circle-fill me-2" style="font-size:1.2rem;"></i>返回列表</button></div>
     </div>`;
 }
 

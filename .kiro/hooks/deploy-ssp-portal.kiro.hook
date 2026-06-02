@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "Deploy SSP Portal to GitHub",
+  "description": "When index.html or prov_data.js are saved, automatically commit and push changes to the GitHub Pages repo (https://twgsrd.github.io/SSP-Portal/).",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "*.html",
+      "*.js"
+    ]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "cd \"c:\\Users\\sanniel\\Desktop\\SSP portal\\202606 working\" && git add index.html prov_data.js && git commit -m \"Update SSP Portal\" && git push origin main"
+  },
+  "workspaceFolderName": "202606 working",
+  "shortName": "deploy-ssp-portal"
+}
