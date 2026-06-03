@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Update SSP Portal",
+  "description": "When triggered, reads the Google Sheet (ID: 10Fju7Z0fI9-J9Y6l6ZM0mBOmL6ZfrUdNYD7WZ4hQiKM) via rebuild_data.py to check SSP service info, scores, and awards, then updates prov_data.js and index.html accordingly.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Run 'python rebuild_data.py' in the workspace directory to regenerate prov_data.js from the Google Sheet. After that, review and update index.html if any structural changes are needed to reflect the latest data (new categories, layout tweaks, etc.). Report what changed."
+  }
+}

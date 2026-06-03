@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>聯繫我們 | 服務商網路平台</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root{
+      --amz-navy:#232f3e;--amz-navy-deep:#161e2c;--amz-orange:#ff6100;--amz-orange-hover:#ff7a2e;
+      --amz-orange-light:#fff3eb;--amz-green:#49850f;--border:#e2e4e7;--bg:#ffffff;
+      --bg-card:#ffffff;--text-primary:#1a1a2e;--text-secondary:#4a5568;--text-light:#8a919a;
+      --card-shadow:0 2px 8px 0 rgba(22,30,44,.06);
+      --radius-sm:8px;--radius-md:12px;--radius-lg:20px;
+    }
+    *{box-sizing:border-box;}
+    body{background:var(--bg);font-family:'Amazon Ember','Helvetica Neue','PingFang TC','Microsoft JhengHei',Arial,sans-serif;color:var(--text-primary);margin:0;-webkit-font-smoothing:antialiased;}
+    .headbar{background:var(--amz-navy-deep);color:#fff;padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(22,30,44,.18);}
+    .headbar-inner{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.5rem 0;min-height:52px;}
+    .brand-logo{display:flex;align-items:center;cursor:pointer;padding:.3rem .6rem;border:none;border-radius:var(--radius-sm);flex-shrink:0;text-decoration:none;}
+    .brand-logo:hover{opacity:.8;}
+    .brand-logo img{height:26px;}
+    .contact-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:2.5rem;max-width:600px;margin:0 auto;box-shadow:var(--card-shadow);}
+    .contact-card h2{color:var(--text-primary);font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;}
+    .contact-item{background:var(--amz-orange-light);border-radius:var(--radius-sm);padding:1.2rem 1.5rem;margin-bottom:1rem;}
+    .contact-item h5{color:var(--amz-orange);font-size:1rem;font-weight:700;margin-bottom:.5rem;}
+    .contact-item p{color:var(--text-secondary);font-size:.9rem;margin:0;}
+    .contact-item a{color:var(--amz-orange);font-weight:600;text-decoration:none;}
+    .contact-item a:hover{text-decoration:underline;}
+    .site-footer{background:var(--amz-navy-deep);color:rgba(255,255,255,.5);padding:2.5rem 0 2rem;font-size:.78rem;text-align:center;}
+    .site-footer::before{content:"";display:block;height:5px;background:var(--amz-green);margin-bottom:0;position:relative;top:-2.5rem;}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="headbar">
+  <div class="container headbar-inner">
+    <a class="brand-logo" href="index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" style="filter:brightness(0) invert(1);"></a>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<section class="py-5">
+  <div class="container">
+    <div class="contact-card">
+      <h2><i class="bi bi-headset me-2"></i>聯繫我們</h2>
+      <div class="contact-item">
+        <h5><i class="bi bi-chat-left-text me-2"></i>意見建議以及投訴舉報</h5>
+        <p>如您有任何意見、建議或投訴舉報，歡迎透過以下信箱與我們聯繫：</p>
+        <p class="mt-2" style="font-size:1rem;"><i class="bi bi-envelope-fill me-2"></i><a href="mailto:tw-rd@amazon.com">tw-rd@amazon.com</a></p>
+      </div>
+      <div class="text-center mt-4">
+        <a href="index.html" class="btn" style="background:var(--amz-orange);color:#fff;border-radius:var(--radius-sm);padding:.5rem 1.5rem;font-weight:600;text-decoration:none;"><i class="bi bi-arrow-left me-2"></i>返回首頁</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div>© 2026 亞馬遜台灣第三方服務商網絡指南</div>
+</footer>
+
+</body>
+</html>

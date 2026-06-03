@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "Sync Banners to HTML",
+  "description": "When a new image file is created in the Banner folder, prompt the agent to update index.html carousel to include all current banners.",
+  "version": "1",
+  "when": {
+    "type": "fileCreated",
+    "patterns": [
+      "Banner/*.png",
+      "Banner/*.jpg",
+      "Banner/*.webp",
+      "Banner/*.avif"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A new banner image was added to the Banner folder. Read the Banner directory to get all current banner files, then update the carousel in index.html to include all banners (update carousel-item divs and carousel-indicators to match the number of banners). Maintain the existing link on Banner 1 that navigates to Amazon SEND. Keep the same styling (max-height:250px;object-fit:cover)."
+  }
+}

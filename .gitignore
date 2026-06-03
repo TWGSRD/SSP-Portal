@@ -1,0 +1,6 @@
+# Service account credentials
+ssp-portal-498304-5fdafd7e8df8.json
+*.keys.json
+
+# Temp Office files
+~$*
