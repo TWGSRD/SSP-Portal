@@ -368,7 +368,7 @@ function providerMatchesSub(p, sub){
       const subParts = sub.replace(/以及/g,"以及,").split(/[,、，]\s*/);
       const svcParts = catSvc.sub.split(/[,、，]\s*/);
       for(const sp of subParts){
-        if(sp && svcParts.some(sv=>sv.includes(sp)||sp.includes(sv))) return true;
+        if(sp && svcParts.some(sv=>sv.includes(sp))) return true;
       }
     }
   }
