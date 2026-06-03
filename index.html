@@ -89,6 +89,7 @@
     .sp-badge{position:absolute;top:.6rem;right:.6rem;background:#d4a017;color:#fff;font-size:.62rem;font-weight:700;padding:.15rem .5rem;border-radius:999px;display:flex;align-items:center;gap:.25rem;}
     .sp-logo{width:46px;height:46px;border-radius:var(--radius-sm);background:var(--amz-green-light);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--amz-green);font-weight:700;flex-shrink:0;}
     .sp-name{font-weight:700;font-size:.88rem;color:var(--text-primary);}
+    .sp-award-tag{display:inline-block;background:linear-gradient(135deg,#ffd700,#ffaa00);color:#7a4800;font-size:.62rem;font-weight:700;padding:.15rem .5rem;border-radius:999px;vertical-align:middle;margin-left:.3rem;white-space:nowrap;}
     .sp-intro{font-size:.75rem;color:var(--text-secondary);margin-top:.3rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4;}
     .sp-tags{font-size:.72rem;color:var(--text-light);margin-top:.25rem;}
     .sp-sites{font-size:.72rem;color:var(--amz-teal);margin-top:.45rem;font-weight:600;}
@@ -359,18 +360,23 @@ function providerMatchesCat(p, cat){
 }
 
 function providerMatchesSub(p, sub){
-  // Check in svc sub fields - use substring matching for flexibility
-  if(p.svc){
+  // Check in svc sub fields - only match within the current category's svc
+  if(p.svc && curCat){
+    const catSvc = p.svc[curCat.name];
+    if(catSvc && catSvc.sub){
+      if(catSvc.sub.includes(sub)) return true;
+      const subParts = sub.replace(/以及/g,"以及,").split(/[,、，]\s*/);
+      const svcParts = catSvc.sub.split(/[,、，]\s*/);
+      for(const sp of subParts){
+        if(sp && svcParts.some(sv=>sv.includes(sp)||sp.includes(sv))) return true;
+      }
+    }
+  }
+  // Fallback: check all svc keys if no curCat
+  if(p.svc && !curCat){
     for(const key in p.svc){
       if(p.svc[key].sub){
-        // Check if sub is contained in the svc sub string, or any part of sub matches
         if(p.svc[key].sub.includes(sub)) return true;
-        // Also check if the sub-type words are found (e.g. "營運顧問以及第三方培訓課程" matches "營運顧問以及, 第三方培訓課程")
-        const subParts = sub.replace(/以及/g,"以及,").split(/[,、，]\s*/);
-        const svcParts = p.svc[key].sub.split(/[,、，]\s*/);
-        for(const sp of subParts){
-          if(sp && svcParts.some(sv=>sv.includes(sp)||sp.includes(sv))) return true;
-        }
       }
     }
   }
@@ -397,7 +403,7 @@ function renderSPList(list){
         <div class="d-flex align-items-start gap-3 mb-2">
           ${logoHTML(p, 52)}
           <div style="min-width:0">
-            <div class="sp-name" style="font-size:1rem">${p.name}</div>
+            <div class="sp-name" style="font-size:1rem">${p.name}${p.awards.length?p.awards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</div>
             <div class="sp-tags" style="font-size:.78rem">${curCat&&p.svc&&p.svc[curCat.name]&&p.svc[curCat.name].sub?p.svc[curCat.name].sub:p.tags.join("、")}</div>
           </div>
         </div>
@@ -454,7 +460,7 @@ function openDetail(name){
       <div class="d-flex align-items-start gap-3 mb-3">
         ${logoHTML(p, 72)}
         <div>
-          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}</h3>
+          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}${p.awards.length?p.awards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</h3>
           <div style="color:var(--amz-orange);font-size:.85rem">${p.regions.join(" · ")} ${p.regions.map(r=>({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]?`<img src="${({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]}" title="${r}" style="height:14px;vertical-align:middle;margin-left:2px;cursor:help;">`:"").filter(Boolean).join("")}</div>
           <div style="font-size:.82rem;color:var(--text-light);margin-top:.3rem">提供的服務：${p.tags.join("、")}</div>
         </div>
@@ -521,9 +527,15 @@ function boot(){
     name:r.n, contact:r.c||"", phone:r.p||"", email:r.e||"",
     lineId:r.l||"", intro:r.intro||"", tags:r.t||[], svc:r.svc||{},
     regions:r.r||[], website:r.w||"", score:r.score||0,
-    logoId:r.logoId||"", qrId:r.qrId||"", routes:r.routes||null
+    logoId:r.logoId||"", qrId:r.qrId||"", routes:r.routes||null,
+    awards:r.awards||[]
   }));
-  providers.sort((a,b)=>b.score-a.score);
+  providers.sort((a,b)=>{
+    const aS=a.awards.some(aw=>aw.includes("SEND"))?1:0;
+    const bS=b.awards.some(aw=>aw.includes("SEND"))?1:0;
+    if(bS!==aS) return bS-aS;
+    return b.score-a.score;
+  });
   providers.forEach(p=>providerMap[p.name]=p);
 
   renderL1();
