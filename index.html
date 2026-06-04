@@ -233,6 +233,9 @@ function fmt(text){
 }
 function logoHTML(p, size){
   size = size || 46;
+  if(p.logoFile){
+    return `<img src="Logos/${encodeURIComponent(p.logoFile)}" alt="${p.name}" style="width:${size}px;height:${size}px;border-radius:var(--radius-sm);object-fit:contain;background:#fff;">`;
+  }
   if(p.logoId){
     return `<img src="https://drive.google.com/thumbnail?id=${p.logoId}&sz=w${size*2}" alt="${p.name}" style="width:${size}px;height:${size}px;border-radius:var(--radius-sm);object-fit:contain;background:#fff;">`;
   }
@@ -474,7 +477,7 @@ function openDetail(name){
           ${p.lineId?`<p class="mb-1"><i class="bi bi-chat-dots me-2"></i>${p.lineId}</p>`:""}
           ${p.website?`<p class="mb-1"><i class="bi bi-globe me-2"></i><a href="${p.website.startsWith("http")?p.website:"https://"+p.website}" target="_blank" style="color:inherit;text-decoration:underline;">${p.website}</a></p>`:""}
         </div>
-        ${p.qrId?`<div class="text-center"><img src="https://drive.google.com/thumbnail?id=${p.qrId}&sz=w240" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:""}
+        ${p.qrFile?`<div class="text-center"><img src="QRcode/${encodeURIComponent(p.qrFile)}" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:p.qrId?`<div class="text-center"><img src="https://drive.google.com/thumbnail?id=${p.qrId}&sz=w240" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:""}
       </div>
       ${p.routes?renderRoutes(p):""}
       ${svcHTML}
@@ -526,7 +529,7 @@ function boot(){
     lineId:r.l||"", intro:r.intro||"", tags:r.t||[], svc:r.svc||{},
     regions:r.r||[], website:r.w||"", score:r.score||0,
     logoId:r.logoId||"", qrId:r.qrId||"", routes:r.routes||null,
-    awards:r.awards||[]
+    awards:r.awards||[], logoFile:r.logoFile||"", qrFile:r.qrFile||""
   }));
   providers.sort((a,b)=>{
     const aS=a.awards.some(aw=>aw.includes("SEND"))?1:0;
