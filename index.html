@@ -345,6 +345,7 @@ function renderDomainBar(){
 
 function openCategory(name){
   curCat=categoryMap[name]; curSub=null;
+  gtag('event', 'view_service_domain', { tier1_domain: name });
   showL2(); renderDomainBar(); renderSubNav();
   renderSPList(providersForCat(curCat));
 }
@@ -367,6 +368,7 @@ function renderSubNav(){
     btn.addEventListener("click",()=>{
       nav.querySelectorAll(".nav-link").forEach(x=>x.classList.remove("active"));
       btn.classList.add("active"); curSub=sub;
+      gtag('event', 'view_service_subdomain', { tier1_domain: curCat.name, tier2_subdomain: sub });
       renderSPList(providers.filter(p=>matchSite(p)&&providerMatchesSub(p,sub)));
     });
     nav.appendChild(btn);
@@ -450,6 +452,7 @@ function renderSPList(list){
 /* ===== Level 3: Provider detail ===== */
 function openDetail(name){
   const p=providerMap[name]; if(!p) return;
+  gtag('event', 'view_provider', { provider_name: name, tier1_domain: curCat ? curCat.name : '' });
   showL3(); renderDomainBar();
   const isHL=p.score>=85;
   const hlBadge=isHL?`<span class="sp-badge" style="position:static;display:inline-flex;margin-left:.5rem;vertical-align:middle;">\u2B50 優質服務商</span>`:"";
