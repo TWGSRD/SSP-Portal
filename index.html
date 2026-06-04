@@ -219,6 +219,17 @@
 let providers=[], providerMap={}, categories=[], categoryMap={};
 let curCat=null, curSub=null, curSite=null;
 const $=id=>document.getElementById(id);
+
+/* Sub-type region restrictions: only show these sub-types when the specified site is selected */
+const SUB_REGION_RESTRICT = {
+  "Amazon SEND": ["北美站"]
+};
+function subAllowedForSite(sub){
+  const allowed = SUB_REGION_RESTRICT[sub];
+  if(!allowed) return true; // no restriction
+  if(!curSite || curSite==="all") return true; // show all when "全部站點"
+  return allowed.includes(curSite);
+}
 const level1=$("level1"), level2=$("level2"), level3=$("level3");
 
 /* ===== Helpers ===== */
@@ -332,6 +343,8 @@ function openCategory(name){
 function renderSubNav(){
   const nav=$("subTypeNav"); nav.innerHTML="";
   if(!curCat.subTypes.length) return;
+  const visibleSubs = curCat.subTypes.filter(sub=>subAllowedForSite(sub));
+  if(!visibleSubs.length) return;
   const mkBtn=(label,active)=>{const b=document.createElement("button");b.className="nav-link"+(active?" active":"");b.textContent=label;return b;};
   const allBtn=mkBtn("全部",true);
   allBtn.addEventListener("click",()=>{
@@ -340,7 +353,7 @@ function renderSubNav(){
     renderSPList(providersForCat(curCat));
   });
   nav.appendChild(allBtn);
-  curCat.subTypes.forEach(sub=>{
+  visibleSubs.forEach(sub=>{
     const btn=mkBtn(sub,false);
     btn.addEventListener("click",()=>{
       nav.querySelectorAll(".nav-link").forEach(x=>x.classList.remove("active"));
@@ -509,6 +522,9 @@ function setSite(s){
   curSite=s||null;
   if(level2.style.display==="block"){
     if(curCat){
+      // If current sub-type is no longer allowed for the new site, reset
+      if(curSub && !subAllowedForSite(curSub)) curSub=null;
+      renderSubNav();
       if(curSub) renderSPList(providers.filter(p=>matchSite(p)&&providerMatchesSub(p,curSub)));
       else renderSPList(providersForCat(curCat));
     } else { runSearch(); }
