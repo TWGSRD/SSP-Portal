@@ -378,6 +378,8 @@ function providerMatchesCat(p, cat){
 }
 
 function providerMatchesSub(p, sub){
+  // If sub-type is region-restricted and current site doesn't match, never match
+  if(!subAllowedForSite(sub)) return false;
   // Check in svc sub fields - only match within the current category's svc
   if(p.svc && curCat){
     const catSvc = p.svc[curCat.name];
