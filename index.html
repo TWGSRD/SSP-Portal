@@ -240,6 +240,10 @@ let providers=[], providerMap={}, categories=[], categoryMap={};
 let curCat=null, curSub=null, curSite=null;
 const $=id=>document.getElementById(id);
 
+/* Amazon SPN landing page (linked from the SPN badge) */
+const SPN_URL="https://sellercentral.amazon.com/gspn?ref_=svs_gspn_soaspn_hp&initialSessionID=140-0185071-4678623&ld=NSGoogle&pageName=US%3ASD%3ASOA-spn&ldStackingCodes=NSGoogle";
+const spnBadge=(h)=>` <a href="${SPN_URL}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Amazon SPN 網絡服務商"><img src="spn-logo.png" alt="Amazon SPN 網絡服務商" class="sp-spn-logo" style="height:${h}px;margin-left:.35rem;"></a>`;
+
 /* Sub-type region restrictions: only show these sub-types when the specified site is selected */
 const SUB_REGION_RESTRICT = {
   "Amazon SEND": ["北美站"]
@@ -502,7 +506,7 @@ function openDetail(name){
       <div class="d-flex align-items-start gap-3 mb-3">
         ${logoHTML(p, 72)}
         <div>
-          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}${p.isSpn?' <img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:28px;margin-left:.4rem;">':""}${p.awards.length?p.awards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</h3>
+          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}${p.isSpn?spnBadge(28):""}${p.awards.length?p.awards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</h3>
           <div style="color:var(--amz-orange);font-size:.85rem">${p.regions.join(" · ")} ${p.regions.map(r=>({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]?`<img src="${({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]}" title="${r}" style="height:14px;vertical-align:middle;margin-left:2px;cursor:help;">`:"").filter(Boolean).join("")}</div>
           <div style="font-size:.82rem;color:var(--text-light);margin-top:.3rem">提供的服務：${p.tags.join("、")}</div>
         </div>
