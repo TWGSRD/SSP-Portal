@@ -433,9 +433,8 @@ function providersForCat(cat){
 function renderSPList(list){
   const el=$("spList");
   if(!list.length){ el.innerHTML=`<div class="col-12 text-muted text-center py-4">目前無符合條件的服務商。</div>`; return; }
-  const HIGHLIGHT_THRESHOLD=85;
   const cardHTML=(p)=>{
-    const isHL=p.score>=HIGHLIGHT_THRESHOLD;
+    const isHL=false;
     const introSnippet=p.intro?`<div class="sp-intro">${p.intro}</div>`:"";
     return `
     <div class="col-12 col-md-6">
@@ -464,7 +463,7 @@ function openDetail(name){
   const p=providerMap[name]; if(!p) return;
   gtag('event', 'view_provider', { provider_name: name, tier1_domain: curCat ? curCat.name : '' });
   showL3(); renderDomainBar();
-  const isHL=p.score>=85;
+  const isHL=false;
   const hlBadge=isHL?`<span class="sp-badge" style="position:static;display:inline-flex;margin-left:.5rem;vertical-align:middle;">\u2B50 優質服務商</span>`:"";
 
   // Build service sections - prioritize current category
