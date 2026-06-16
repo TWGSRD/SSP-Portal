@@ -96,7 +96,7 @@
     .sp-card.sp-highlighted{border-left:3px solid #d4a017;background:#fffdf6;}
     .sp-card.sp-highlighted::after{opacity:0;}
     .sp-badge{position:absolute;top:.6rem;right:.6rem;background:#d4a017;color:#fff;font-size:.62rem;font-weight:700;padding:.15rem .5rem;border-radius:999px;display:flex;align-items:center;gap:.25rem;}
-    .sp-spn-badge{display:inline-flex;align-items:center;gap:.2rem;background:var(--amz-teal);color:#fff;font-size:.62rem;font-weight:700;padding:.15rem .45rem;border-radius:999px;vertical-align:middle;white-space:nowrap;}
+    .sp-spn-logo{vertical-align:middle;border:1px solid var(--border);border-radius:999px;background:#fff;padding:.12rem .4rem;box-shadow:0 1px 3px rgba(22,30,44,.08);}
     .sp-logo{width:46px;height:46px;border-radius:var(--radius-sm);background:var(--amz-green-light);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--amz-green);font-weight:700;flex-shrink:0;}
     .sp-name{font-weight:700;font-size:.88rem;color:var(--text-primary);}
     .sp-award-tag{display:inline-block;background:linear-gradient(135deg,#ffd700,#ffaa00);color:#7a4800;font-size:.62rem;font-weight:700;padding:.15rem .5rem;border-radius:999px;vertical-align:middle;margin-left:.3rem;white-space:nowrap;}
@@ -444,7 +444,7 @@ function renderSPList(list){
         <div class="d-flex align-items-start gap-3 mb-2">
           ${logoHTML(p, 52)}
           <div style="min-width:0">
-            <div class="sp-name" style="font-size:1rem">${p.name}${p.isSpn?' <span class="sp-spn-badge"><i class="bi bi-patch-check-fill"></i>SPN \u7DB2\u7D61\u670D\u52D9\u5546</span>':""}${p.awards.length?p.awards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</div>
+            <div class="sp-name" style="font-size:1rem">${p.name}${p.isSpn?' <img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:18px;vertical-align:middle;margin-left:.3rem;">':""}${p.awards.length?p.awards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</div>
             <div class="sp-tags" style="font-size:.78rem">${curCat&&p.svc&&p.svc[curCat.name]&&p.svc[curCat.name].sub?p.svc[curCat.name].sub:p.tags.join("、")}</div>
           </div>
         </div>
@@ -502,7 +502,7 @@ function openDetail(name){
       <div class="d-flex align-items-start gap-3 mb-3">
         ${logoHTML(p, 72)}
         <div>
-          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}${p.isSpn?' <span class="sp-spn-badge" style="font-size:.7rem;"><i class="bi bi-patch-check-fill"></i>SPN \u7DB2\u7D61\u670D\u52D9\u5546</span>':""}${p.awards.length?p.awards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</h3>
+          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}${p.isSpn?' <img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:28px;margin-left:.4rem;">':""}${p.awards.length?p.awards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</h3>
           <div style="color:var(--amz-orange);font-size:.85rem">${p.regions.join(" · ")} ${p.regions.map(r=>({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]?`<img src="${({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]}" title="${r}" style="height:14px;vertical-align:middle;margin-left:2px;cursor:help;">`:"").filter(Boolean).join("")}</div>
           <div style="font-size:.82rem;color:var(--text-light);margin-top:.3rem">提供的服務：${p.tags.join("、")}</div>
         </div>
