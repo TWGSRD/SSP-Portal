@@ -47,6 +47,10 @@
     "logo": "EcomPlus_logo.png",
     "qr": "EcomPlus_qrcode - Liu Alex.png"
   },
+  "FedEx": {
+    "logo": "FedEx-logo.jpg",
+    "qr": "Fedex qrcode.jpg"
+  },
   "Getida": {
     "logo": "Getida logo.png"
   },
@@ -58,8 +62,15 @@
     "logo": "GS1_logo - 林書平.png",
     "qr": "GS1_qrcode - 林書平.png"
   },
+  "Helium 10": {
+    "logo": "Helium 10 logo.png",
+    "qr": "Helium 10 qr code.png"
+  },
   "Intertek 全國公證檢驗股份有限公司": {
     "logo": "Intertek_Logo_BLK_Strap_BLK_YELL_Dot_RGB_HR - 郁如施.jpg"
+  },
+  "J&P集團 深圳簡氏商務諮詢有限公司": {
+    "logo": "J&P logo.webp"
   },
   "你好電商有限公司(Hello EC)": {
     "logo": "logo - Kai Pong.jpg",
@@ -89,6 +100,9 @@
   "Return Helper": {
     "logo": "Return Helper_logo - Alyse Chen.png"
   },
+  "SGSTaiwan 台灣檢驗科技股份有限公司": {
+    "logo": "SGS logo.jpg"
+  },
   "漢陽國際物流有限公司": {
     "logo": "slogan1 - S Jody.png"
   },
@@ -104,12 +118,26 @@
     "logo": "VATAi LOGO - VATAi.png",
     "qr": "VATAi_QRcode - VATAi.png"
   },
+  "WorldFirst": {
+    "logo": "WorldFirst Logo.png",
+    "qr": "WorldFirst_qrcode.JPG"
+  },
+  "YAMATO": {
+    "logo": "Yamato logo.png"
+  },
+  "Yunige Corporation": {
+    "logo": "Yunige logo.png",
+    "qr": "Yunige qr code.png"
+  },
   "傑地有限公司": {
     "logo": "傑地公司-logo - 張月瑜.png",
     "qr": "傑地公司_qrcode - 張月瑜.jpg"
   },
   "優遞仕電商有限公司": {
     "logo": "優遞仕電商有限公司_Logo - Amazing Tw Seller.png"
+  },
+  "全家超商發貨 (FBA & FBM)": {
+    "logo": "全家超商寄件Logo.png"
   },
   "千禧國際貨運代理（深圳）有限公司": {
     "logo": "千禧物流_Logo - vicky soren.jpg",
@@ -159,6 +187,18 @@
     "logo": "文筆網路科技有限公司_去背LOGO - HUI YING PAN.png",
     "qr": "文筆網路_qrcode - HUI YING PAN.png"
   },
+  "日商諾百得股份有限公司台灣分公司": {
+    "logo": "日商諾百得_logo - 弓長いにんMaggie.jpg",
+    "qr": "日商諾百得_qrcode - 弓長いにんMaggie.jpg"
+  },
+  "永輝協同網路服務股份有限公司及永輝啟佳聯合會計師事務所": {
+    "logo": "永輝logo.png",
+    "qr": "永輝qr code.png"
+  },
+  "沙之星跨境": {
+    "logo": "沙之星跨境_logo - ajoyly.png",
+    "qr": "沙之星跨境_qrcode - ajoyly.jpg"
+  },
   "泰電國際股份有限公司 (DolphinEC 跨境代營運)": {
     "logo": "泰電+Logo+藍 - EC Dolphin.png",
     "qr": "泰電LineOA+QRcode - EC Dolphin.jpg"
@@ -167,13 +207,31 @@
     "logo": "秩宇Wiser_logo - View EC.png",
     "qr": "秩宇Wiser_qrcode - View EC.png"
   },
+  "Simpany 簡單開公司": {
+    "logo": "簡單開公司logo.png",
+    "qr": "簡單開公司qr code.png"
+  },
+  "統一超商發貨 (7-ELEVEN國際交貨便)(FBA)": {
+    "logo": "統一logo.jpg"
+  },
   "經緯廣告科技股份有限公司": {
     "logo": "經緯廣告_logo - Gina Yu (Gina).png",
     "qr": "經緯廣告_qrcode - Gina Yu (Gina).png"
   },
+  "美廷特適有限公司": {
+    "logo": "美廷特適有限公司 - STAFF ASSISTANT.png"
+  },
+  "杭州臥兔網路科技有限公司": {
+    "logo": "臥兔logo.jpg",
+    "qr": "臥兔qrcode.png"
+  },
   "大森林全球物流（深圳）有限公司": {
     "logo": "英文logo PNG - Diabolo YoYos.png",
     "qr": "大森林全球物流（深圳）有限公司_QRcode - Diabolo YoYos.png"
+  },
+  "茉茉國際商業發展股份有限公司": {
+    "logo": "茉茉logo.png",
+    "qr": "官方LINE@ QRcode dr.funds - fang momo.png"
   },
   "萬泰物流供應鏈股份有限公司": {
     "logo": "萬泰2025高峰會LOGO淺.jpg",
@@ -182,6 +240,10 @@
   "萬達國際物流股份有限公司": {
     "logo": "萬達logo.jpg",
     "qr": "PANDA QR CODE - IVY LIN.png"
+  },
+  "賣家精靈": {
+    "logo": "賣家精靈logo.png",
+    "qr": "賣家精靈qrcode.png"
   },
   "跨境通物流有限公司": {
     "logo": "跨境通物流_LOGO - Vivian Lin.jpg",
@@ -193,17 +255,21 @@
   "進航國際有限公司": {
     "logo": "進航logo.jpg"
   },
+  "運連網跨境電商物流有限公司": {
+    "logo": "運連網logo.jpg",
+    "qr": "運連網qr code.jpg"
+  },
   "金匯國際物流": {
     "logo": "金匯國際物流_橫式logo - linda tsai.png",
     "qr": "金匯國際物流_QR CODE - linda tsai.png"
   },
+  "FC STANDARD LOGISTICS": {
+    "qr": "FC Standard qr code.jpg"
+  },
+  "昕亞記帳士事務所": {
+    "qr": "昕亞 qr code.png"
+  },
   "華生跨境有限公司": {
     "qr": "華生跨境有限公司+QRcode. - Watson.png"
-  },
-  "全家超商發貨 (FBA & FBM)": {
-    "logo": "全家超商寄件Logo.png"
-  },
-  "統一超商發貨 (7-ELEVEN國際交貨便)(FBA)": {
-    "logo": "統一logo.jpg"
   }
 }
