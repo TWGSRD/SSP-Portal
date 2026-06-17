@@ -274,8 +274,22 @@ function fmt(text){
   s = s.replace(/(https?:\/\/[^\s<,，、）)]+)/g,'<a href="$1" target="_blank" style="color:inherit;text-decoration:underline;">$1</a>');
   return s;
 }
+// Clean a contact field for display: hide it entirely when the whole cell is
+// just a placeholder ("未提供") or a leftover spreadsheet error (#ERROR! etc.),
+// and strip an error token that is glued onto an otherwise-valid value. Normal
+// punctuation inside real values (commas, 、 between numbers) is left untouched.
+function cleanContact(v){
+  if(!v) return "";
+  let s = String(v).trim();
+  if(s==="未提供") return "";
+  if(/^#(?:ERROR!|REF!|N\/A|NAME\?|VALUE!|DIV\/0!|NULL!|NUM!)$/i.test(s)) return "";        // whole cell is an error
+  s = s.replace(/[/、,，]\s*#(?:ERROR!|REF!|N\/A|NAME\?|VALUE!|DIV\/0!|NULL!|NUM!)/ig,"");   // "x / #ERROR!" -> "x"
+  s = s.replace(/#(?:ERROR!|REF!|N\/A|NAME\?|VALUE!|DIV\/0!|NULL!|NUM!)\s*[/、,，]\s*/ig,""); // "#ERROR! / x" -> "x"
+  return s.trim();
+}
 // Render the website field, tolerating an optional "label: url" prefix (e.g. "預約寄件: https://...")
 function websiteLink(w){
+  w = cleanContact(w);
   if(!w) return "";
   const m = w.match(/^(.*?)[:：]?\s*(https?:\/\/\S+)/);
   const label = m && m[1].trim() ? m[1].trim()+"：" : "";
@@ -596,10 +610,10 @@ function openDetail(name){
       <h5><i class="bi bi-person-lines-fill me-2"></i>聯絡資訊</h5>
       <div class="d-flex align-items-start gap-4">
         <div class="flex-grow-1">
-          ${p.contact&&p.contact!=="未提供"?`<p class="mb-1"><i class="bi bi-person me-2"></i>${p.contact}</p>`:""}
-          ${p.phone&&p.phone!=="未提供"?`<p class="mb-1"><i class="bi bi-telephone me-2"></i>${p.phone}</p>`:""}
-          ${p.email&&p.email!=="未提供"?`<p class="mb-1"><i class="bi bi-envelope me-2"></i><a href="mailto:${p.email}" style="color:inherit;text-decoration:underline;">${p.email}</a></p>`:""}
-          ${p.lineId?`<p class="mb-1"><i class="bi bi-chat-dots me-2"></i>${p.lineId}</p>`:""}
+          ${(()=>{const v=cleanContact(p.contact);return v?`<p class="mb-1"><i class="bi bi-person me-2"></i>${v}</p>`:"";})()}
+          ${(()=>{const v=cleanContact(p.phone);return v?`<p class="mb-1"><i class="bi bi-telephone me-2"></i>${v}</p>`:"";})()}
+          ${(()=>{const v=cleanContact(p.email);return v?`<p class="mb-1"><i class="bi bi-envelope me-2"></i><a href="mailto:${v}" style="color:inherit;text-decoration:underline;">${v}</a></p>`:"";})()}
+          ${(()=>{const v=cleanContact(p.lineId);return v?`<p class="mb-1"><i class="bi bi-chat-dots me-2"></i>${v}</p>`:"";})()}
           ${websiteLink(p.website)}
         </div>
         ${p.qrFile?`<div class="text-center"><img src="QRcode/${encodeURIComponent(p.qrFile)}" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:p.qrId?`<div class="text-center"><img src="https://drive.google.com/thumbnail?id=${p.qrId}&sz=w240" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:""}
