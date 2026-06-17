@@ -2,5 +2,25 @@
 ssp-portal-498304-5fdafd7e8df8.json
 *.keys.json
 
+# Cloudflare API token (never commit)
+.cf.env
+
+# Cloudflare Pages build output
+dist/
+.wrangler/
+
 # Temp Office files
 ~$*
+
+# Internal-only files (not part of the public website)
+*.pptx
+*.xlsx
+*.csv
+*.py
+hierarchy.csv
+cn_spn_list.csv
+spn_providers.json
+spn_providers.tsv
+
+# Original SPN logo source (site uses spn-logo.png)
+SPN logo.png
