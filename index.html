@@ -113,7 +113,7 @@
     .detail-card a{color:var(--amz-teal);text-decoration:none;font-weight:500;}
     .detail-card a:hover{color:var(--amz-orange);text-decoration:underline;}
     .spn-intro{display:flex;align-items:flex-start;gap:.85rem;background:#f0f7ff;border:1px solid #cfe3fb;border-left:3px solid #1f6feb;border-radius:var(--radius-md);padding:.85rem 1.1rem;margin-top:1rem;}
-    .spn-intro img{height:30px;flex-shrink:0;margin-top:.1rem;}
+    .spn-intro img{height:30px;flex-shrink:0;margin-top:.1rem;cursor:pointer;}
     .spn-intro .spn-intro-title{font-weight:700;font-size:.9rem;color:var(--amz-navy);margin-bottom:.2rem;}
     .spn-intro .spn-intro-text{font-size:.82rem;color:var(--text-secondary);line-height:1.6;}
     .svc-section{background:var(--bg-section);border-radius:var(--radius-md);padding:0;margin-top:.75rem;overflow:hidden;border:1px solid var(--border);}
@@ -573,7 +573,7 @@ function openDetail(name){
 
   const spnIntro=p.isSpn?`
     <div class="spn-intro">
-      <img src="spn-logo.png" alt="Amazon SPN 網絡服務商">
+      <a href="${SPN_URL}" target="_blank" rel="noopener" title="前往 Amazon SPN 網絡服務商頁面"><img src="spn-logo.png" alt="Amazon SPN 網絡服務商"></a>
       <div>
         <div class="spn-intro-title">什麼是 SPN？</div>
         <div class="spn-intro-text">SPN 是亞馬遜經嚴格篩選後，將服務商整合的第三方服務商網絡。</div>
