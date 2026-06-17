@@ -112,6 +112,10 @@
     .detail-card hr{border-color:var(--bg-section);}
     .detail-card a{color:var(--amz-teal);text-decoration:none;font-weight:500;}
     .detail-card a:hover{color:var(--amz-orange);text-decoration:underline;}
+    .spn-intro{display:flex;align-items:flex-start;gap:.85rem;background:#f0f7ff;border:1px solid #cfe3fb;border-left:3px solid #1f6feb;border-radius:var(--radius-md);padding:.85rem 1.1rem;margin-top:1rem;}
+    .spn-intro img{height:30px;flex-shrink:0;margin-top:.1rem;}
+    .spn-intro .spn-intro-title{font-weight:700;font-size:.9rem;color:var(--amz-navy);margin-bottom:.2rem;}
+    .spn-intro .spn-intro-text{font-size:.82rem;color:var(--text-secondary);line-height:1.6;}
     .svc-section{background:var(--bg-section);border-radius:var(--radius-md);padding:0;margin-top:.75rem;overflow:hidden;border:1px solid var(--border);}
     .svc-section h6{font-size:.85rem;font-weight:700;color:var(--amz-orange);margin-bottom:.4rem;}
     .svc-section .svc-sub{font-size:.78rem;color:var(--text-light);margin-bottom:.3rem;}
@@ -439,7 +443,8 @@ function renderSPList(list){
   const el=$("spList");
   if(!list.length){ el.innerHTML=`<div class="col-12 text-muted text-center py-4">目前無符合條件的服務商。</div>`; return; }
   const cardHTML=(p)=>{
-    const isHL=false;
+    const tagAwards=p.awards.filter(a=>!a.includes("服務商獎項"));
+    const isHL=p.awards.some(a=>a.includes("服務商獎項"));
     const introSnippet=p.intro?`<div class="sp-intro">${p.intro}</div>`:"";
     return `
     <div class="col-12 col-md-6">
@@ -448,7 +453,7 @@ function renderSPList(list){
         <div class="d-flex align-items-start gap-3 mb-2">
           ${logoHTML(p, 52)}
           <div style="min-width:0">
-            <div class="sp-name" style="font-size:1rem">${p.name}${p.isSpn?' <img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:18px;vertical-align:middle;margin-left:.3rem;">':""}${p.awards.length?p.awards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</div>
+            <div class="sp-name" style="font-size:1rem">${p.name}${p.isSpn?' <img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:18px;vertical-align:middle;margin-left:.3rem;">':""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</div>
             <div class="sp-tags" style="font-size:.78rem">${curCat&&p.svc&&p.svc[curCat.name]&&p.svc[curCat.name].sub?p.svc[curCat.name].sub:p.tags.join("、")}</div>
           </div>
         </div>
@@ -468,7 +473,8 @@ function openDetail(name){
   const p=providerMap[name]; if(!p) return;
   gtag('event', 'view_provider', { provider_name: name, tier1_domain: curCat ? curCat.name : '' });
   showL3(); renderDomainBar();
-  const isHL=false;
+  const tagAwards=p.awards.filter(a=>!a.includes("服務商獎項"));
+  const isHL=p.awards.some(a=>a.includes("服務商獎項"));
   const hlBadge=isHL?`<span class="sp-badge" style="position:static;display:inline-flex;margin-left:.5rem;vertical-align:middle;">\u2B50 優質服務商</span>`:"";
 
   // Build service sections - prioritize current category
@@ -501,12 +507,21 @@ function openDetail(name){
     svcHTML+=`</div>`;
   }
 
+  const spnIntro=p.isSpn?`
+    <div class="spn-intro">
+      <img src="spn-logo.png" alt="Amazon SPN 網絡服務商">
+      <div>
+        <div class="spn-intro-title">什麼是 SPN？</div>
+        <div class="spn-intro-text">SPN 是亞馬遜經嚴格篩選後，將服務商整合的第三方服務商網絡。</div>
+      </div>
+    </div>`:"";
+
   $("spDetail").innerHTML=`
     <div class="detail-card${isHL?" sp-highlighted":""}">
       <div class="d-flex align-items-start gap-3 mb-3">
         ${logoHTML(p, 72)}
         <div>
-          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}${p.isSpn?spnBadge(28):""}${p.awards.length?p.awards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</h3>
+          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}${p.isSpn?spnBadge(28):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</h3>
           <div style="color:var(--amz-orange);font-size:.85rem">${p.regions.join(" · ")} ${p.regions.map(r=>({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]?`<img src="${({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]}" title="${r}" style="height:14px;vertical-align:middle;margin-left:2px;cursor:help;">`:"").filter(Boolean).join("")}</div>
           <div style="font-size:.82rem;color:var(--text-light);margin-top:.3rem">提供的服務：${p.tags.join("、")}</div>
         </div>
@@ -525,6 +540,7 @@ function openDetail(name){
         ${p.qrFile?`<div class="text-center"><img src="QRcode/${encodeURIComponent(p.qrFile)}" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:p.qrId?`<div class="text-center"><img src="https://drive.google.com/thumbnail?id=${p.qrId}&sz=w240" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:""}
       </div>
       ${p.routes?renderRoutes(p):""}
+      ${spnIntro}
       ${svcHTML}
       <div class="mt-4"><button class="btn btn-outline-secondary" style="font-size:1rem;padding:.5rem 1.2rem;font-weight:600;" onclick="backToL2()"><i class="bi bi-arrow-left-circle-fill me-2" style="font-size:1.2rem;"></i>返回列表</button></div>
     </div>`;
