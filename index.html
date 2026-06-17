@@ -346,11 +346,12 @@ function backToL2(){ showL2(); renderDomainBar(); }
 /* ===== History / deep-link navigation ===== */
 let suppressPush=false;
 function stateHash(s){
-  if(!s||s.view==="home") return "#/";
+  // Home uses a clean URL (no #) so the shared landing-page link stays tidy
+  if(!s||s.view==="home") return location.pathname+location.search;
   if(s.view==="search") return "#/s/"+encodeURIComponent(s.q||"");
   if(s.view==="category") return "#/c/"+encodeURIComponent(s.cat)+(s.sub?"/"+encodeURIComponent(s.sub):"");
   if(s.view==="detail") return "#/p/"+encodeURIComponent(s.name);
-  return "#/";
+  return location.pathname+location.search;
 }
 function pushNav(s){
   if(suppressPush) return;
