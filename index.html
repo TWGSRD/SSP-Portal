@@ -224,7 +224,7 @@
 <section id="level3" style="display:none">
   <div class="domain-bar"><div class="container"><div id="domainBar3" class="domain-bar-inner"></div></div></div>
   <div class="container py-4">
-    <button class="btn btn-outline-secondary mb-3" style="font-size:1rem;padding:.5rem 1.2rem;font-weight:600;" onclick="backToL2()"><i class="bi bi-arrow-left-circle-fill me-2" style="font-size:1.2rem;"></i>返回列表</button>
+    <button class="btn btn-outline-secondary mb-3" style="font-size:1rem;padding:.5rem 1.2rem;font-weight:600;" onclick="goBackOrL2()"><i class="bi bi-arrow-left-circle-fill me-2" style="font-size:1.2rem;"></i>返回列表</button>
     <div id="spDetail"></div>
   </div>
 </section>
@@ -337,10 +337,62 @@ function goHome(){
   level1.style.display="block"; level2.style.display="none"; level3.style.display="none";
   document.querySelector(".hero-banner").style.display="";
   curCat=null; curSub=null; $("searchInput").value="";
+  pushNav({view:"home"});
 }
 function showL2(){ level1.style.display="none"; level2.style.display="block"; level3.style.display="none"; document.querySelector(".hero-banner").style.display="none"; }
 function showL3(){ level1.style.display="none"; level2.style.display="none"; level3.style.display="block"; document.querySelector(".hero-banner").style.display="none"; window.scrollTo(0,0); }
 function backToL2(){ showL2(); renderDomainBar(); }
+
+/* ===== History / deep-link navigation ===== */
+let suppressPush=false;
+function stateHash(s){
+  if(!s||s.view==="home") return "#/";
+  if(s.view==="search") return "#/s/"+encodeURIComponent(s.q||"");
+  if(s.view==="category") return "#/c/"+encodeURIComponent(s.cat)+(s.sub?"/"+encodeURIComponent(s.sub):"");
+  if(s.view==="detail") return "#/p/"+encodeURIComponent(s.name);
+  return "#/";
+}
+function pushNav(s){
+  if(suppressPush) return;
+  s.depth=((history.state&&history.state.depth)||0)+1;
+  history.pushState(s,"",stateHash(s));
+}
+function parseHash(){
+  const parts=(location.hash||"").replace(/^#\/?/,"").split("/").filter(Boolean).map(decodeURIComponent);
+  if(!parts.length) return {view:"home"};
+  if(parts[0]==="s") return {view:"search",q:parts[1]||""};
+  if(parts[0]==="c") return {view:"category",cat:parts[1],sub:parts[2]||null};
+  if(parts[0]==="p") return {view:"detail",name:parts[1]};
+  return {view:"home"};
+}
+function selectSub(sub){
+  const nav=$("subTypeNav"); if(!nav) return;
+  const btn=[...nav.querySelectorAll(".nav-link")].find(b=>b.textContent===sub);
+  if(btn) btn.click();
+}
+function renderState(s){
+  suppressPush=true;
+  try{
+    if(!s||s.view==="home"){ goHome(); }
+    else if(s.view==="search"){ $("searchInput").value=s.q||""; runSearch(); }
+    else if(s.view==="category"){
+      if(!categoryMap[s.cat]){ goHome(); return; }
+      openCategory(s.cat);
+      if(s.sub) selectSub(s.sub);
+    }
+    else if(s.view==="detail"){
+      if(s.cat&&categoryMap[s.cat]){ curCat=categoryMap[s.cat]; curSub=s.sub||null; }
+      if(!providerMap[s.name]){ goHome(); return; }
+      openDetail(s.name);
+    }
+    else goHome();
+  } finally { suppressPush=false; }
+}
+// On-page "返回列表": prefer real browser-back; fall back for deep-linked entries
+function goBackOrL2(){
+  if(((history.state&&history.state.depth)||0)>0){ history.back(); return; }
+  if(curCat) openCategory(curCat.name); else goHome();
+}
 
 /* ===== Level 1: Render domain cards ===== */
 function renderL1(){
@@ -375,6 +427,7 @@ function openCategory(name){
   gtag('event', 'view_service_domain', { tier1_domain: name });
   showL2(); renderDomainBar(); renderSubNav();
   renderSPList(providersForCat(curCat));
+  pushNav({view:"category",cat:name});
 }
 
 function renderSubNav(){
@@ -388,6 +441,7 @@ function renderSubNav(){
     nav.querySelectorAll(".nav-link").forEach(x=>x.classList.remove("active"));
     allBtn.classList.add("active"); curSub=null;
     renderSPList(providersForCat(curCat));
+    pushNav({view:"category",cat:curCat.name});
   });
   nav.appendChild(allBtn);
   visibleSubs.forEach(sub=>{
@@ -397,6 +451,7 @@ function renderSubNav(){
       btn.classList.add("active"); curSub=sub;
       gtag('event', 'view_service_subdomain', { tier1_domain: curCat.name, tier2_subdomain: sub });
       renderSPList(providers.filter(p=>matchSite(p)&&providerMatchesSub(p,sub)));
+      pushNav({view:"category",cat:curCat.name,sub:sub});
     });
     nav.appendChild(btn);
   });
@@ -481,6 +536,7 @@ function openDetail(name){
   const p=providerMap[name]; if(!p) return;
   gtag('event', 'view_provider', { provider_name: name, tier1_domain: curCat ? curCat.name : '' });
   showL3(); renderDomainBar();
+  pushNav({view:"detail",name:name,cat:curCat?curCat.name:null,sub:curSub||null});
   const tagAwards=p.awards.filter(a=>!a.includes("服務商獎項"));
   const isHL=p.awards.some(a=>a.includes("服務商獎項"));
   const hlBadge=isHL?`<span class="sp-badge" style="position:static;display:inline-flex;margin-left:.5rem;vertical-align:middle;">\u2B50 優質服務商</span>`:"";
@@ -550,7 +606,7 @@ function openDetail(name){
       ${p.routes?renderRoutes(p):""}
       ${spnIntro}
       ${svcHTML}
-      <div class="mt-4"><button class="btn btn-outline-secondary" style="font-size:1rem;padding:.5rem 1.2rem;font-weight:600;" onclick="backToL2()"><i class="bi bi-arrow-left-circle-fill me-2" style="font-size:1.2rem;"></i>返回列表</button></div>
+      <div class="mt-4"><button class="btn btn-outline-secondary" style="font-size:1rem;padding:.5rem 1.2rem;font-weight:600;" onclick="goBackOrL2()"><i class="bi bi-arrow-left-circle-fill me-2" style="font-size:1.2rem;"></i>返回列表</button></div>
     </div>`;
 }
 
@@ -567,6 +623,7 @@ function runSearch(){
     return haystack.includes(q);
   });
   renderSPList(list);
+  pushNav({view:"search",q:$("searchInput").value.trim()});
 }
 
 /* ===== Site change ===== */
@@ -617,6 +674,12 @@ function boot(){
   const sel=$("siteSelect");
   sel.addEventListener("change",()=>{ curSite=sel.value; setSite(curSite); });
   curSite=sel.value;
+
+  // Wire browser back/forward + deep-link / refresh restore
+  window.addEventListener("popstate",e=>{ renderState(e.state||parseHash()); });
+  const initial=parseHash();
+  history.replaceState({...initial,depth:0},"",stateHash(initial));
+  renderState(initial);
 }
 document.addEventListener("DOMContentLoaded",boot);
 </script>
