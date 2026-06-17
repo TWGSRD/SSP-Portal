@@ -274,6 +274,14 @@ function fmt(text){
   s = s.replace(/(https?:\/\/[^\s<,，、）)]+)/g,'<a href="$1" target="_blank" style="color:inherit;text-decoration:underline;">$1</a>');
   return s;
 }
+// Render the website field, tolerating an optional "label: url" prefix (e.g. "預約寄件: https://...")
+function websiteLink(w){
+  if(!w) return "";
+  const m = w.match(/^(.*?)[:：]?\s*(https?:\/\/\S+)/);
+  const label = m && m[1].trim() ? m[1].trim()+"：" : "";
+  const url = m ? m[2] : (w.startsWith("http")?w:"https://"+w);
+  return `<p class="mb-1"><i class="bi bi-globe me-2"></i>${label}<a href="${url}" target="_blank" style="color:inherit;text-decoration:underline;">${url}</a></p>`;
+}
 function logoHTML(p, size){
   size = size || 46;
   if(p.logoFile){
@@ -535,7 +543,7 @@ function openDetail(name){
           ${p.phone&&p.phone!=="未提供"?`<p class="mb-1"><i class="bi bi-telephone me-2"></i>${p.phone}</p>`:""}
           ${p.email&&p.email!=="未提供"?`<p class="mb-1"><i class="bi bi-envelope me-2"></i><a href="mailto:${p.email}" style="color:inherit;text-decoration:underline;">${p.email}</a></p>`:""}
           ${p.lineId?`<p class="mb-1"><i class="bi bi-chat-dots me-2"></i>${p.lineId}</p>`:""}
-          ${p.website?`<p class="mb-1"><i class="bi bi-globe me-2"></i><a href="${p.website.startsWith("http")?p.website:"https://"+p.website}" target="_blank" style="color:inherit;text-decoration:underline;">${p.website}</a></p>`:""}
+          ${websiteLink(p.website)}
         </div>
         ${p.qrFile?`<div class="text-center"><img src="QRcode/${encodeURIComponent(p.qrFile)}" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:p.qrId?`<div class="text-center"><img src="https://drive.google.com/thumbnail?id=${p.qrId}&sz=w240" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:""}
       </div>
