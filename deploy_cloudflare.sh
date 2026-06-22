@@ -39,6 +39,9 @@ cp -r Logos   "$DIST"/
 cp -r QRcode  "$DIST"/
 cp -r flags   "$DIST"/
 
+# Drop archived/unused originals so they never reach the public site
+rm -rf "$DIST"/Logos/_unused "$DIST"/QRcode/_unused
+
 # Safety: make sure no credential / internal file slipped in
 find "$DIST" \( -name "*.json" -a ! -name "image_mapping.json" \) -name "ssp-portal-*" -delete 2>/dev/null || true
 
