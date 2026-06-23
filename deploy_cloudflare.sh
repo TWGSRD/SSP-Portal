@@ -31,6 +31,7 @@ cp index.html          "$DIST"/
 cp contact.html        "$DIST"/
 cp prov_data.js        "$DIST"/
 cp spn-logo.png        "$DIST"/
+cp ads-partner-logo.png "$DIST"/
 cp "Tier 1 service image.png" "$DIST"/
 
 # --- Asset folders ---
