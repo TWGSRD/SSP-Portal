@@ -55,10 +55,6 @@
     "logo": "Engycon Logo - Eckart.png",
     "qr": "Engycon QRcode_ - Eckart.jpg"
   },
-  "FedEx": {
-    "logo": "FedEx-logo.jpg",
-    "qr": "Fedex qrcode.jpg"
-  },
   "Getida": {
     "logo": "Getida logo.png"
   },
@@ -242,6 +238,10 @@
     "logo": "茉茉logo.png",
     "qr": "官方LINE@ QRcode dr.funds - fang momo.png"
   },
+  "華生跨境有限公司": {
+    "logo": "華生Logo.png",
+    "qr": "華生跨境有限公司+QRcode. - Watson.png"
+  },
   "萬泰物流供應鏈股份有限公司": {
     "logo": "萬泰2025高峰會LOGO淺.jpg",
     "qr": "萬泰物流_qrcode - 江仁凱.jpg"
@@ -281,8 +281,5 @@
   },
   "昕亞記帳士事務所": {
     "qr": "昕亞 qr code.png"
-  },
-  "華生跨境有限公司": {
-    "qr": "華生跨境有限公司+QRcode. - Watson.png"
   }
 }
