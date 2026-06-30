@@ -548,7 +548,7 @@ function renderSPList(list){
         <div class="d-flex align-items-start gap-3 mb-2">
           ${logoHTML(p, 52)}
           <div style="min-width:0">
-            <div class="sp-name" style="font-size:1rem">${p.name}${(p.isSpn||p.isAdsPartner||tagAwards.length)?` <span style="display:inline-block;white-space:nowrap;vertical-align:middle">${p.isSpn?'<img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:18px;vertical-align:middle;">':""}${p.isAdsPartner?ADS_IMG(30):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</span>`:""}</div>
+            <div class="sp-name" style="font-size:1rem">${p.name}${(p.isSpn||p.isAdsPartner||tagAwards.length)?` <span style="vertical-align:middle">${p.isSpn?'<img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:18px;vertical-align:middle;">':""}${p.isAdsPartner?ADS_IMG(30):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</span>`:""}</div>
             <div class="sp-tags" style="font-size:.78rem">${curCat&&p.svc&&p.svc[curCat.name]&&p.svc[curCat.name].sub?p.svc[curCat.name].sub:p.tags.join("、")}</div>
           </div>
         </div>
