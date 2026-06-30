@@ -631,19 +631,49 @@ function openDetail(name){
 }
 
 /* ===== Search ===== */
+/* Synonym normalization — collapse common 繁簡 / 陸台 / 口語 variants so a query
+   matches regardless of which wording a provider used. Applied to BOTH the query
+   and the haystack, so the two meet on a shared canonical token. Order matters:
+   longer / more-specific patterns first (e.g. 北美站 before 北美). Each pattern is
+   a plain substring match on an already-lowercased string. */
+const SEARCH_SYNONYMS=[
+  ["代運營","代營運"],["運營","營運"],                                   // 陸 → 台 用語
+  ["北美站","美國"],["北美","美國"],                                     // 站點名 ↔ routes 口語國名
+  ["歐洲站","歐洲"],["日本站","日本"],["澳洲站","澳洲"],
+  ["中東站","中東"],["沙烏地阿拉伯","中東"],["沙烏地","中東"],["阿聯酋","中東"],["杜拜","中東"],
+  ["金流","收款"],["網紅","kol"]                                        // 服務口語別名
+];
+function normSearch(s){
+  s=(s||"").toLowerCase();
+  for(const [from,to] of SEARCH_SYNONYMS) s=s.split(from).join(to);
+  return s;
+}
 function runSearch(){
-  const q=$("searchInput").value.trim().toLowerCase();
-  if(!q){ goHome(); return; }
+  const raw=$("searchInput").value.trim();
+  if(!raw){ goHome(); return; }
+  const q=normSearch(raw);
   curCat=null; curSub=null;
   $("subTypeNav").innerHTML="";
   showL2(); renderDomainBar();
   const list=providers.filter(p=>{
     if(!matchSite(p)) return false;
-    const haystack=[p.name,p.tags.join(" "),p.intro||"",Object.keys(p.svc||{}).join(" "),Object.values(p.svc||{}).map(s=>s.desc||"").join(" ")].join(" ").toLowerCase();
+    // Mirror the browse-by-category matcher: include the precise sub-type labels
+    // (svc[].sub — the "提供的服務" line on each card), the site list, and the
+    // logistics routes (destination countries + transport modes). Without these
+    // a query like "代營運" or "沙烏地阿拉伯" missed providers whose cards clearly show them.
+    const haystack=normSearch([
+      p.name,
+      p.tags.join(" "),
+      p.intro||"",
+      p.regions.join(" "),
+      Object.keys(p.svc||{}).join(" "),
+      Object.values(p.svc||{}).map(s=>(s.sub||"")+" "+(s.desc||"")).join(" "),
+      p.routes?Object.entries(p.routes).map(([c,m])=>c+" "+m).join(" "):""
+    ].join(" "));
     return haystack.includes(q);
   });
   renderSPList(list);
-  pushNav({view:"search",q:$("searchInput").value.trim()});
+  pushNav({view:"search",q:raw});
 }
 
 /* ===== Site change ===== */
