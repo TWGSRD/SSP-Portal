@@ -15,15 +15,23 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <style>
+    /* Self-hosted brand typeface — see index.html for rationale */
+    @font-face{font-family:'Noto Sans TC';src:url('fonts/NotoSansTC-Regular.ttf') format('truetype');font-weight:400;font-display:swap;}
+    @font-face{font-family:'Noto Sans TC';src:url('fonts/NotoSansTC-Medium.ttf') format('truetype');font-weight:500;font-display:swap;}
+    @font-face{font-family:'Noto Sans TC';src:url('fonts/NotoSansTC-Bold.ttf') format('truetype');font-weight:700;font-display:swap;}
     :root{
-      --amz-navy:#232f3e;--amz-navy-deep:#161e2c;--amz-orange:#ff6100;--amz-orange-hover:#ff7a2e;
-      --amz-orange-light:#fff3eb;--amz-green:#49850f;--border:#e2e4e7;--bg:#ffffff;
-      --bg-card:#ffffff;--text-primary:#1a1a2e;--text-secondary:#4a5568;--text-light:#8a919a;
-      --card-shadow:0 2px 8px 0 rgba(22,30,44,.06);
+      /* TWGS Visual Identity (2025/11) — the only 5 brand colours allowed */
+      --off-white:#f5f3ef;--white:#ffffff;--squid-ink:#161d26;
+      --smile-orange:#ff6200;--smile-orange-text:#f55600;
+      /* Compatibility aliases (darks → Squid Ink, oranges → Smile Orange) */
+      --amz-navy:#161d26;--amz-navy-deep:#161d26;--amz-orange:#ff6200;--amz-orange-hover:#f55600;
+      --amz-orange-light:#fff3eb;--border:#e2e4e7;--bg:#ffffff;
+      --bg-card:#ffffff;--text-primary:#161d26;--text-secondary:#4a5568;--text-light:#8a919a;
+      --card-shadow:0 2px 8px 0 rgba(22,29,38,.06);
       --radius-sm:8px;--radius-md:12px;--radius-lg:20px;
     }
     *{box-sizing:border-box;}
-    body{background:var(--bg);font-family:'Amazon Ember','Helvetica Neue','PingFang TC','Microsoft JhengHei',Arial,sans-serif;color:var(--text-primary);margin:0;-webkit-font-smoothing:antialiased;}
+    body{background:var(--bg);font-family:'Amazon Ember','Noto Sans TC','Helvetica Neue','PingFang TC','Microsoft JhengHei',Arial,sans-serif;color:var(--text-primary);margin:0;-webkit-font-smoothing:antialiased;}
     .headbar{background:var(--amz-navy-deep);color:#fff;padding:0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(22,30,44,.18);}
     .headbar-inner{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.5rem 0;min-height:52px;}
     .brand-logo{display:flex;align-items:center;cursor:pointer;padding:.3rem .6rem;border:none;border-radius:var(--radius-sm);flex-shrink:0;text-decoration:none;}
@@ -37,7 +45,7 @@
     .contact-item a{color:var(--amz-orange);font-weight:600;text-decoration:none;}
     .contact-item a:hover{text-decoration:underline;}
     .site-footer{background:var(--amz-navy-deep);color:rgba(255,255,255,.5);padding:2.5rem 0 2rem;font-size:.78rem;text-align:center;}
-    .site-footer::before{content:"";display:block;height:5px;background:var(--amz-green);margin-bottom:0;position:relative;top:-2.5rem;}
+    .site-footer::before{content:"";display:block;height:5px;background:var(--smile-orange);margin-bottom:0;position:relative;top:-2.5rem;}
   </style>
 </head>
 <body>
@@ -45,7 +53,7 @@
 <!-- NAV -->
 <nav class="headbar">
   <div class="container headbar-inner">
-    <a class="brand-logo" href="index.html"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" style="filter:brightness(0) invert(1);"></a>
+    <a class="brand-logo" href="index.html"><img src="amazon-logo-white.png" alt="Amazon"></a>
   </div>
 </nav>
 

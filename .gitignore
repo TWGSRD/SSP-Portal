@@ -25,6 +25,23 @@ spn_providers.tsv
 # Original SPN logo source (site uses spn-logo.png)
 SPN logo.png
 
+# Brand-asset source folders (site uses the copied-out amazon-logo-white.png
+# + fonts/ — these heavy originals stay local)
+Amazon logo/
+Traditional Chinese Fonts/
+
+# PDF / launcher / deck build material (not part of the public website)
+SSP_Portal_導引.pdf
+pdf_qr.png
+ssp_portal_pdf.html
+launcher.html
+launcher_deploy/
+launcher_frozen_preview.html
+preview_error.html
+preview_loading.html
+Launch annoucement/
+ads partner logo.png
+
 # Archived/unused logo originals (kept locally for recovery, not on public site)
 Logos/_unused/
 QRcode/_unused/

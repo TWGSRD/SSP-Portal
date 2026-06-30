@@ -32,6 +32,7 @@ cp contact.html        "$DIST"/
 cp prov_data.js        "$DIST"/
 cp spn-logo.png        "$DIST"/
 cp ads-partner-logo.png "$DIST"/
+cp amazon-logo-white.png "$DIST"/   # official TWGS one-colour white Amazon logo
 cp "Tier 1 service image.png" "$DIST"/
 
 # --- Asset folders ---
@@ -39,6 +40,7 @@ cp -r Banner  "$DIST"/
 cp -r Logos   "$DIST"/
 cp -r QRcode  "$DIST"/
 cp -r flags   "$DIST"/
+cp -r fonts   "$DIST"/   # self-hosted Noto Sans TC (brand TC typeface)
 
 # Drop archived/unused originals so they never reach the public site
 rm -rf "$DIST"/Logos/_unused "$DIST"/QRcode/_unused
