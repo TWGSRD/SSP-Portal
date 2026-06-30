@@ -673,6 +673,17 @@ function runSearch(){
     return haystack.includes(q);
   });
   renderSPList(list);
+  // Log search to GA4 so we can see what sellers actually type, and which queries
+  // return zero results — those are the prime candidates for new SEARCH_SYNONYMS
+  // entries. search_term = raw input as typed; normalized_term = post-synonym form
+  // (lets us tell whether a synonym mapping fired); result_count drives the
+  // "high-frequency but zero-result" report.
+  gtag('event','search',{
+    search_term: raw,
+    normalized_term: q,
+    result_count: list.length,
+    site: curSite||'all'
+  });
   pushNav({view:"search",q:raw});
 }
 
