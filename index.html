@@ -258,7 +258,11 @@ const $=id=>document.getElementById(id);
 
 /* Amazon SPN landing page (linked from the SPN badge) */
 const SPN_URL="https://sellercentral.amazon.com/gspn?ref_=svs_gspn_soaspn_hp&initialSessionID=140-0185071-4678623&ld=NSGoogle&pageName=US%3ASD%3ASOA-spn&ldStackingCodes=NSGoogle";
-const spnBadge=(h)=>` <a href="${SPN_URL}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Amazon SPN 網絡服務商"><img src="spn-logo.png" alt="Amazon SPN 網絡服務商" class="sp-spn-logo" style="height:${h}px;margin-left:.35rem;"></a>`;
+/* Detail-page SPN badge. Rendered as an orange pill with the WHITE
+   "Amazon Service Provider Network" wordmark inside, so it visually matches the
+   other orange award pills (.sp-award-tag: SEND / 優選) sitting on the same title
+   row. The wordmark is ~19:1, sized by height inside the pill. */
+const spnBadge=(h)=>` <a href="${SPN_URL}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Amazon Service Provider Network" style="display:inline-flex;align-items:center;background:var(--smile-orange);border-radius:999px;padding:.15rem .5rem;vertical-align:middle;margin-left:.3rem;"><img src="spn-logo-white.png" alt="Amazon Service Provider Network" style="height:10px;width:auto;display:block;"></a>`;
 /* Amazon Ads Verified Partner badge — links to the partner's directory detail page.
    The logo is near-square with two lines of small text, so it needs more height than
    the wide SPN wordmark to stay legible. Uses a lighter frame than .sp-spn-logo. */
@@ -548,7 +552,7 @@ function renderSPList(list){
         <div class="d-flex align-items-start gap-3 mb-2">
           ${logoHTML(p, 52)}
           <div style="min-width:0">
-            <div class="sp-name" style="font-size:1rem">${p.name}${(p.isSpn||p.isAdsPartner||tagAwards.length)?` <span style="vertical-align:middle">${p.isSpn?'<img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:18px;vertical-align:middle;">':""}${p.isAdsPartner?ADS_IMG(30):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</span>`:""}</div>
+            <div class="sp-name" style="font-size:1rem">${p.name}${(p.isSpn||p.isAdsPartner||tagAwards.length)?` <span style="vertical-align:middle">${p.isSpn?'<img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:18px;vertical-align:middle;">':""}${p.isAdsPartner?ADS_IMG(30):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">${a.includes("SEND")?"":"\uD83C\uDFC6 "}${a}</span>`).join(""):""}</span>`:""}</div>
             <div class="sp-tags" style="font-size:.78rem">${curCat&&p.svc&&p.svc[curCat.name]&&p.svc[curCat.name].sub?p.svc[curCat.name].sub:p.tags.join("、")}</div>
           </div>
         </div>
@@ -604,12 +608,9 @@ function openDetail(name){
   }
 
   const spnIntro=p.isSpn?`
-    <div class="spn-intro">
-      <a href="${SPN_URL}" target="_blank" rel="noopener" title="前往 Amazon SPN 網絡服務商頁面"><img src="spn-logo.png" alt="Amazon SPN 網絡服務商"></a>
-      <div>
-        <div class="spn-intro-title">什麼是 SPN？</div>
-        <div class="spn-intro-text">Amazon Service Provider Network（SPN）是一群經過 Amazon 審核的第三方服務商，能協助賣家處理從產品攝影到廣告優化等各種營運需求。簡單來說，SPN 讓賣家能專注於核心業務，將專業事務交給可信賴的專家協助達成目標。</div>
-      </div>
+    <div class="spn-intro" style="flex-direction:column;align-items:flex-start;gap:.6rem;">
+      <a href="${SPN_URL}" target="_blank" rel="noopener" title="前往 Amazon Service Provider Network 頁面"><img src="spn-logo-text.png" alt="Amazon Service Provider Network" style="width:280px;height:auto;margin-top:0;"></a>
+      <div class="spn-intro-text">Amazon Service Provider Network（SPN）是一群經過 Amazon 審核的第三方服務商，能協助賣家處理從產品攝影到廣告優化等各種營運需求。簡單來說，SPN 讓賣家能專注於核心業務，將專業事務交給可信賴的專家協助達成目標。</div>
     </div>`:"";
 
   $("spDetail").innerHTML=`
@@ -617,7 +618,7 @@ function openDetail(name){
       <div class="d-flex align-items-start gap-3 mb-3">
         ${logoHTML(p, 72)}
         <div>
-          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}${p.isSpn?spnBadge(28):""}${p.isAdsPartner?adsBadge(p,50):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">\uD83C\uDFC6 ${a}</span>`).join(""):""}</h3>
+          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}${p.isSpn?spnBadge(28):""}${p.isAdsPartner?adsBadge(p,50):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">${a.includes("SEND")?"":"\uD83C\uDFC6 "}${a}</span>`).join(""):""}</h3>
           <div style="color:var(--amz-orange);font-size:.85rem">${p.regions.join(" · ")} ${p.regions.map(r=>({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]?`<img src="${({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]}" title="${r}" style="height:14px;vertical-align:middle;margin-left:2px;cursor:help;">`:"").filter(Boolean).join("")}</div>
           <div style="font-size:.82rem;color:var(--text-light);margin-top:.3rem">提供的服務：${p.tags.join("、")}</div>
         </div>

@@ -31,6 +31,8 @@ cp index.html          "$DIST"/
 cp contact.html        "$DIST"/
 cp prov_data.js        "$DIST"/
 cp spn-logo.png        "$DIST"/
+cp spn-logo-text.png   "$DIST"/
+cp spn-logo-white.png  "$DIST"/
 cp ads-partner-logo.png "$DIST"/
 cp amazon-logo-white.png "$DIST"/   # official TWGS one-colour white Amazon logo
 cp "Tier 1 service image.png" "$DIST"/
