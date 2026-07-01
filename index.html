@@ -736,7 +736,14 @@ function boot(){
     isSpn:r.isSpn||false,
     isAdsPartner:r.isAdsPartner||false, adsLink:r.adsLink||""
   }));
+  // Sort order for every provider list (browse-by-domain + search):
+  // 1) any-badge providers first — a "badge" is any award, SPN membership, or
+  //    Ads-partner status. Badged SSPs surface above non-badged ones.
+  // 2) then SEND carriers, 3) then by score desc.
+  const hasBadge=p=>(p.awards.length>0||p.isSpn||p.isAdsPartner)?1:0;
   providers.sort((a,b)=>{
+    const aB=hasBadge(a), bB=hasBadge(b);
+    if(bB!==aB) return bB-aB;
     const aS=a.awards.some(aw=>aw.includes("SEND"))?1:0;
     const bS=b.awards.some(aw=>aw.includes("SEND"))?1:0;
     if(bS!==aS) return bS-aS;
