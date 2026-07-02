@@ -641,6 +641,29 @@ function openDetail(name){
       ${svcHTML}
       <div class="mt-4"><button class="btn btn-outline-secondary" style="font-size:1rem;padding:.5rem 1.2rem;font-weight:600;" onclick="goBackOrL2()"><i class="bi bi-arrow-left-circle-fill me-2" style="font-size:1.2rem;"></i>返回列表</button></div>
     </div>`;
+
+  // GA4 contact_click — delegated listener, replaced on each openDetail call so
+  // provider_name is always the current provider (captured in closure via `name`/`p`).
+  const detailEl = $("spDetail");
+  if(detailEl._contactClickHandler) detailEl.removeEventListener("click", detailEl._contactClickHandler);
+  detailEl._contactClickHandler = function(e){
+    const a = e.target.closest("a[href]");
+    if(!a) return;
+    const href = a.getAttribute("href");
+    let method;
+    if(href.startsWith("mailto:")) method = "email";
+    else if(p.adsLink && href === p.adsLink) method = "ads";
+    else if(href.startsWith(SPN_URL.slice(0,40))) method = "spn";
+    else if(href.startsWith("http")) method = "website";
+    if(!method) return;
+    gtag("event", "contact_click", {
+      provider_name: name,
+      method: method,
+      tier1_domain: curCat ? curCat.name : "",
+      site: curSite || "all"
+    });
+  };
+  detailEl.addEventListener("click", detailEl._contactClickHandler);
 }
 
 /* ===== Search ===== */
