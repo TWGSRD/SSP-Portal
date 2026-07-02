@@ -460,7 +460,7 @@ function renderDomainBar(){
 
 function openCategory(name){
   curCat=categoryMap[name]; curSub=null;
-  gtag('event', 'view_service_domain', { tier1_domain: name });
+  gtag('event', 'view_service_domain', { tier1_domain: name, site: curSite||'all' });
   showL2(); renderDomainBar(); renderSubNav();
   renderSPList(providersForCat(curCat));
   pushNav({view:"category",cat:name});
@@ -485,7 +485,7 @@ function renderSubNav(){
     btn.addEventListener("click",()=>{
       nav.querySelectorAll(".nav-link").forEach(x=>x.classList.remove("active"));
       btn.classList.add("active"); curSub=sub;
-      gtag('event', 'view_service_subdomain', { tier1_domain: curCat.name, tier2_subdomain: sub });
+      gtag('event', 'view_service_subdomain', { tier1_domain: curCat.name, tier2_subdomain: sub, site: curSite||'all' });
       renderSPList(providers.filter(p=>matchSite(p)&&providerMatchesSub(p,sub)));
       pushNav({view:"category",cat:curCat.name,sub:sub});
     });
@@ -570,7 +570,7 @@ function renderSPList(list){
 /* ===== Level 3: Provider detail ===== */
 function openDetail(name){
   const p=providerMap[name]; if(!p) return;
-  gtag('event', 'view_provider', { provider_name: name, tier1_domain: curCat ? curCat.name : '' });
+  gtag('event', 'view_provider', { provider_name: name, tier1_domain: curCat ? curCat.name : '', site: curSite||'all' });
   showL3(); renderDomainBar();
   pushNav({view:"detail",name:name,cat:curCat?curCat.name:null,sub:curSub||null});
   const tagAwards=p.awards.filter(a=>!a.includes("服務商獎項"));
