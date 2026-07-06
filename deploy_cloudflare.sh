@@ -36,6 +36,10 @@ cp spn-logo-white.png  "$DIST"/
 cp ads-partner-logo.png "$DIST"/
 cp amazon-logo-white.png "$DIST"/   # official TWGS one-colour white Amazon logo
 cp "Tier 1 service image.png" "$DIST"/
+cp favicon.ico         "$DIST"/   # Amazon-smile favicon (TWGS Smile Orange)
+cp favicon-16.png      "$DIST"/
+cp favicon-32.png      "$DIST"/
+cp favicon-180.png     "$DIST"/
 
 # --- Asset folders ---
 cp -r Banner  "$DIST"/
