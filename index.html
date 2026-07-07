@@ -253,7 +253,7 @@
   </div>
   <div>© 2026 亞馬遜台灣第三方服務商網絡指南</div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
 <script>
 /* ===== State ===== */
@@ -272,7 +272,7 @@ const spnBadge=(h)=>` <a href="${SPN_URL}" target="_blank" rel="noopener" onclic
    The logo is near-square with two lines of small text, so it needs more height than
    the wide SPN wordmark to stay legible. Uses a lighter frame than .sp-spn-logo. */
 const ADS_IMG=(h)=>`<img src="ads-partner-logo.png" alt="Amazon Ads Verified Partner" title="Amazon Ads Verified Partner" style="height:${h}px;width:auto;vertical-align:middle;margin-left:.4rem;border:1px solid var(--border);border-radius:var(--radius-sm,6px);background:#fff;padding:.15rem .3rem;box-shadow:0 1px 3px rgba(22,30,44,.08);">`;
-const adsBadge=(p,h)=>p.adsLink?` <a href="${p.adsLink}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${ADS_IMG(h)}</a>`:` ${ADS_IMG(h)}`;
+const adsBadge=(p,h)=>p.adsLink?` <a href="${esc(p.adsLink)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${ADS_IMG(h)}</a>`:` ${ADS_IMG(h)}`;
 
 /* Sub-type region restrictions: only show these sub-types when the specified site is selected */
 const SUB_REGION_RESTRICT = {
@@ -292,12 +292,17 @@ function matchSite(p){
   return p.regions && p.regions.includes(curSite);
 }
 function initials(n){ return n.replace(/[\(（].*?[\)）]/g,"").trim().slice(0,2); }
+// HTML-escape any provider-sourced string before it enters innerHTML. The data
+// comes from a Google Sheet that the whole team can edit, so a stray "<" or a
+// crafted <script>/<img onerror> cell must render as text, never execute.
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
 function fmt(text){
   if(!text) return "";
-  // Convert newlines to <br>
-  let s = text.replace(/\n/g,"<br>");
-  // Auto-link URLs
-  s = s.replace(/(https?:\/\/[^\s<,，、）)]+)/g,'<a href="$1" target="_blank" style="color:inherit;text-decoration:underline;">$1</a>');
+  // Escape first, THEN convert newlines and auto-link — so untrusted text can
+  // never inject markup, only the URLs we ourselves build become real <a> tags.
+  let s = esc(text).replace(/\n/g,"<br>");
+  // Auto-link URLs (operating on already-escaped text)
+  s = s.replace(/(https?:\/\/[^\s<,，、）)]+)/g,'<a href="$1" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">$1</a>');
   return s;
 }
 // Clean a contact field for display: hide it entirely when the whole cell is
@@ -320,17 +325,17 @@ function websiteLink(w){
   const m = w.match(/^(.*?)[:：]?\s*(https?:\/\/\S+)/);
   const label = m && m[1].trim() ? m[1].trim()+"：" : "";
   const url = m ? m[2] : (w.startsWith("http")?w:"https://"+w);
-  return `<p class="mb-1"><i class="bi bi-globe me-2"></i>${label}<a href="${url}" target="_blank" style="color:inherit;text-decoration:underline;">${url}</a></p>`;
+  return `<p class="mb-1"><i class="bi bi-globe me-2"></i>${esc(label)}<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">${esc(url)}</a></p>`;
 }
 function logoHTML(p, size){
   size = size || 46;
   if(p.logoFile){
-    return `<img src="Logos/${encodeURIComponent(p.logoFile)}" alt="${p.name}" style="width:${size}px;height:${size}px;border-radius:var(--radius-sm);object-fit:contain;background:#fff;">`;
+    return `<img src="Logos/${encodeURIComponent(p.logoFile)}" alt="${esc(p.name)}" style="width:${size}px;height:${size}px;border-radius:var(--radius-sm);object-fit:contain;background:#fff;">`;
   }
   if(p.logoId){
-    return `<img src="https://drive.google.com/thumbnail?id=${p.logoId}&sz=w${size*2}" alt="${p.name}" style="width:${size}px;height:${size}px;border-radius:var(--radius-sm);object-fit:contain;background:#fff;">`;
+    return `<img src="https://drive.google.com/thumbnail?id=${encodeURIComponent(p.logoId)}&sz=w${size*2}" alt="${esc(p.name)}" style="width:${size}px;height:${size}px;border-radius:var(--radius-sm);object-fit:contain;background:#fff;">`;
   }
-  return `<div class="sp-logo" style="width:${size}px;height:${size}px">${initials(p.name)}</div>`;
+  return `<div class="sp-logo" style="width:${size}px;height:${size}px">${esc(initials(p.name))}</div>`;
 }
 function renderRoutes(p){
   if(!p.routes) return "";
@@ -342,7 +347,7 @@ function renderRoutes(p){
   html+=`<table style="border-collapse:collapse;font-size:.8rem;"><thead><tr><th style="padding:.4rem .6rem;border-bottom:2px solid var(--border);text-align:left;color:var(--text-light);"></th>`;
   countries.forEach(c=>{
     const flag=flagImg[c]?`<img src="${flagImg[c]}" style="height:14px;vertical-align:middle;margin-right:3px;">`:"";
-    html+=`<th style="padding:.4rem .6rem;border-bottom:2px solid var(--border);text-align:center;color:var(--text-secondary);font-weight:600;">${flag}${c}</th>`;
+    html+=`<th style="padding:.4rem .6rem;border-bottom:2px solid var(--border);text-align:center;color:var(--text-secondary);font-weight:600;">${flag}${esc(c)}</th>`;
   });
   html+=`</tr></thead><tbody>`;
   modes.forEach(mode=>{
@@ -549,20 +554,20 @@ function renderSPList(list){
   const cardHTML=(p)=>{
     const tagAwards=p.awards.filter(a=>!a.includes("服務商獎項"));
     const isHL=p.awards.some(a=>a.includes("服務商獎項"));
-    const introSnippet=p.intro?`<div class="sp-intro">${p.intro}</div>`:"";
+    const introSnippet=p.intro?`<div class="sp-intro">${esc(p.intro)}</div>`:"";
     return `
     <div class="col-12 col-md-6">
-      <div class="sp-card${isHL?" sp-highlighted":""}" data-name="${p.name}">
+      <div class="sp-card${isHL?" sp-highlighted":""}" data-name="${esc(p.name)}">
         ${isHL?'<div class="sp-badge">\u2B50 優質服務商</div>':""}
         <div class="d-flex align-items-start gap-3 mb-2">
           ${logoHTML(p, 52)}
           <div style="min-width:0">
-            <div class="sp-name" style="font-size:1rem">${p.name}${(p.isSpn||p.isAdsPartner||tagAwards.length)?` <span style="vertical-align:middle">${p.isSpn?'<img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:18px;vertical-align:middle;">':""}${p.isAdsPartner?ADS_IMG(30):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">${a.includes("SEND")?"":"\uD83C\uDFC6 "}${a}</span>`).join(""):""}</span>`:""}</div>
-            <div class="sp-tags" style="font-size:.78rem">${curCat&&p.svc&&p.svc[curCat.name]&&p.svc[curCat.name].sub?p.svc[curCat.name].sub:p.tags.join("、")}</div>
+            <div class="sp-name" style="font-size:1rem">${esc(p.name)}${(p.isSpn||p.isAdsPartner||tagAwards.length)?` <span style="vertical-align:middle">${p.isSpn?'<img src="spn-logo.png" alt="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" title="Amazon SPN \u7DB2\u7D61\u670D\u52D9\u5546" class="sp-spn-logo" style="height:18px;vertical-align:middle;">':""}${p.isAdsPartner?ADS_IMG(30):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">${a.includes("SEND")?"":"\uD83C\uDFC6 "}${esc(a)}</span>`).join(""):""}</span>`:""}</div>
+            <div class="sp-tags" style="font-size:.78rem">${curCat&&p.svc&&p.svc[curCat.name]&&p.svc[curCat.name].sub?esc(p.svc[curCat.name].sub):esc(p.tags.join("、"))}</div>
           </div>
         </div>
         ${introSnippet}
-        <div class="sp-sites">${p.regions.join(" · ")}</div>
+        <div class="sp-sites">${p.regions.map(r=>esc(r)).join(" · ")}</div>
       </div>
     </div>`;
   };
@@ -600,10 +605,10 @@ function openDetail(name){
       svcHTML+=`<div class="col-12 col-md-6"><div class="svc-section h-100">
         <div class="svc-header">
           <div class="svc-header-icon"><i class="bi ${catIcon}"></i></div>
-          <div class="svc-header-title">${cat}</div>
+          <div class="svc-header-title">${esc(cat)}</div>
         </div>
         <div class="svc-body">
-          ${d.sub?`<div class="svc-tier2"><span style="color:var(--text-secondary);font-weight:400;font-size:.84rem">提供的服務：</span>${d.sub}</div>`:""}
+          ${d.sub?`<div class="svc-tier2"><span style="color:var(--text-secondary);font-weight:400;font-size:.84rem">提供的服務：</span>${esc(d.sub)}</div>`:""}
           ${d.desc?`<div class="svc-desc">${fmt(d.desc)}</div>`:""}
           <div class="svc-flags">${flags}</div>
         </div>
@@ -623,9 +628,9 @@ function openDetail(name){
       <div class="d-flex align-items-start gap-3 mb-3">
         ${logoHTML(p, 72)}
         <div>
-          <h3 class="mb-0" style="font-size:1.25rem">${p.name}${hlBadge}${p.isSpn?spnBadge(28):""}${p.isAdsPartner?adsBadge(p,50):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">${a.includes("SEND")?"":"\uD83C\uDFC6 "}${a}</span>`).join(""):""}</h3>
-          <div style="color:var(--amz-orange);font-size:.85rem">${p.regions.join(" · ")} ${p.regions.map(r=>({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]?`<img src="${({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]}" title="${r}" style="height:14px;vertical-align:middle;margin-left:2px;cursor:help;">`:"").filter(Boolean).join("")}</div>
-          <div style="font-size:.82rem;color:var(--text-light);margin-top:.3rem">提供的服務：${p.tags.join("、")}</div>
+          <h3 class="mb-0" style="font-size:1.25rem">${esc(p.name)}${hlBadge}${p.isSpn?spnBadge(28):""}${p.isAdsPartner?adsBadge(p,50):""}${tagAwards.length?tagAwards.map(a=>` <span class="sp-award-tag">${a.includes("SEND")?"":"\uD83C\uDFC6 "}${esc(a)}</span>`).join(""):""}</h3>
+          <div style="color:var(--amz-orange);font-size:.85rem">${p.regions.map(r=>esc(r)).join(" · ")} ${p.regions.map(r=>({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]?`<img src="${({"北美站":"flags/US.png","歐洲站":"flags/EU.png","日本站":"flags/JP.png","澳洲站":"flags/AU.png","中東站":"flags/沙烏地阿拉伯.png"})[r]}" title="${esc(r)}" style="height:14px;vertical-align:middle;margin-left:2px;cursor:help;">`:"").filter(Boolean).join("")}</div>
+          <div style="font-size:.82rem;color:var(--text-light);margin-top:.3rem">提供的服務：${esc(p.tags.join("、"))}</div>
         </div>
       </div>
       ${p.intro?`<p class="mb-2" style="font-size:.88rem;color:var(--text-secondary);line-height:1.6">${fmt(p.intro)}</p>`:""}
@@ -633,13 +638,13 @@ function openDetail(name){
       <h5><i class="bi bi-person-lines-fill me-2"></i>聯絡資訊</h5>
       <div class="d-flex align-items-start gap-4">
         <div class="flex-grow-1">
-          ${(()=>{const v=cleanContact(p.contact);return v?`<p class="mb-1"><i class="bi bi-person me-2"></i>${v}</p>`:"";})()}
-          ${(()=>{const v=cleanContact(p.phone);return v?`<p class="mb-1"><i class="bi bi-telephone me-2"></i>${v}</p>`:"";})()}
-          ${(()=>{const v=cleanContact(p.email);return v?`<p class="mb-1"><i class="bi bi-envelope me-2"></i><a href="mailto:${v}" style="color:inherit;text-decoration:underline;">${v}</a></p>`:"";})()}
-          ${(()=>{const v=cleanContact(p.lineId);return v?`<p class="mb-1"><i class="bi bi-chat-dots me-2"></i>${v}</p>`:"";})()}
+          ${(()=>{const v=cleanContact(p.contact);return v?`<p class="mb-1"><i class="bi bi-person me-2"></i>${esc(v)}</p>`:"";})()}
+          ${(()=>{const v=cleanContact(p.phone);return v?`<p class="mb-1"><i class="bi bi-telephone me-2"></i>${esc(v)}</p>`:"";})()}
+          ${(()=>{const v=cleanContact(p.email);return v?`<p class="mb-1"><i class="bi bi-envelope me-2"></i><a href="mailto:${encodeURIComponent(v)}" style="color:inherit;text-decoration:underline;">${esc(v)}</a></p>`:"";})()}
+          ${(()=>{const v=cleanContact(p.lineId);return v?`<p class="mb-1"><i class="bi bi-chat-dots me-2"></i>${esc(v)}</p>`:"";})()}
           ${websiteLink(p.website)}
         </div>
-        ${p.qrFile?`<div class="text-center"><img src="QRcode/${encodeURIComponent(p.qrFile)}" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:p.qrId?`<div class="text-center"><img src="https://drive.google.com/thumbnail?id=${p.qrId}&sz=w240" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:""}
+        ${p.qrFile?`<div class="text-center"><img src="QRcode/${encodeURIComponent(p.qrFile)}" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:p.qrId?`<div class="text-center"><img src="https://drive.google.com/thumbnail?id=${encodeURIComponent(p.qrId)}&sz=w240" alt="QR Code" style="width:120px;height:120px;object-fit:contain;border-radius:var(--radius-sm);border:1px solid var(--border);"><div style="font-size:.7rem;color:var(--text-light);margin-top:.3rem">掃碼聯繫</div></div>`:""}
       </div>
       ${p.routes?renderRoutes(p):""}
       ${spnIntro}

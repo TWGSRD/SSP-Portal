@@ -1,7 +1,7 @@
 {
-  "enabled": true,
+  "enabled": false,
   "name": "Deploy SSP Portal to GitHub",
-  "description": "When index.html or prov_data.js are saved, automatically commit and push changes to the GitHub Pages repo (https://twgsrd.github.io/SSP-Portal/).",
+  "description": "DISABLED for team use: auto-committing + pushing on every .html/.js save bypasses the staged review gates (Gate 1 diff / local review / Theo sweep) and could push a half-edited prov_data.js live. With multiple maintainers, deploy manually via deploy_cloudflare.sh + git push, or via the Emily agent. Re-enable only for a solo, disciplined workflow.",
   "version": "1",
   "when": {
     "type": "fileEdited",
