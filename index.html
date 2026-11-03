@@ -83,7 +83,11 @@
     .award-pill{background:rgba(255,98,0,.15);border:1px solid rgba(255,98,0,.45);border-radius:999px;padding:clamp(.15rem,1vw,.4rem) clamp(.6rem,3vw,1.4rem);font-size:clamp(.55rem,1.8vw,.8rem);color:var(--smile-orange);font-weight:700;letter-spacing:.5px;white-space:nowrap;}
     .award-title{color:#fff;font-size:clamp(.95rem,3.6vw,2rem);font-weight:800;line-height:1.2;}
     .award-title span{color:var(--smile-orange);}
-    .award-winners{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(.25rem,1vw,.5rem);}
+    .award-winners{display:flex;flex-direction:column;align-items:center;gap:clamp(.25rem,.8vw,.45rem);}
+    .award-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:clamp(.25rem,1vw,.5rem);}
+    .award-row-name{color:rgba(255,255,255,.85);font-size:clamp(.6rem,1.6vw,.85rem);font-weight:700;margin-right:.25rem;}
+    .award-note{background:var(--bg-warm);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.65rem .9rem;margin:0 0 .9rem;font-size:.85rem;line-height:1.6;color:var(--text-secondary);}
+    .award-note-title{font-weight:700;color:var(--text-primary);margin-bottom:.15rem;}
     .award-chip{background:#fff;color:var(--squid-ink);border:0;border-radius:999px;padding:clamp(.1rem,.6vw,.3rem) clamp(.5rem,1.6vw,.9rem);font-size:clamp(.6rem,1.6vw,.85rem);font-weight:700;cursor:pointer;white-space:nowrap;transition:transform .15s,box-shadow .15s;}
     .award-chip:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(255,98,0,.4);}
     .award-sub{color:rgba(255,255,255,.75);font-size:clamp(.6rem,2vw,1rem);line-height:1.2;}
@@ -242,10 +246,9 @@
         <div class="carousel-item active">
           <a href="https://www.facebook.com/share/p/1QesJdKfjr/" target="_blank" rel="noopener noreferrer" class="award-slide">
             <div class="award-slide-inner">
-              <div class="award-pill">🏆 SELLER SUMMIT 2026 · 第三方服務商獎項</div>
+              <div class="award-pill">🏆 2026 Seller Summit · 第三方服務商獎項</div>
               <div class="award-title">2026 年度<span>優選第三方服務商</span></div>
               <div class="award-winners" id="awardWinners"></div>
-              <div class="award-sub">感謝與亞馬遜全球開店攜手，助力台灣賣家品牌出海 →</div>
             </div>
           </a>
         </div>
@@ -325,8 +328,10 @@ const spnBadge=(h)=>` <a href="${SPN_URL}" target="_blank" rel="noopener" onclic
    The logo is near-square with two lines of small text, so it needs more height than
    the wide SPN wordmark to stay legible. Uses a lighter frame than .sp-spn-logo. */
 const ADS_IMG=(h)=>`<img src="ads-partner-logo.png" alt="Amazon Ads Verified Partner" title="Amazon Ads Verified Partner" style="height:${h}px;width:auto;vertical-align:middle;margin-left:.4rem;border:1px solid var(--border);border-radius:var(--radius-sm,6px);background:#fff;padding:.15rem .3rem;box-shadow:0 1px 3px rgba(22,30,44,.08);">`;
-const AWARD_LINKS={"\u512A\u9078\u7B2C\u4E09\u65B9\u670D\u52D9\u5546":"https://www.facebook.com/share/p/1FM5ZKigGk/"};
-const awardTag=a=>{const pill=`<span class="sp-award-tag">${a.includes("SEND")?"":"\uD83C\uDFC6 "}${esc(a)}</span>`;return AWARD_LINKS[a]?` <a href="${AWARD_LINKS[a]}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="text-decoration:none">${pill}</a>`:` ${pill}`;};
+// Seller Summit awards (names ending in 獎, from the Sheet) link to the award announcement post.
+const SUMMIT_AWARD_POST="https://www.facebook.com/share/p/1N5p61MX5k/";
+const isSummitAward=a=>/獎$/.test(a);
+const awardTag=a=>{const pill=`<span class="sp-award-tag">${a.includes("SEND")?"":"\uD83C\uDFC6 "}${esc(a)}</span>`;return isSummitAward(a)?` <a href="${SUMMIT_AWARD_POST}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" style="text-decoration:none">${pill}</a>`:` ${pill}`;};
 const adsBadge=(p,h)=>p.adsLink?` <a href="${esc(p.adsLink)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">${ADS_IMG(h)}</a>`:` ${ADS_IMG(h)}`;
 
 /* Sub-type region restrictions: only show these sub-types when the specified site is selected */
@@ -638,8 +643,13 @@ function renderSPList(list){
 function renderAwardSlide(){
   const box=$("awardWinners"); if(!box) return;
   const short=n=>n.replace(/[\(（].*?[\)）]/g,"").replace(/(股份)?有限公司/g,"").trim();
-  box.innerHTML=providers.filter(p=>p.awards.includes("優選第三方服務商"))
-    .map(p=>`<button type="button" class="award-chip" data-name="${esc(p.name)}">${esc(short(p.name))}</button>`).join("");
+  const groups={};
+  providers.forEach(p=>p.awards.filter(isSummitAward).forEach(a=>(groups[a]=groups[a]||[]).push(p)));
+  // more winners first (成長推手獎 3, 影響力推動獎 2), then by name - stable regardless of provider sort
+  box.innerHTML=Object.entries(groups).sort((x,y)=>y[1].length-x[1].length||x[0].localeCompare(y[0])).map(([a,ps])=>`<div class="award-row">
+      <span class="award-row-name">${esc(a.replace(/^\d{4}\s*/,""))}</span>
+      ${ps.map(p=>`<button type="button" class="award-chip" data-name="${esc(p.name)}">${esc(short(p.name))}</button>`).join("")}
+    </div>`).join("");
   box.querySelectorAll(".award-chip").forEach(b=>b.addEventListener("click",e=>{
     e.preventDefault(); e.stopPropagation(); openDetail(b.dataset.name);
   }));
@@ -652,6 +662,13 @@ function renderNews(){
   const row=(n,dup)=>`<a class="ticker-item" href="${esc(n.link)}" target="_blank" rel="noopener noreferrer"${dup?' aria-hidden="true" tabindex="-1"':""}><span class="dot"></span>${esc(n.t)}<span class="tk-date">${esc((n.d||"").replace(/-/g,"."))}</span></a>`;
   $("tickerTrack").innerHTML=items.map(n=>row(n,false)).join("")+items.map(n=>row(n,true)).join("");
   $("newsTicker").style.display="";
+}
+// Plain note on the detail page: which Seller Summit award and why (得獎原因 column in the Sheet).
+function awardNotesHTML(p){
+  return Object.entries(p.awardNotes||{}).map(([a,why])=>`<div class="award-note">
+      <div class="award-note-title">\uD83C\uDFC6 ${esc(/^\d{4}/.test(a)?a.replace(/^(\d{4})\s*/,"$1服務商獎項｜"):a)}</div>
+      <div>${esc(why)}</div>
+    </div>`).join("");
 }
 function openDetail(name){
   const p=providerMap[name]; if(!p) return;
@@ -708,6 +725,7 @@ function openDetail(name){
           <div style="font-size:.82rem;color:var(--text-light);margin-top:.3rem">提供的服務：${esc(p.tags.join("、"))}</div>
         </div>
       </div>
+      ${awardNotesHTML(p)}
       ${p.intro?`<p class="mb-2" style="font-size:.88rem;color:var(--text-secondary);line-height:1.6">${fmt(p.intro)}</p>`:""}
       <hr>
       <h5><i class="bi bi-person-lines-fill me-2"></i>聯絡資訊</h5>
@@ -842,7 +860,7 @@ function boot(){
     lineId:r.l||"", intro:r.intro||"", tags:r.t||[], svc:r.svc||{},
     regions:r.r||[], website:r.w||"", score:r.score||0,
     logoId:r.logoId||"", qrId:r.qrId||"", routes:r.routes||null,
-    awards:r.awards||[], logoFile:r.logoFile||"", qrFile:r.qrFile||"",
+    awards:r.awards||[], awardNotes:r.awardNotes||{}, logoFile:r.logoFile||"", qrFile:r.qrFile||"",
     isSpn:r.isSpn||false,
     isAdsPartner:r.isAdsPartner||false, adsLink:r.adsLink||""
   }));
