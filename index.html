@@ -77,6 +77,17 @@
     .carousel-control-prev:hover,.carousel-control-next:hover{background:rgba(0,0,0,.7);}
     .carousel-control-prev-icon,.carousel-control-next-icon{width:18px;height:18px;filter:brightness(0) invert(1);}
     @media(max-width:576px){.hero-carousel-content{padding:1.5rem;}}
+    /* SSP Award slide (winners rendered from prov_data.js in renderAwardSlide) */
+    .award-slide{text-decoration:none;display:block;}
+    .award-slide-inner{aspect-ratio:2400/490;max-height:250px;background:radial-gradient(ellipse at 85% 0%,rgba(255,98,0,.35),transparent 55%),radial-gradient(ellipse at 10% 100%,rgba(255,98,0,.18),transparent 50%),var(--squid-ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:clamp(.25rem,1.2vw,.6rem);padding:1rem;overflow:hidden;text-align:center;}
+    .award-pill{background:rgba(255,98,0,.15);border:1px solid rgba(255,98,0,.45);border-radius:999px;padding:clamp(.15rem,1vw,.4rem) clamp(.6rem,3vw,1.4rem);font-size:clamp(.55rem,1.8vw,.8rem);color:var(--smile-orange);font-weight:700;letter-spacing:.5px;white-space:nowrap;}
+    .award-title{color:#fff;font-size:clamp(.95rem,3.6vw,2rem);font-weight:800;line-height:1.2;}
+    .award-title span{color:var(--smile-orange);}
+    .award-winners{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(.25rem,1vw,.5rem);}
+    .award-chip{background:#fff;color:var(--squid-ink);border:0;border-radius:999px;padding:clamp(.1rem,.6vw,.3rem) clamp(.5rem,1.6vw,.9rem);font-size:clamp(.6rem,1.6vw,.85rem);font-weight:700;cursor:pointer;white-space:nowrap;transition:transform .15s,box-shadow .15s;}
+    .award-chip:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(255,98,0,.4);}
+    .award-sub{color:rgba(255,255,255,.75);font-size:clamp(.6rem,2vw,1rem);line-height:1.2;}
+    @media(max-width:576px){.award-winners,.award-sub{display:none;}}
 
     /* CATEGORY GRID */
     .section-sub{color:var(--text-secondary);font-size:.88rem;margin-top:.25rem;}
@@ -194,9 +205,20 @@
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
       </div>
       <div class="carousel-inner" style="border-radius:var(--radius-lg);overflow:hidden;">
-        <div class="carousel-item active"><a href="https://gs.amazon.com.tw/logistics/send" target="_blank" rel="noopener"><img src="Banner/banner1.webp" class="d-block w-100" alt="Amazon SEND 亞馬遜跨境合作承運方計畫" style="max-height:250px;object-fit:cover;" fetchpriority="high"></a></div>
+        <div class="carousel-item active">
+          <a href="https://www.facebook.com/share/p/1QesJdKfjr/" target="_blank" rel="noopener noreferrer" class="award-slide">
+            <div class="award-slide-inner">
+              <div class="award-pill">🏆 SELLER SUMMIT 2026 · 第三方服務商獎項</div>
+              <div class="award-title">恭喜 2026 年度<span>優選第三方服務商</span>！</div>
+              <div class="award-winners" id="awardWinners"></div>
+              <div class="award-sub">感謝與亞馬遜全球開店攜手，助力台灣賣家品牌出海 →</div>
+            </div>
+          </a>
+        </div>
+        <div class="carousel-item"><a href="https://gs.amazon.com.tw/logistics/send" target="_blank" rel="noopener"><img src="Banner/banner1.webp" class="d-block w-100" alt="Amazon SEND 亞馬遜跨境合作承運方計畫" style="max-height:250px;object-fit:cover;" fetchpriority="high"></a></div>
         <div class="carousel-item"><img src="Banner/banner2.webp" class="d-block w-100" alt="Banner 2" style="max-height:250px;object-fit:cover;"></div>
         <div class="carousel-item">
           <a href="https://twgsrd.github.io/GOV-Sub/" target="_blank" style="text-decoration:none;display:block;">
@@ -580,6 +602,17 @@ function renderSPList(list){
 }
 
 /* ===== Level 3: Provider detail ===== */
+// Hero award slide: chips for every 優選第三方服務商 winner, straight from the Sheet data.
+// Chip opens that provider's detail page; the rest of the card links to the award post.
+function renderAwardSlide(){
+  const box=$("awardWinners"); if(!box) return;
+  const short=n=>n.replace(/[\(（].*?[\)）]/g,"").replace(/(股份)?有限公司/g,"").trim();
+  box.innerHTML=providers.filter(p=>p.awards.includes("優選第三方服務商"))
+    .map(p=>`<button type="button" class="award-chip" data-name="${esc(p.name)}">${esc(short(p.name))}</button>`).join("");
+  box.querySelectorAll(".award-chip").forEach(b=>b.addEventListener("click",e=>{
+    e.preventDefault(); e.stopPropagation(); openDetail(b.dataset.name);
+  }));
+}
 function openDetail(name){
   const p=providerMap[name]; if(!p) return;
   gtag('event', 'view_provider', { provider_name: name, tier1_domain: curCat ? curCat.name : '', site: curSite||'all' });
@@ -788,6 +821,7 @@ function boot(){
   providers.forEach(p=>providerMap[p.name]=p);
 
   renderL1();
+  renderAwardSlide();
   $("searchForm").addEventListener("submit",e=>{ e.preventDefault(); runSearch(); });
   const sel=$("siteSelect");
   sel.addEventListener("change",()=>{ curSite=sel.value; setSite(curSite); });
