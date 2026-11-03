@@ -2,6 +2,13 @@
 window.PMM_NEWS_HOME="https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/";
 window.PMM_NEWS=[
 {
+"t": "2026 亞馬遜黑五網一各站點時間公布，Deal 提報截止日與備戰重點一次整理",
+"d": "2026-11-03",
+"type": "活動",
+"thumb": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/assets/news/amazon-black-friday-cyber-monday-timelin-261103/thumb_plan.jpg",
+"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/amazon-black-friday-cyber-monday-timelin-261103"
+},
+{
 "t": "FBA 庫容又緊了？你的貨還有另一個地方可以放",
 "d": "2026-10-26",
 "type": "產品更新",
@@ -35,12 +42,5 @@ window.PMM_NEWS=[
 "type": "政策公告",
 "thumb": "https://m.media-amazon.com/images/G/28/TWGS/Stock2026/TWGS_MKT_Stock_18._CB760169682_.jpg",
 "link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/eudr-amazon-invoicing-sellers-261019"
-},
-{
-"t": "效期商品備多怕即期、備少怕斷貨？GWD 開放有效期限商品入倉",
-"d": "2026-10-15",
-"type": "產品更新",
-"thumb": "https://m.media-amazon.com/images/G/28/TWGS/Stock2026/TWGS_MKT_Stock_Box_9._CB760169682_.jpg",
-"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/shelf-life-inventory-planning-261015"
 }
 ];
