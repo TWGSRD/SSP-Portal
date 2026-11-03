@@ -88,6 +88,29 @@
     .award-chip:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(255,98,0,.4);}
     .award-sub{color:rgba(255,255,255,.75);font-size:clamp(.6rem,2vw,1rem);line-height:1.2;}
     @media(max-width:576px){.award-winners,.award-sub{display:none;}}
+    /* 焦點消息 marquee (mirrors the PMM portal ticker); items from pmm_news.js */
+    .ticker{background:var(--squid-ink);color:#fff;overflow:hidden;border-top:1px solid #2a3340;}
+    .ticker-in{display:flex;align-items:stretch;max-width:1200px;margin:0 auto;padding-right:1rem;}
+    .ticker-label{flex:none;position:relative;display:flex;align-items:center;gap:.35rem;background:var(--smile-orange);color:var(--squid-ink);font-weight:700;font-size:.76rem;padding:.32rem .9rem .32rem 1rem;white-space:nowrap;z-index:2;}
+    .ticker-label svg{width:12px;height:12px;}
+    .ticker-view{overflow:hidden;flex:1;padding:0 .5rem;-webkit-mask-image:linear-gradient(90deg,transparent,#000 2.5rem,#000 calc(100% - 2.5rem),transparent);mask-image:linear-gradient(90deg,transparent,#000 2.5rem,#000 calc(100% - 2.5rem),transparent);}
+    .ticker-track{display:flex;gap:2.5rem;white-space:nowrap;width:max-content;animation:tickerScroll 200s linear infinite;will-change:transform;}
+    .ticker-view:hover .ticker-track,.ticker-view:focus-within .ticker-track{animation-play-state:paused;}
+    .ticker-item{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:400;padding:.32rem 0;color:rgba(255,255,255,.72);text-decoration:none;}
+    .ticker-item:hover{color:#fff;text-decoration:underline;}
+    .ticker-item .dot{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.4);flex:none;}
+    .ticker-item .tk-date{color:rgba(255,255,255,.42);font-size:.7rem;font-weight:400;}
+    @keyframes tickerScroll{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+    @media(prefers-reduced-motion:reduce){.ticker-track{animation:none;}.ticker-view{overflow-x:auto;}}
+    @media(max-width:576px){.ticker-in{padding-right:0;}.ticker-label{font-size:.7rem;padding:.3rem .6rem;}.ticker-item{font-size:.74rem;}.ticker-track{gap:1.8rem;animation-duration:260s;}}
+    /* PMM news-portal slide: light variant of the award slide */
+    .news-slide-inner{aspect-ratio:2400/490;max-height:250px;background:radial-gradient(ellipse at 90% 10%,rgba(255,98,0,.16),transparent 55%),radial-gradient(ellipse at 5% 95%,rgba(0,168,225,.10),transparent 50%),var(--off-white);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:clamp(.25rem,1.2vw,.6rem);padding:1rem;overflow:hidden;text-align:center;}
+    .news-pill{background:#fff;border:1px solid rgba(255,98,0,.45);border-radius:999px;padding:clamp(.15rem,1vw,.4rem) clamp(.6rem,3vw,1.4rem);font-size:clamp(.55rem,1.8vw,.8rem);color:var(--smile-orange-text);font-weight:700;letter-spacing:.5px;white-space:nowrap;}
+    .news-title{color:var(--squid-ink);font-size:clamp(.95rem,3.6vw,2rem);font-weight:800;line-height:1.2;}
+    .news-title span{color:var(--smile-orange);}
+    .news-sub{color:var(--text-light);font-size:clamp(.6rem,2vw,1rem);line-height:1.2;}
+    @media(max-width:576px){.news-sub{display:none;}.award-slide-inner,.news-slide-inner{padding:.5rem 1rem 1.9rem;}.carousel-indicators{margin-bottom:0;}}
+    .carousel-indicators [data-bs-target]:not(.active){background-color:#8a8f98;opacity:.6;}
 
     /* CATEGORY GRID */
     .section-sub{color:var(--text-secondary);font-size:.88rem;margin-top:.25rem;}
@@ -197,6 +220,14 @@
   </div>
 </nav>
 
+<!-- 焦點消息 ticker: synced from the PMM portal by sync_pmm_news.py -> pmm_news.js; hidden when empty -->
+<div id="newsTicker" class="ticker" style="display:none">
+  <div class="ticker-in">
+    <span class="ticker-label"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8z"/></svg>營運新聞與產品更新</span>
+    <div class="ticker-view"><div class="ticker-track" id="tickerTrack"></div></div>
+  </div>
+</div>
+
 <!-- HERO BANNER -->
 <section class="hero-banner">
   <div class="hero-banner-inner">
@@ -218,17 +249,17 @@
             </div>
           </a>
         </div>
-        <div class="carousel-item"><a href="https://gs.amazon.com.tw/logistics/send" target="_blank" rel="noopener"><img src="Banner/banner1.webp" class="d-block w-100" alt="Amazon SEND 亞馬遜跨境合作承運方計畫" style="max-height:250px;object-fit:cover;" fetchpriority="high"></a></div>
-        <div class="carousel-item"><img src="Banner/banner2.webp" class="d-block w-100" alt="Banner 2" style="max-height:250px;object-fit:cover;"></div>
         <div class="carousel-item">
-          <a href="https://twgsrd.github.io/GOV-Sub/" target="_blank" style="text-decoration:none;display:block;">
-            <div style="aspect-ratio:2400/490;max-height:250px;background:var(--squid-ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.6rem;padding:1rem;overflow:hidden;">
-              <div style="background:rgba(255,98,0,.15);border:1px solid rgba(255,98,0,.45);border-radius:999px;padding:clamp(.15rem,1vw,.5rem) clamp(.6rem,3vw,1.5rem);font-size:clamp(.6rem,2vw,.85rem);color:var(--smile-orange);font-weight:600;letter-spacing:.5px;white-space:nowrap;">🏛️ GOV SUBSIDY</div>
-              <div style="color:#fff;font-size:clamp(.95rem,4vw,2.2rem);font-weight:800;text-align:center;line-height:1.2;">政府補助資訊</div>
-              <div style="color:rgba(255,255,255,.75);font-size:clamp(.7rem,2.5vw,1.1rem);text-align:center;line-height:1.2;">了解跨境電商相關補助方案 →</div>
+          <a href="https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/" target="_blank" rel="noopener noreferrer" class="award-slide">
+            <div class="news-slide-inner">
+              <div class="news-pill">📰 AMAZON NEWS &amp; UPDATES</div>
+              <div class="news-title">亞馬遜<span>營運新聞與產品更新</span></div>
+              <div class="news-sub">各站點最新政策、功能與產品更新，一次掌握 →</div>
             </div>
           </a>
         </div>
+        <div class="carousel-item"><a href="https://gs.amazon.com.tw/logistics/send" target="_blank" rel="noopener"><img src="Banner/banner1.webp" class="d-block w-100" alt="Amazon SEND 亞馬遜跨境合作承運方計畫" style="max-height:250px;object-fit:cover;" fetchpriority="high"></a></div>
+        <div class="carousel-item"><img src="Banner/banner2.webp" class="d-block w-100" alt="Banner 2" style="max-height:250px;object-fit:cover;"></div>
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
       <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
@@ -613,6 +644,15 @@ function renderAwardSlide(){
     e.preventDefault(); e.stopPropagation(); openDetail(b.dataset.name);
   }));
 }
+// 焦點消息 marquee from pmm_news.js (window.PMM_NEWS). Only https links are rendered.
+// The list is rendered twice so the -50% scroll loops seamlessly; the copy is hidden from AT/tab order.
+function renderNews(){
+  const items=(window.PMM_NEWS||[]).filter(n=>/^https:\/\//.test(n.link));
+  if(!items.length) return;
+  const row=(n,dup)=>`<a class="ticker-item" href="${esc(n.link)}" target="_blank" rel="noopener noreferrer"${dup?' aria-hidden="true" tabindex="-1"':""}><span class="dot"></span>${esc(n.t)}<span class="tk-date">${esc((n.d||"").replace(/-/g,"."))}</span></a>`;
+  $("tickerTrack").innerHTML=items.map(n=>row(n,false)).join("")+items.map(n=>row(n,true)).join("");
+  $("newsTicker").style.display="";
+}
 function openDetail(name){
   const p=providerMap[name]; if(!p) return;
   gtag('event', 'view_provider', { provider_name: name, tier1_domain: curCat ? curCat.name : '', site: curSite||'all' });
@@ -787,6 +827,7 @@ function setSite(s){
 </script>
 
 <script src="prov_data.js"></script>
+<script src="pmm_news.js" onerror="window.PMM_NEWS=[]"></script>
 <script>
 /* ===== Boot ===== */
 function boot(){
@@ -822,6 +863,7 @@ function boot(){
 
   renderL1();
   renderAwardSlide();
+  renderNews();
   $("searchForm").addEventListener("submit",e=>{ e.preventDefault(); runSearch(); });
   const sel=$("siteSelect");
   sel.addEventListener("change",()=>{ curSite=sel.value; setSite(curSite); });
