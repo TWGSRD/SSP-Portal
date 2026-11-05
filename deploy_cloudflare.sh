@@ -63,6 +63,8 @@ du -sh "$DIST" 2>/dev/null || true
 find "$DIST" -maxdepth 1 -type f | sort
 
 echo "==> Deploying to Cloudflare Pages project '$PROJECT' ..."
-npx --yes wrangler pages deploy "$DIST" --project-name "$PROJECT" --commit-dirty=true
+# --branch main: without it wrangler infers the branch from git, and the scheduled job deploys
+# from a detached worktree (branch "HEAD"), which Cloudflare treats as a Preview, not Production.
+npx --yes wrangler pages deploy "$DIST" --project-name "$PROJECT" --branch main --commit-dirty=true
 
 echo "==> Done."

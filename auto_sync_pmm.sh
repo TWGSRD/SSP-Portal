@@ -12,7 +12,11 @@ cd "$(dirname "$0")"
 export PYTHONIOENCODING=utf-8
 
 STATE="reports/pmm_sync.last"
+STATUS="reports/pmm_sync_status.txt"   # one line: when, result, top headline - check this to see if today's update is live
+LIVE_URL="https://ssp-portal.pages.dev/pmm_news.js"
 mkdir -p reports
+status() { echo "$(date '+%Y-%m-%d %H:%M') | $1 | $(grep -m1 '"t":' pmm_news.js 2>/dev/null | sed 's/^"t": *"//; s/",\?$//')" > "$STATUS"; }
+trap 'status "FAILED (see reports/pmm_sync.log)"' ERR
 echo "==== $(date '+%Y-%m-%d %H:%M:%S') PMM 焦點消息 sync ===="
 
 python sync_pmm_news.py
@@ -20,6 +24,7 @@ python sync_pmm_news.py
 NEW_HASH=$(sha256sum pmm_news.js | cut -d' ' -f1)
 if [ -f "$STATE" ] && [ "$(cat "$STATE")" = "$NEW_HASH" ]; then
   echo "No change in 焦點消息 - nothing to deploy."
+  status "NO CHANGE (already live)"
   exit 0
 fi
 
@@ -38,5 +43,16 @@ if [ "${DRY_RUN:-}" = "1" ]; then
 fi
 (cd "$WT" && bash deploy_cloudflare.sh)
 
-echo "$NEW_HASH" > "$STATE"
-echo "Deployed updated 焦點消息."
+# Confirm Production (not just a Preview) is serving the new list before recording success.
+for i in 1 2 3 4 5 6; do
+  if diff -q <(curl -fsS --max-time 20 "$LIVE_URL?v=$RANDOM" | tr -d '') <(tr -d '' < pmm_news.js) >/dev/null 2>&1; then
+    echo "$NEW_HASH" > "$STATE"
+    echo "Deployed updated 焦點消息 - verified live on $LIVE_URL"
+    status "UPDATED - LIVE"
+    exit 0
+  fi
+  sleep 10
+done
+echo "!! Deploy finished but Production is not serving the new pmm_news.js"
+status "DEPLOYED BUT NOT LIVE (see reports/pmm_sync.log)"
+exit 1
