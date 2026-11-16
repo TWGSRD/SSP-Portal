@@ -116,6 +116,68 @@
     @media(max-width:576px){.news-sub{display:none;}.award-slide-inner,.news-slide-inner{padding:.5rem 1rem 1.9rem;}.carousel-indicators{margin-bottom:0;}}
     .carousel-indicators [data-bs-target]:not(.active){background-color:#8a8f98;opacity:.6;}
 
+    /* KOL education slide (links to 廣告推廣協助 › KOL網紅行銷) */
+    .kol-slide-inner{aspect-ratio:2400/490;max-height:250px;background:radial-gradient(ellipse at 92% 50%,rgba(255,98,0,.55),transparent 55%),linear-gradient(100deg,var(--squid-ink) 0%,var(--squid-ink) 55%,#3a2416 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:clamp(.25rem,1.2vw,.6rem);padding:1rem;overflow:hidden;text-align:center;position:relative;}
+    .kol-pill{background:var(--smile-orange);border-radius:999px;padding:clamp(.15rem,1vw,.4rem) clamp(.6rem,3vw,1.4rem);font-size:clamp(.55rem,1.8vw,.8rem);color:#fff;font-weight:700;letter-spacing:.5px;white-space:nowrap;}
+    .kol-title{color:#fff;font-size:clamp(.95rem,3.6vw,2rem);font-weight:800;line-height:1.2;}
+    .kol-title span{color:var(--smile-orange);}
+    .kol-sub{color:rgba(255,255,255,.75);font-size:clamp(.6rem,2vw,1rem);line-height:1.2;}
+    .kol-tags{display:flex;gap:clamp(.25rem,1vw,.5rem);flex-wrap:wrap;justify-content:center;}
+    .kol-tags span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:999px;font-size:clamp(.55rem,1.5vw,.8rem);padding:clamp(.1rem,.5vw,.25rem) clamp(.5rem,1.5vw,.9rem);}
+    .kol-icons{position:absolute;left:4%;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.6rem;font-size:clamp(1rem,3vw,2rem);color:rgba(255,255,255,.12);}
+    @media(max-width:576px){.kol-tags,.kol-icons{display:none;}.kol-slide-inner{padding:.5rem 1rem 1.9rem;}}
+    /* KOL 網紅行銷 sub-type intro block (rendered by renderSubIntro) */
+  .kol101{background:var(--off-white);border:1px solid var(--border);border-left:4px solid var(--smile-orange);border-radius:var(--radius-md);padding:.85rem 1rem .75rem;margin-bottom:1rem;}
+  .k-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+  .k-title{font-size:1.02rem;font-weight:800;margin:0;}
+  .k-title span{color:var(--smile-orange);}
+  .k-lead{font-size:.78rem;color:var(--text-secondary);margin:.1rem 0 0;}
+  .k-toggle{background:none;border:1px solid var(--border);border-radius:999px;font-size:.72rem;color:var(--text-secondary);padding:.2rem .65rem;white-space:nowrap;}
+  .k-toggle:hover{border-color:var(--smile-orange);color:var(--smile-orange-text);}
+  .kol101.collapsed .k-body{display:none;}
+  .k-body{display:grid;grid-template-columns:1.15fr 1.1fr 1fr;gap:.5rem;margin-top:.65rem;}
+  .k-col{background:#fff;border-radius:var(--radius-sm);padding:.6rem .7rem;font-size:.76rem;line-height:1.45;color:var(--text-secondary);}
+  .k-col h4{font-size:.84rem;font-weight:700;color:var(--text-primary);margin:0 0 .35rem;display:flex;align-items:center;gap:.35rem;}
+  .k-col h4 i{color:var(--smile-orange);}
+  .k-col ul{margin:0;padding-left:1rem;}
+  .k-col li{margin-bottom:.2rem;}
+  .k-col b{color:var(--text-primary);}
+  .kol101 code.q{background:var(--amz-orange-light);color:var(--smile-orange-text);border-radius:4px;padding:0 .3rem;font-size:.72rem;white-space:nowrap;}
+  .kol101 .chips-label{font-size:.7rem;color:var(--text-light);margin-top:.45rem;}
+  .kol101 .chips{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.2rem;}
+  .kol101 .chips a{border:1px solid var(--smile-orange);border-radius:999px;padding:.05rem .5rem;font-size:.7rem;color:var(--smile-orange-text);text-decoration:none;font-weight:600;}
+  .kol101 .chips a:hover{background:var(--smile-orange);color:#fff;}
+  .kol101 .chips a i{font-size:.6rem;}
+  .k-col a.hl{font-weight:700;color:var(--text-primary);text-decoration:underline;text-decoration-color:var(--smile-orange);text-underline-offset:2px;}
+  .k-col a.hl:hover{color:var(--smile-orange-text);}
+  .kol101 .chips span{border:1px solid var(--border);border-radius:999px;padding:.05rem .5rem;font-size:.7rem;color:var(--text-primary);}
+  .kol101 .tier{display:flex;gap:.45rem;margin-bottom:.3rem;}
+  .kol101 .tier .tg{flex:0 0 3.6em;text-align:center;background:var(--squid-ink);color:#fff;border-radius:4px;font-size:.68rem;font-weight:700;padding:.1rem 0;height:fit-content;}
+  .kol101 .tier .tg.o{background:var(--smile-orange);}
+  .kol101 .tier .tg.g{background:#8a919a;}
+  .k-foot{grid-column:1/-1;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.4rem;font-size:.75rem;color:var(--text-secondary);padding-top:.15rem;}
+  .k-foot i{color:var(--smile-orange);}
+  .k-cta2{grid-column:1/-1;justify-self:end;display:inline-flex;align-items:center;gap:.35rem;font-size:.82rem;color:var(--text-secondary);text-decoration:none;padding:.1rem 0;}
+  .k-cta2 i{color:var(--smile-orange);}
+  .k-cta2 b{color:var(--smile-orange-text);font-weight:700;}
+  .k-cta2:hover b{text-decoration:underline;text-underline-offset:2px;}
+  .k-tip{font-size:.72rem;color:var(--text-secondary);background:var(--amz-orange-light);border-radius:4px;padding:.3rem .45rem;margin-top:.4rem;line-height:1.4;}
+  .k-tip i{color:var(--smile-orange);}
+  @media(max-width:768px){.k-body{grid-template-columns:1fr;}}
+  .k-read{grid-column:1/-1;background:#fff;border-radius:var(--radius-sm);padding:.55rem .7rem .65rem;}
+  .k-read-h{font-size:.84rem;font-weight:700;color:var(--text-primary);margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem;}
+  .k-read-h i{color:var(--smile-orange);}
+  .k-read-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.9rem;max-width:80%;}
+  .k-read-list a{display:flex;flex-direction:column;gap:.25rem;text-decoration:none;color:var(--text-primary);min-width:0;}
+  .k-read-list .kr-img{position:relative;display:block;aspect-ratio:16/9;border-radius:6px;overflow:hidden;border:1px solid var(--border);background:var(--off-white);}
+  .k-read-list .kr-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
+  .k-read-list a:hover .kr-img img{transform:scale(1.04);}
+  .k-read-list .kr-play{position:absolute;left:.4rem;bottom:.3rem;font-size:1.35rem;line-height:1;color:#ff0033;background:#fff;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,.3);}
+  .k-read-list .kr-t{font-size:.78rem;font-weight:700;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .k-read-list a:hover .kr-t{color:var(--smile-orange-text);}
+  .k-read-list .kr-s{font-size:.68rem;color:var(--text-light);}
+  @media(max-width:768px){.k-read-list{grid-template-columns:1fr 1fr;max-width:none;}}
+  @media(max-width:480px){.k-read-list{grid-template-columns:1fr;}}
     /* CATEGORY GRID */
     .section-sub{color:var(--text-secondary);font-size:.88rem;margin-top:.25rem;}
     .cat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2rem 1.5rem;margin-top:2rem;padding:0 1rem;}
@@ -241,6 +303,7 @@
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="4"></button>
       </div>
       <div class="carousel-inner" style="border-radius:var(--radius-lg);overflow:hidden;">
         <div class="carousel-item active">
@@ -249,6 +312,17 @@
               <div class="award-pill">🏆 2026 Seller Summit · 第三方服務商獎項</div>
               <div class="award-title">2026 年度<span>優選第三方服務商</span></div>
               <div class="award-winners" id="awardWinners"></div>
+            </div>
+          </a>
+        </div>
+        <div class="carousel-item">
+          <a href="#/c/%E5%BB%A3%E5%91%8A%E6%8E%A8%E5%BB%A3%E5%8D%94%E5%8A%A9/KOL%E7%B6%B2%E7%B4%85%E8%A1%8C%E9%8A%B7" class="award-slide" data-label="KOL 網紅合作入門" onclick="openKolGuide();return false;">
+            <div class="kol-slide-inner">
+              <div class="kol-icons"><i class="bi bi-camera-video"></i><i class="bi bi-people"></i></div>
+              <div class="kol-pill">📘 KOL 網紅行銷</div>
+              <div class="kol-title">網紅合作入門：<span>認識合作模式、找到對的創作者</span></div>
+              <div class="kol-tags"><span>三種合作方式</span><span>去哪裡找網紅</span><span>用亞馬遜工具追蹤</span></div>
+              <div class="kol-sub">一次看懂，並找到協助網紅合作的服務商 →</div>
             </div>
           </a>
         </div>
@@ -287,11 +361,54 @@
         <nav id="subTypeNav" class="nav flex-column gap-1 position-sticky" style="top:110px;"></nav>
       </div>
       <div class="col">
-        <div id="spList" class="row g-3"></div>
+        <div id="subIntro"></div>
+        <div id="spList" class="row g-3" style="scroll-margin-top:110px"></div>
       </div>
     </div>
   </div>
 </section>
+
+<template id="kolIntroTpl">
+<section class="kol101" id="kol101">
+        <div class="k-head">
+          <div>
+            <div class="k-title">📘 網紅合作入門：<span>認識合作模式、找到對的創作者</span></div>
+          </div>
+          <button class="k-toggle" type="button" aria-expanded="true"><i class="bi bi-chevron-up"></i> 收合</button>
+        </div>
+        <div class="k-body">
+          <div class="k-col">
+            <h4><i class="bi bi-people"></i>三種合作方式</h4>
+            <div class="tier"><span class="tg g">內容型</span><div><b>送品換片</b>：免費樣品換開箱、評測或站內影片（多為粉絲數一萬以下）</div></div>
+            <div class="tier"><span class="tg o">帶貨型</span><div><b>純佣金</b>：專屬折扣碼／聯盟連結，賣出才付</div></div>
+            <div class="tier"><span class="tg">流量型</span><div><b>付費曝光</b>：固定費換聲量，不保證銷售（10 萬粉以上）</div></div>
+            <div class="k-tip"><i class="bi bi-lightbulb"></i> 內容型合作產出的站內影片會出現在商品頁，對轉換率幫助最大</div>
+          </div>
+          <div class="k-col">
+            <h4><i class="bi bi-search"></i>去哪裡找網紅</h4>
+            <ul>
+              <li>YouTube 搜 <code class="q">產品名 amzn.to</code></li>
+              <li>Google 搜 <code class="q">site:instagram.com/p "amzn.to" 產品名</code></li>
+              <li>TikTok 搜 <code class="q">my Amazon storefront</code></li>
+            </ul>
+            <div class="chips-label">或透過網紅媒合平台：</div><div class="chips"><a href="https://www.archeraffiliates.com/" target="_blank" rel="noopener noreferrer">Archer <i class="bi bi-box-arrow-up-right"></i></a><a href="https://levanta.io/" target="_blank" rel="noopener noreferrer">Levanta <i class="bi bi-box-arrow-up-right"></i></a><a href="https://joinbrands.com/" target="_blank" rel="noopener noreferrer">JoinBrands <i class="bi bi-box-arrow-up-right"></i></a><a href="https://stackinfluence.com/" target="_blank" rel="noopener noreferrer">Stack Influence <i class="bi bi-box-arrow-up-right"></i></a></div>
+          </div>
+          <div class="k-col">
+            <h4><i class="bi bi-graph-up-arrow"></i>用亞馬遜工具追蹤</h4>
+            <ul>
+              <li><a class="hl" href="https://advertising.amazon.com/solutions/products/amazon-attribution" target="_blank" rel="noopener noreferrer">Amazon Attribution</a>：每位網紅一條專屬連結，追蹤點擊與訂單</li>
+              <li><a class="hl" href="https://sellercentral.amazon.com/help/hub/reference/external/GL9HPJ34VBFP76HX" target="_blank" rel="noopener noreferrer">Brand Referral Bonus</a>：站外導流的銷售，品牌平均可獲約 10% 回饋（限美國站）</li>
+              <li><a class="hl" href="https://affiliate-program.amazon.com/" target="_blank" rel="noopener noreferrer">Amazon Associates</a>：網紅自建連結賺推薦費（最高約 10%）</li>
+            </ul>
+          </div>
+          <div class="k-read">
+            <div class="k-read-h"><i class="bi bi-book"></i>延伸閱讀</div>
+            <div class="k-read-list"><a href="https://www.youtube.com/watch?v=9rU6qiMDZ3M&amp;t=1256s" target="_blank" rel="noopener noreferrer"><span class="kr-img"><img src="Banner/kol/yt.webp" alt="" loading="lazy" width="640" height="360"><i class="bi bi-play-circle-fill kr-play"></i></span><span class="kr-t">網紅行銷當道！善用引流工具讓商品快速增長能見度</span><span class="kr-s">亞馬遜全球開店｜影片</span></a><a href="https://www.ecomplusco.com/blog-posts/is-influencer-marketing-necessary-in-the-us-market" target="_blank" rel="noopener noreferrer"><span class="kr-img"><img src="Banner/kol/ecomplus.webp" alt="" loading="lazy" width="640" height="360"></span><span class="kr-t">經營美國跨境電商，一定要做網紅行銷嗎？</span><span class="kr-s">EcomPlus｜文章</span></a><a href="https://transbiz.com.tw/traffic-temperature-strategy/" target="_blank" rel="noopener noreferrer"><span class="kr-img"><img src="Banner/kol/transbiz.webp" alt="" loading="lazy" width="640" height="360"></span><span class="kr-t">找網紅、下廣告卻沒轉單？流量的溫度層級與站外引流</span><span class="kr-s">TransBiz｜文章</span></a></div>
+          </div>
+          <a class="k-cta2" href="#spList"><i class="bi bi-person-raised-hand"></i>找尋專家協助，加速與網紅合作：<b>查看下方服務商 <i class="bi bi-arrow-down"></i></b></a>
+        </div>
+      </section>
+</template>
 
 <!-- LEVEL 3: Provider detail -->
 <section id="level3" style="display:none">
@@ -608,7 +725,32 @@ function providersForCat(cat){
   return providers.filter(p=>matchSite(p)&&providerMatchesCat(p,cat));
 }
 
+/* ===== Sub-type intro: KOL 網紅行銷 education block ===== */
+const KOL_CAT="廣告推廣協助", KOL_SUB="KOL網紅行銷";
+function renderSubIntro(){
+  const box=$("subIntro"); if(!box) return;
+  const show=curCat&&curCat.name===KOL_CAT&&curSub===KOL_SUB;
+  if(!show){ box.innerHTML=""; return; }
+  if(box.querySelector("#kol101")) return;
+  box.appendChild($("kolIntroTpl").content.cloneNode(true));
+  const k=$("kol101"), t=k.querySelector(".k-toggle");
+  const setC=c=>{k.classList.toggle("collapsed",c);t.setAttribute("aria-expanded",String(!c));
+    t.innerHTML=c?'<i class="bi bi-chevron-down"></i> 展開':'<i class="bi bi-chevron-up"></i> 收合';};
+  let c=false; try{c=localStorage.getItem("kol101_collapsed")==="1";}catch(e){}
+  setC(c);
+  t.addEventListener("click",()=>{const n=!k.classList.contains("collapsed");setC(n);
+    try{localStorage.setItem("kol101_collapsed",n?"1":"0");}catch(e){}
+    gtag("event","kol_intro_toggle",{state:n?"collapsed":"expanded"});});
+  k.querySelector(".k-cta2").addEventListener("click",e=>{e.preventDefault();
+    $("spList").scrollIntoView({behavior:"smooth"}); gtag("event","kol_intro_cta",{site:curSite||"all"});});
+  k.querySelectorAll('a[target="_blank"]').forEach(a=>a.addEventListener("click",()=>
+    gtag("event","kol_intro_link",{link_text:a.textContent.trim().slice(0,60),link_url:a.href})));
+}
+/* Hero KOL slide → 廣告推廣協助 › KOL網紅行銷 */
+function openKolGuide(){ openCategory(KOL_CAT); selectSub(KOL_SUB); window.scrollTo(0,0); }
+
 function renderSPList(list){
+  renderSubIntro();
   const el=$("spList");
   if(!list.length){ el.innerHTML=`<div class="col-12 text-muted text-center py-4">目前無符合條件的服務商。</div>`; return; }
   const cardHTML=(p)=>{
@@ -663,6 +805,29 @@ function renderNews(){
   $("tickerTrack").innerHTML=items.map(n=>row(n,false)).join("")+items.map(n=>row(n,true)).join("");
   $("newsTicker").style.display="";
 }
+// GA4 promo_click: one capture-phase listener for the ticker, hero slides, award chips and the
+// award tag on provider pages. Capture phase so it still fires where handlers stopPropagation().
+// slot = ticker | news_slide | award_slide | award_chip | award_tag | banner; position is 1-based.
+document.addEventListener("click",e=>{
+  const t=e.target; let slot,position=0,label="",link="";
+  const chip=t.closest(".award-chip"), tick=t.closest(".ticker-item"), tag=t.closest(".sp-award-tag");
+  if(chip){
+    slot="award_chip"; label=chip.dataset.name||"";
+    position=[...document.querySelectorAll("#awardWinners .award-chip")].indexOf(chip)+1;
+  }else if(tick){
+    slot="ticker"; link=tick.href;
+    label=[...tick.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join("").trim(); // title without date
+    position=[...tick.parentNode.children].indexOf(tick)%Math.max(1,tick.parentNode.children.length/2)+1;
+  }else if(tag&&tag.closest("a[href]")){
+    slot="award_tag"; label=tag.textContent.trim(); link=tag.closest("a").href;
+  }else{
+    const item=t.closest("#heroCarousel .carousel-item"), a=t.closest("#heroCarousel .carousel-item a[href]");
+    if(!item||!a) return;
+    slot=a.querySelector(".kol-slide-inner")?"kol_slide":a.querySelector(".news-slide-inner")?"news_slide":a.querySelector(".award-slide-inner")?"award_slide":"banner";
+    position=[...item.parentNode.children].indexOf(item)+1; link=a.href; label=a.dataset.label||(a.querySelector("img")||{}).alt||"";
+  }
+  gtag("event","promo_click",{slot,position,promo_label:label.slice(0,100),link_url:link,site:curSite||"all"});
+},true);
 // Plain note on the detail page: which Seller Summit award and why (得獎原因 column in the Sheet).
 function awardNotesHTML(p){
   return Object.entries(p.awardNotes||{}).map(([a,why])=>`<div class="award-note">
@@ -753,6 +918,7 @@ function openDetail(name){
     const a = e.target.closest("a[href]");
     if(!a) return;
     const href = a.getAttribute("href");
+    if(href === SUMMIT_AWARD_POST) return; // award tag -> tracked as promo_click, not a contact
     let method;
     if(href.startsWith("mailto:")) method = "email";
     else if(p.adsLink && href === p.adsLink) method = "ads";
