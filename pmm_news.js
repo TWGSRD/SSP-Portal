@@ -2,45 +2,45 @@
 window.PMM_NEWS_HOME="https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/";
 window.PMM_NEWS=[
 {
-"t": "2026 亞馬遜黑五網一各站點時間公布，Deal 提報截止日與備戰重點一次整理",
-"d": "2026-11-03",
-"type": "活動",
-"thumb": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/assets/news/amazon-black-friday-cyber-monday-timelin-261103/thumb_plan.jpg",
-"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/amazon-black-friday-cyber-monday-timelin-261103"
-},
-{
-"t": "FBA 庫容又緊了？你的貨還有另一個地方可以放",
-"d": "2026-10-26",
+"t": "貨還沒出海，也能自動補到美國 FBA？GWD 自動補貨操作指南上線",
+"d": "2026-11-16",
 "type": "產品更新",
-"thumb": "https://m.media-amazon.com/images/G/28/TWGS/Stock2026/TWGS_MKT_Stock_Box_7._CB760169682_.jpg",
-"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/fba-capacity-alternative-storage-261026"
+"thumb": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/assets/news/gwd-auto-replenishment-us-fba-261116/thumb_van.jpg",
+"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/gwd-auto-replenishment-us-fba-261116"
 },
 {
-"t": "那通差點被您掛掉的電話，可能是亞馬遜在救您的帳戶（黑五衝業績前必看）",
-"d": "2026-10-21",
+"t": "一次檢測，16 個站點都能上架，亞馬遜全球一測通（GTO）正式開放電子電器品類",
+"d": "2026-11-13",
+"type": "產品更新",
+"thumb": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/assets/news/gto-electronics-category-launch-261113/thumb_lab.jpg",
+"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/gto-electronics-category-launch-261113"
+},
+{
+"t": "2027 年 FBA 低庫存量費用怎麼算？用 3 個例子看懂新規",
+"d": "2026-11-13",
 "type": "政策公告",
-"thumb": "https://m.media-amazon.com/images/G/28/TWGS/Stock2026/TWGS_MKT_Stock_17._CB760169682_.jpg",
-"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/amazon-verification-call-account-protect-261021"
+"thumb": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/assets/news/fba-low-inventory-level-fee-261113/thumb_stock.jpg",
+"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/fba-low-inventory-level-fee-261113"
 },
 {
-"t": "美國進口新規可能很快上路，亞馬遜賣家先確認自己的 IOR 身分",
-"d": "2026-10-21",
-"type": "政策公告",
-"thumb": "https://m.media-amazon.com/images/G/28/TWGS/Stock2026/TWGS_MKT_Stock_Box_2._CB760169682_.jpg",
-"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/us-import-rule-ior-confirmation-261021"
+"t": "亞馬遜銷售夥伴外掛程式 Beta 上線，賣家平台數據可以直接問 AI",
+"d": "2026-11-11",
+"type": "產品更新",
+"thumb": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/assets/news/selling-partner-plugin-ai-agent-261111/thumb_social_global_fb01.png",
+"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/selling-partner-plugin-ai-agent-261111"
 },
 {
-"t": "黑五網一倒數，自配送（FBM）賣家備戰 4 步自查清單",
-"d": "2026-10-21",
-"type": "活動",
-"thumb": "https://m.media-amazon.com/images/G/28/TWGS/Stock2026/TWGS_MKT_Stock_Box_15._CB760169682_.jpg",
-"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/black-friday-fbm-seller-checklist-261021"
+"t": "2026 亞馬遜黑五網一，Deal 首度一天分兩次上架，美國站賣家最後一週的 5 個檢查",
+"d": "2026-11-11",
+"type": "產品更新",
+"thumb": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/assets/news/amazon-bfcm-2026-official-playbook-261111/thumb_kv.jpg",
+"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/amazon-bfcm-2026-official-playbook-261111"
 },
 {
-"t": "歐盟零毀林法規（EUDR）2026/12/30 起生效，使用亞馬遜發票計畫（IBA）的賣家要注意",
-"d": "2026-10-19",
-"type": "政策公告",
-"thumb": "https://m.media-amazon.com/images/G/28/TWGS/Stock2026/TWGS_MKT_Stock_18._CB760169682_.jpg",
-"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/eudr-amazon-invoicing-sellers-261019"
+"t": "AWD 美國站容量管理升級，即日起可查額度、申請容量預定",
+"d": "2026-11-11",
+"type": "產品更新",
+"thumb": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/assets/news/awd-us-capacity-reservation-upgrade-261111/thumb_facility.jpg",
+"link": "https://protozoa.dev/prototypes/d26f8faa-ed6a-4576-9f88-0f5df0806cde/#/article/awd-us-capacity-reservation-upgrade-261111"
 }
 ];

@@ -15,11 +15,13 @@ STATE="reports/pmm_sync.last"
 STATUS="reports/pmm_sync_status.txt"   # one line: when, result, top headline - check this to see if today's update is live
 LIVE_URL="https://ssp-portal.pages.dev/pmm_news.js"
 mkdir -p reports
-status() { echo "$(date '+%Y-%m-%d %H:%M') | $1 | $(grep -m1 '"t":' pmm_news.js 2>/dev/null | sed 's/^"t": *"//; s/",\?$//')" > "$STATUS"; }
+status() { echo "$(date '+%Y-%m-%d %H:%M') | $1 | $(grep -m1 '"t":' pmm_news.js 2>/dev/null | sed 's/^"t": *"//; s/",\?$//')" > "$STATUS"
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$(cygpath -w "$PWD/notify_pmm.ps1")" || true; }  # Windows toast
 trap 'status "FAILED (see reports/pmm_sync.log)"' ERR
 echo "==== $(date '+%Y-%m-%d %H:%M:%S') PMM 焦點消息 sync ===="
 
-python sync_pmm_news.py
+# Hard cap: urlopen's timeout is per socket read, so a trickling response could otherwise hang the job.
+timeout 600 python sync_pmm_news.py
 
 NEW_HASH=$(sha256sum pmm_news.js | cut -d' ' -f1)
 if [ -f "$STATE" ] && [ "$(cat "$STATE")" = "$NEW_HASH" ]; then
@@ -45,7 +47,7 @@ fi
 
 # Confirm Production (not just a Preview) is serving the new list before recording success.
 for i in 1 2 3 4 5 6; do
-  if diff -q <(curl -fsS --max-time 20 "$LIVE_URL?v=$RANDOM" | tr -d '') <(tr -d '' < pmm_news.js) >/dev/null 2>&1; then
+  if diff -q <(curl -fsS --max-time 20 "$LIVE_URL?v=$RANDOM" | tr -d $'') <(tr -d $'' < pmm_news.js) >/dev/null 2>&1; then
     echo "$NEW_HASH" > "$STATE"
     echo "Deployed updated 焦點消息 - verified live on $LIVE_URL"
     status "UPDATED - LIVE"
